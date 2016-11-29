@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_welcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2"
+    android:padding="10dp"
+    tools:context="com.masterdroup.minimasterapp.welcomeModule.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/ib_return_view"
+        android:layout_width="13dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/left" />
+
+    <ImageButton
+        android:id="@+id/ib_return"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@null" />
+
+    <include
+        android:id="@+id/view1"
+        layout="@layout/activity_welcome_view1" />
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+
+    <!--<com.masterdroup.minimasterapp.view.NoScrollViewPager-->
+    <!--android:id="@+id/viewpager"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+</RelativeLayout>

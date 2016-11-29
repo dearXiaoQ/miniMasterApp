@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">miniMasterApp</string>
+
+    <string name="log_in">登录</string>
+    <string name="registered">注册</string>
+    <string name="skip">跳过登录</string>
+    <string name="submit">提交</string>
+    <string name="pwd_forget">忘记密码</string>
+    <string name="et_in_access">请输入你的用户名</string>
+    <string name="et_in_phone">请输入你的手机号码(可选)</string>
+    <string name="et_in_pwd">请输入你的密码</string>
+</resources>
