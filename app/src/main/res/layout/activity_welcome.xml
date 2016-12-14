@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg2"
     android:padding="10dp"
-    tools:context="com.masterdroup.minimasterapp.welcomeModule.WelcomeActivity">
+    tools:context=".module.welcomeModule.WelcomeActivity">
 
     <ImageView
         android:id="@+id/ib_return_view"
@@ -32,12 +32,6 @@
         android:layout_height="match_parent">
 
     </FrameLayout>
-
-
-    <!--<com.masterdroup.minimasterapp.view.NoScrollViewPager-->
-    <!--android:id="@+id/viewpager"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
 
 
 </RelativeLayout>

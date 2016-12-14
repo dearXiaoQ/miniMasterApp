@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.welcomeModule.WelcomeActivity">
+    tools:context=".module.welcomeModule.WelcomeActivity">
 
 
     <TextView

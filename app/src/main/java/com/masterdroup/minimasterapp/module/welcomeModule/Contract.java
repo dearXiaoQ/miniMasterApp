@@ -1,4 +1,4 @@
-package com.masterdroup.minimasterapp.welcomeModule;
+package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;

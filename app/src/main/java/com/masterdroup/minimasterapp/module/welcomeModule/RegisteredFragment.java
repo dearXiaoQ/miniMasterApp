@@ -1,4 +1,4 @@
-package com.masterdroup.minimasterapp.welcomeModule;
+package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import android.app.Fragment;
 import android.os.Bundle;

@@ -1,8 +1,7 @@
-package com.masterdroup.minimasterapp.welcomeModule;
+package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -16,9 +15,9 @@ import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.Utils;
 
 public class WelcomeActivity extends Activity implements View.OnClickListener, Contract.MainView {
-    //
-//    NoScrollViewPager viewpager;
-//    List<View> mListViews;
+
+
+    //    List<View> mListViews;
 //    View view1, view2;
 //
     Button btn_login, btn_registered;
@@ -48,18 +47,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 
     private void init() {
 
-//        viewpager = (NoScrollViewPager) findViewById(R.id.viewpager);
-//
-//        LayoutInflater lf = getLayoutInflater().from(this);
-//        view1 = lf.inflate(R.layout.activity_welcome_view1, null);
-//
-//        view2 = lf.inflate(R.layout.activity_welcome_view2, null);
-//
-//        mListViews = new ArrayList<View>();// 将要分页显示的View装入数组中
-//        mListViews.add(view1);
-//        mListViews.add(view2);
-//        viewpager.setAdapter(new MyViewPagerAdapter(mListViews));
-//        viewpager.setPageMargin((int) getResources().getDimensionPixelOffset(R.dimen.viewpage_viewpager));//设置viewpager每个页卡的间距
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
         btn_registered = (Button) findViewById(R.id.btn_registered);
@@ -160,72 +147,4 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     }
 
 
-//    int duration = 300;
-//
-//    private void showMianView() {
-//        Animation scaleAnimation = new AlphaAnimation(1.0f, 0.0f);
-//        //设置动画时间
-//        scaleAnimation.setDuration(duration);
-//        iv_return_view.startAnimation(scaleAnimation);
-//
-//
-//        iv_return_view.setVisibility(View.GONE);
-//        ib_return.setVisibility(View.GONE);
-//        viewpager.setCurrentItem(0);
-//    }
-//
-//    private void showLoginView() {
-//        Animation scaleAnimation = new AlphaAnimation(0.0f, 1.0f);
-//        //设置动画时间
-//        scaleAnimation.setDuration(duration);
-//        iv_return_view.startAnimation(scaleAnimation);
-//
-//        iv_return_view.setVisibility(View.VISIBLE);
-//        ib_return.setVisibility(View.VISIBLE);
-//        viewpager.setCurrentItem(1);
-//
-//    }
-//
-//    private void showRegisteredView() {
-//        Animation scaleAnimation = new AlphaAnimation(0.0f, 1.0f);
-//        //设置动画时间
-//        scaleAnimation.setDuration(duration);
-//        iv_return_view.startAnimation(scaleAnimation);
-//
-//        iv_return_view.setVisibility(View.VISIBLE);
-//        ib_return.setVisibility(View.VISIBLE);
-//        viewpager.setCurrentItem(1);
-//
-//    }
-//
-//    public class MyViewPagerAdapter extends PagerAdapter {
-//        private List<View> mListViews;
-//
-//        public MyViewPagerAdapter(List<View> mListViews) {
-//            this.mListViews = mListViews;//构造方法，参数是我们的页卡，这样比较方便。
-//        }
-//
-//        @Override
-//        public void destroyItem(ViewGroup container, int position, Object object) {
-//            container.removeView(mListViews.get(position));//删除页卡
-//        }
-//
-//
-//        @Override
-//        public Object instantiateItem(ViewGroup container, int position) {  //这个方法用来实例化页卡
-//            container.addView(mListViews.get(position), 0);//添加页卡
-//            return mListViews.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mListViews.size();//返回页卡的数量
-//        }
-//
-//        @Override
-//        public boolean isViewFromObject(View arg0, Object arg1) {
-//            return arg0 == arg1;//官方提示这样写
-//        }
-//
-//    }
 }
