@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menu_cover_h" />
+
+    <TextView
+        android:id="@+id/tv_menu_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:text="99人" />
+
+    <TextView
+        android:id="@+id/tv_menu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_menu_score"
+        android:layout_alignLeft="@id/tv_menu_score"
+        android:text="焖牛肉" />
+
+    <TextView
+        android:id="@+id/tv_menu_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="用户" />
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="@dimen/menu_user_head_pic_h"
+        android:layout_height="@dimen/menu_user_head_pic_h"
+        android:layout_above="@id/tv_menu_user_name"
+        android:layout_alignRight="@id/tv_menu_user_name" />
+
+</RelativeLayout>

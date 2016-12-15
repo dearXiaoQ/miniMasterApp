@@ -3,6 +3,7 @@ package com.masterdroup.minimasterapp.util;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,7 @@ public class ImageLoader {
     }
 
 
-    public void dispplayImage(String url, ImageView imageView) {
+    public void displayPicassoImage(String url, ImageView imageView) {
 
         DebugUtils.d(TAG, url);
         Picasso.with(imageView.getContext()).setIndicatorsEnabled(false);//For development you can enable the display of a colored ribbon which indicates the image source
@@ -41,5 +42,17 @@ public class ImageLoader {
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)//其中memoryPolicy的NO_CACHE是指图片加载时放弃在内存缓存中查找，NO_STORE是指图片加载完不缓存在内存中。
                 .config(Bitmap.Config.RGB_565)//对于不透明的图片可以使用RGB_565来优化内存。
                 .into(imageView);
+    }
+
+
+    public void displayGlideImage(String url, ImageView imageView) {
+        DebugUtils.d(TAG, url);
+        Glide.with(imageView.getContext())
+                .load(url)
+                .centerCrop()
+                .crossFade()
+                .into(imageView);
+
+
     }
 }

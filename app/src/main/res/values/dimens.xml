@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="viewpage_viewpager">10dp</dimen>
+
+
+    <dimen name="menu_cover_h">220dp</dimen>
+    <dimen name="menu_user_head_pic_h">55dp</dimen>
 </resources>
