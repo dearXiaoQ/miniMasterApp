@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.util.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,15 +25,24 @@ public class MenuListActivity extends Activity {
 
     RecyclerView recyclerView;
 
-    List<Menu> menus;
+    List<Menu> menus = new ArrayList<>();
     ThisAdapter thisAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
 
+
+        Menu menu = new Menu();
+        menu.score = "2";
+        menu.menu_name = "jun";
+        menu.user_name = "ten";
+        menu.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
+        menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
+        menus.add(menu);
+
+        recyclerView = (RecyclerView) findViewById(R.id.rv);
         thisAdapter = new ThisAdapter(this);
         recyclerView.setAdapter(thisAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,7 +53,6 @@ public class MenuListActivity extends Activity {
 
     class ThisAdapter extends RecyclerView.Adapter<ThisAdapter.ThisViewHolder> {
         LayoutInflater layoutInflater;
-
 
         ThisAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
@@ -60,7 +70,8 @@ public class MenuListActivity extends Activity {
             holder.score.setText(menu.getScore());
             holder.menu_name.setText(menu.getMenu_name());
             holder.user_name.setText(menu.getUser_name());
-
+            ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover);
+            ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head);
 
         }
 

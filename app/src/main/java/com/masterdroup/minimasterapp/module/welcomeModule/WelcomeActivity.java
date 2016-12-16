@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -10,8 +11,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;
 
 public class WelcomeActivity extends Activity implements View.OnClickListener, Contract.MainView {
@@ -30,6 +33,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     FrameLayout frameLayout;
     FragmentManager fragmentManager;
 
+    TextView tv_skip;
     int duration = 400;
 
     @Override
@@ -56,6 +60,14 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
         iv_return_view = (ImageView) findViewById(R.id.ib_return_view);
         frameLayout = (FrameLayout) findViewById(R.id.fl_content);
         view1 = findViewById(R.id.view1);
+        tv_skip = (TextView) findViewById(R.id.tv_skip);
+
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+            }
+        });
 
     }
 

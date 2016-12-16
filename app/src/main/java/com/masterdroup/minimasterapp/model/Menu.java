@@ -6,11 +6,11 @@ package com.masterdroup.minimasterapp.model;
 
 public class Menu {
 
-    String score;
-    String menu_name;
-    String user_name;
-    String cover_url;
-    String head_url;
+    public String score;
+    public String menu_name;
+    public String user_name;
+    public String cover_url;
+    public String head_url;
 
     public String getScore() {
         return score;
@@ -51,6 +51,7 @@ public class Menu {
     public void setHead_url(String head_url) {
         this.head_url = head_url;
     }
+
 
     @Override
     public String toString() {
