@@ -1,7 +1,7 @@
 <tabs>
     <tab
-        icon="@drawable/ic_menu"
-        id="@+id/tab_menu"
+        icon="@drawable/ic_food"
+        id="@+id/tab_food"
         title="菜谱" />
     <tab
         icon="@drawable/ic_device"

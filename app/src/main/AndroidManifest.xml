@@ -13,14 +13,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity android:name=".module.welcomeModule.WelcomeActivity">
+
+        </activity>
+        <activity android:name=".module.menu.MenuListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".module.menu.MenuListActivity">
-
         </activity>
         <activity android:name=".module.home.HomeActivity" />
         <activity android:name=".module.menu.MenuViewActivity"></activity>

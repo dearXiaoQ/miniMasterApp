@@ -18,4 +18,6 @@ public class DebugUtils {
     public static void d(String tag, String str) {
         Log.d(String.format("%s: %s", TAG, tag), str);
     }
+
+
 }

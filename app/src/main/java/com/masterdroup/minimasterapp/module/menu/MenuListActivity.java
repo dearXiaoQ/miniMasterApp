@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MenuListActivity extends Activity {
 
@@ -27,28 +28,28 @@ public class MenuListActivity extends Activity {
 
     List<Menu> menus = new ArrayList<>();
     ThisAdapter thisAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
+        ButterKnife.bind(this);
 
 
         Menu menu = new Menu();
-        menu.score = "2";
+        menu.score = "2.0分";
         menu.menu_name = "jun";
-        menu.user_name = "ten";
+        menu.user_name = "个我就完我城个我就完我城";
         menu.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
         menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
         menus.add(menu);
 
 
         Menu menu2 = new Menu();
-        menu.score = "2";
-        menu.menu_name = "jun";
-        menu.user_name = "ten";
-        menu.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
-        menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
+        menu2.score = "9.9分";
+        menu2.menu_name = "jun";
+        menu2.user_name = "人我";
+        menu2.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
+        menu2.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
         menus.add(menu2);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv);
@@ -57,7 +58,11 @@ public class MenuListActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+    }
 
+    @OnClick(R.id.iv_return)
+    public void onClick() {
+        finish();
     }
 
 
@@ -80,8 +85,8 @@ public class MenuListActivity extends Activity {
             holder.score.setText(menu.getScore());
             holder.menu_name.setText(menu.getMenu_name());
             holder.user_name.setText(menu.getUser_name());
-            ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover);
-            ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head);
+            ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover, false);
+            ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head, true);
 
         }
 
