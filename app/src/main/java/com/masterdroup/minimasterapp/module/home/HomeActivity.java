@@ -3,7 +3,7 @@ package com.masterdroup.minimasterapp.module.home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.DebugUtils;
@@ -17,6 +17,8 @@ public class HomeActivity extends Activity {
 
     @Bind(R.id.bottomBar)
     BottomBar bottomBar;
+    @Bind(R.id.fl_content)
+    FrameLayout flContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,7 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         init();
-
+        getFragmentManager().beginTransaction().add(R.id.fl_content, new MenuFragment()).commit();
 
     }
 

@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
  * Description:图片控件统一调用 单例
  * Created by andmobi003 on 2016/7/12 16:00
  */
-public class ImageLoader {
+public class ImageLoader extends com.youth.banner.loader.ImageLoader {
 
     public static final String TAG = "IMageLoader";
     private static volatile ImageLoader instance;
@@ -68,6 +68,15 @@ public class ImageLoader {
                     .centerCrop()
                     .into(imageView);
         }
+    }
+
+    @Override
+    public void displayImage(Context context, Object path, ImageView imageView) {
+        Glide
+                .with(context)
+                .load(path)
+                .centerCrop()
+                .into(imageView);
     }
 
 
