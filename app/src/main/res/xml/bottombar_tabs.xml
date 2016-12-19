@@ -1,0 +1,14 @@
+<tabs>
+    <tab
+        icon="@drawable/ic_menu"
+        id="@+id/tab_menu"
+        title="菜谱" />
+    <tab
+        icon="@drawable/ic_device"
+        id="@+id/tab_device"
+        title="设备" />
+    <tab
+        icon="@drawable/ic_user"
+        id="@+id/tab_user"
+        title="我的" />
+</tabs>

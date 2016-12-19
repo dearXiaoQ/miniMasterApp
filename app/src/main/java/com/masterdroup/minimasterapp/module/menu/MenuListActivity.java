@@ -42,10 +42,20 @@ public class MenuListActivity extends Activity {
         menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
         menus.add(menu);
 
+
+        Menu menu2 = new Menu();
+        menu.score = "2";
+        menu.menu_name = "jun";
+        menu.user_name = "ten";
+        menu.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
+        menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
+        menus.add(menu2);
+
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         thisAdapter = new ThisAdapter(this);
         recyclerView.setAdapter(thisAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
     }
