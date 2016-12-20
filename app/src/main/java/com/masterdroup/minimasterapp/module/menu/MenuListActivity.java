@@ -28,6 +28,7 @@ public class MenuListActivity extends Activity {
 
     List<Menu> menus = new ArrayList<>();
     ThisAdapter thisAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +69,10 @@ public class MenuListActivity extends Activity {
 
     class ThisAdapter extends RecyclerView.Adapter<ThisAdapter.ThisViewHolder> {
         LayoutInflater layoutInflater;
+        Context context;
 
         ThisAdapter(Context context) {
+            this.context = context;
             layoutInflater = LayoutInflater.from(context);
         }
 
@@ -85,8 +88,8 @@ public class MenuListActivity extends Activity {
             holder.score.setText(menu.getScore());
             holder.menu_name.setText(menu.getMenu_name());
             holder.user_name.setText(menu.getUser_name());
-            ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover, false);
-            ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head, true);
+            ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover, context, false);
+            ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head, context, true);
 
         }
 
