@@ -24,7 +24,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 //    View view1, view2;
 //
     Button btn_login, btn_registered;
-    ImageButton ib_return;
     ImageView iv_return_view;
     View view1;//注册与登录按钮
     LoginFragment loginFragment;
@@ -55,9 +54,9 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
         btn_login.setOnClickListener(this);
         btn_registered = (Button) findViewById(R.id.btn_registered);
         btn_registered.setOnClickListener(this);
-        ib_return = (ImageButton) findViewById(R.id.ib_return);
-        ib_return.setOnClickListener(this);
         iv_return_view = (ImageView) findViewById(R.id.ib_return_view);
+
+        iv_return_view.setOnClickListener(this);
         frameLayout = (FrameLayout) findViewById(R.id.fl_content);
         view1 = findViewById(R.id.view1);
         tv_skip = (TextView) findViewById(R.id.tv_skip);
@@ -81,7 +80,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
             case R.id.btn_registered:
                 mPresenter.showRegisteredView();
                 break;
-            case R.id.ib_return:
+            case R.id.ib_return_view:
                 mPresenter.showMainView();
                 break;
         }

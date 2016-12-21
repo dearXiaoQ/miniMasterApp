@@ -3,6 +3,7 @@ package com.masterdroup.minimasterapp.api;
 import android.support.annotation.Nullable;
 
 import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.User;
 
 import retrofit2.http.Field;
@@ -46,4 +47,9 @@ public interface Api {
     Observable<Base<User>> userinfo(@Field("name") String name);
 
 
+    /**
+     * 获取菜谱详情
+     */
+    @GET("?")
+    Observable<Base<Menu>> menuInfo(@Field("id") int id);
 }

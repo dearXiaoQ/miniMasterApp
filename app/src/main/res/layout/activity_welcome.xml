@@ -10,17 +10,9 @@
 
     <ImageView
         android:id="@+id/ib_return_view"
-        android:layout_width="13dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@mipmap/left" />
-
-    <ImageButton
-        android:id="@+id/ib_return"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:background="@null" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_return" />
 
     <include
         android:id="@+id/view1"

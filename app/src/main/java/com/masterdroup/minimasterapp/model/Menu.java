@@ -6,7 +6,7 @@ package com.masterdroup.minimasterapp.model;
 
 public class Menu {
 
-    public String score;
+    public String score;//评分
     public String menu_name;
     public String user_name;
     public String cover_url;

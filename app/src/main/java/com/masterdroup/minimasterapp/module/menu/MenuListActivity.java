@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,7 +91,12 @@ public class MenuListActivity extends Activity {
             holder.user_name.setText(menu.getUser_name());
             ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), holder.iv_cover, context, false);
             ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), holder.iv_head, context, true);
-
+            holder.iv_cover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(context, MenuViewActivity.class));
+                }
+            });
         }
 
         @Override
