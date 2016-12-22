@@ -6,7 +6,9 @@
     <ImageView
         android:id="@+id/iv_cover"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/menu_cover_h" />
+        android:layout_height="@dimen/menu_cover_h"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 
     <TextView
@@ -27,8 +29,8 @@
         android:layout_below="@id/tv_menu_name"
         android:layout_marginTop="5dp"
         android:text="99人"
-        android:textSize="12sp"
-        android:textColor="@color/app_orange" />
+        android:textColor="@color/app_orange"
+        android:textSize="12sp" />
 
 
     <LinearLayout
@@ -51,18 +53,20 @@
             android:id="@+id/tv_menu_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#bbb"
             android:ellipsize="end"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="用户" />
+            android:text="用户"
+            android:textColor="#bbb"
+            android:textSize="12sp" />
     </LinearLayout>
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-
-        android:layout_below="@id/tv_menu_score" />
+        android:layout_height="0.1dp"
+        android:layout_below="@id/tv_menu_score"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#ccc" />
 </RelativeLayout>

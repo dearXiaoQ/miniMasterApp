@@ -9,67 +9,101 @@
 
     <include layout="@layout/view_top_bar" />
 
-    <ImageView
-        android:id="@+id/iv_cover"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/menu_cover_h" />
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_menu_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="烤面包"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_menu_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_menu_name"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="9.9综合评分 324人收藏"
-            android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_cover_h" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@id/tv_menu_info"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#ddd" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_menu_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="烤面包"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:id="@+id/iv_user_head"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp" />
-
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_user_head"
-            android:text="第001用户" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_menu_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_menu_name"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="9.9综合评分 324人收藏"
+                    android:textSize="12sp" />
 
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_below="@id/tv_menu_info"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#ddd" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_user_head"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/iv_user_head"
+                    android:text="第001用户" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_menu_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="法式手撕面包是以高低粉、黄油等食材制成的一道美食。高粉150克、低粉100克、黄油15克、鸡蛋一个、水90克左右、盐5克、白糖25克、酵母3克。
+裹入用黄油140克" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_margin="20dp"
+                android:background="#ddd" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="用料"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

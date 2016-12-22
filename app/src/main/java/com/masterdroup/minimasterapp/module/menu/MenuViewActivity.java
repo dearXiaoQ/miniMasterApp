@@ -1,8 +1,14 @@
 package com.masterdroup.minimasterapp.module.menu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +38,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     TextView tvUserName;
 
     Contract.Presenter mPresenter;
-
+    @Bind(R.id.tv_menu_note)
+    TextView tvMenuNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         menu.score = "9.3";
         settingData(menu);
 
+
     }
 
 
@@ -80,4 +88,5 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(menu.getCover_url(), ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(menu.getHead_url(), ivUserHead, this, true);
     }
+
 }
