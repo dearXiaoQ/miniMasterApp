@@ -40,7 +40,7 @@ public class MenuListActivity extends Activity {
         Menu menu = new Menu();
         menu.score = "2.0分";
         menu.menu_name = "面包";
-        menu.user_name = "大人";
+        menu.user_name = "kija";
         menu.cover_url = "https://images.pexels.com/photos/5506/bread-food-salad-sandwich.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
         menu.head_url = "https://static.pexels.com/users/avatars/2656/jaymantri-693-medium.jpeg";
         menus.add(menu);
@@ -112,7 +112,7 @@ public class MenuListActivity extends Activity {
             return menus == null ? 0 : menus.size();
         }
 
-        public class ThisViewHolder extends RecyclerView.ViewHolder {
+        class ThisViewHolder extends RecyclerView.ViewHolder {
             @Bind(R.id.tv_menu_score)
             TextView score;
             @Bind(R.id.tv_menu_name)

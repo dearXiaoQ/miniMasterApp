@@ -9,7 +9,7 @@
 
     <include layout="@layout/view_top_bar" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -94,16 +94,33 @@
                 android:layout_margin="20dp"
                 android:background="#ddd" />
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:text="用料"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_margin="20dp"
+                android:background="#ddd"
+                android:visibility="invisible" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_step"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
