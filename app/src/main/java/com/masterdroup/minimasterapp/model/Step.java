@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.model;
 
 /**
  * Created by 11473 on 2016/12/23.
+ * 菜谱步骤
  */
 
 public class Step {

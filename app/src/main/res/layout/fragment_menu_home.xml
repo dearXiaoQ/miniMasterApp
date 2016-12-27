@@ -10,6 +10,7 @@
         android:layout_height="48dp">
 
         <ImageView
+            android:id="@+id/iv_add_menu"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_add" />

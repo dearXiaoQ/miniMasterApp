@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.menu.MenuCreateActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
@@ -34,6 +35,8 @@ public class MenuFragment extends Fragment {
     ImageView ivCenter1;
     @Bind(R.id.iv_center2)
     ImageView ivCenter2;
+    @Bind(R.id.iv_add_menu)
+    ImageView ivAddMenu;
 
     @Nullable
     @Override
@@ -75,6 +78,12 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), MenuListActivity.class));
+            }
+        });
+        ivAddMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), MenuCreateActivity.class));
             }
         });
 

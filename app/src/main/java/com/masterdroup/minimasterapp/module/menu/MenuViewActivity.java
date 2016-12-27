@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -80,7 +81,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         foods.add("面粉   30g");
         foods.add("面粉   30g");
         rv_food.setAdapter(new FoodsAdapter(this, foods));
-        rv_food.setLayoutManager(new ScrollGridLayoutManager(this, 2));
+        rv_food.setLayoutManager(new GridLayoutManager(this, 2));
 
         List<Step> steps = new ArrayList<>();
 
