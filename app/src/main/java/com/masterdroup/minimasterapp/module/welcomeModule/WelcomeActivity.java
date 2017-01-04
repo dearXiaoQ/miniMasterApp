@@ -9,7 +9,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +18,6 @@ import com.masterdroup.minimasterapp.util.Utils;
 
 public class WelcomeActivity extends Activity implements View.OnClickListener, Contract.MainView {
 
-
-    //    List<View> mListViews;
-//    View view1, view2;
-//
     Button btn_login, btn_registered;
     ImageView iv_return_view;
     View view1;//注册与登录按钮
@@ -73,6 +68,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.btn_login:
                 mPresenter.showLoginView();
                 break;
@@ -80,6 +76,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
             case R.id.btn_registered:
                 mPresenter.showRegisteredView();
                 break;
+
             case R.id.ib_return_view:
                 mPresenter.showMainView();
                 break;
