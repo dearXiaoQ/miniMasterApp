@@ -36,6 +36,12 @@ public class HomeActivity extends Activity {
         showMenuFragment();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     private void init() {
 
         menuFragment = new MenuFragment();
