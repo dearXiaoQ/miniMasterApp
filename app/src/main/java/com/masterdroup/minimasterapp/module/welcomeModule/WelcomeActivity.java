@@ -35,7 +35,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         fragmentManager = getFragmentManager();
-
         loginFragment = new LoginFragment();
         registeredFragment = new RegisteredFragment();
         new WelcomePresenter(this);
@@ -108,11 +107,12 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 
     @Override
     public void onShowMainView() {
-        showMainViewAnimation();
+
         fragmentManager.beginTransaction()
                 .remove(loginFragment)
                 .remove(registeredFragment)
                 .commit();
+
 
     }
 
@@ -137,11 +137,9 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 
     private void hideMainViewAnimation() {
 
-
         Animation scaleAnimation = new AlphaAnimation(1.0f, 0.0f);
         scaleAnimation.setDuration(duration);
         view1.startAnimation(scaleAnimation);
-
 
         scaleAnimation = new AlphaAnimation(0.0f, 1.0f);
         scaleAnimation.setDuration(duration);
@@ -151,8 +149,5 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
         view1.setVisibility(View.GONE);
         iv_return_view.setVisibility(View.VISIBLE);
         frameLayout.setVisibility(View.VISIBLE);
-
     }
-
-
 }

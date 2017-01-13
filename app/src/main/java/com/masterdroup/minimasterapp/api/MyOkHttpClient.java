@@ -104,11 +104,6 @@ public class MyOkHttpClient {
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .cache(cache).build();
 
-        //设置拦截器  云端响应头拦截器需要同时设置networkInterceptors和interceptors
-//        okHttpClient.interceptors().add(LoggingInterceptor);
-//        okHttpClient.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
-//        okHttpClient.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
-
 
         return okHttpClient;
     }

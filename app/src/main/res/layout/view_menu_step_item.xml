@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="步骤 "
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <ImageView
@@ -32,9 +32,9 @@
         android:id="@+id/tv_dec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp"
         android:text="df"
         android:textSize="16sp" />
 
