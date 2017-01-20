@@ -1,7 +1,7 @@
 package com.masterdroup.minimasterapp.model;
 
 /**
- * Created by 11473 on 2016/11/29.
+ * Cre ated by 11473 on 2016/11/29.
  */
 
 public class User {
