@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.User;
 
 import retrofit2.http.Field;
@@ -32,7 +33,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("miniMasterApp/user/signin")
-    Observable<Base<Nullable>> login(@Field("name") String name, @Field("password") int password);
+    Observable<Base<Token>> login(@Field("name") String name, @Field("password") int password);
 
     /**
      * 用户更新信息接口

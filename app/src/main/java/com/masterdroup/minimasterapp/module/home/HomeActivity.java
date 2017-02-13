@@ -51,7 +51,6 @@ public class HomeActivity extends Activity {
         getFragmentManager().beginTransaction().add(R.id.fl_content, deviceFragment, deviceFragment_tag).commit();
         getFragmentManager().beginTransaction().add(R.id.fl_content, userFragment, userFragment_tag).commit();
 
-
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -87,7 +86,7 @@ public class HomeActivity extends Activity {
 
     void showUserFragment() {
 
-        if (userFragment == null)
+            if (userFragment == null)
             userFragment = (UserFragment) getFragmentManager().findFragmentByTag(userFragment_tag);
         getFragmentManager().beginTransaction().show(userFragment).commit();
     }
