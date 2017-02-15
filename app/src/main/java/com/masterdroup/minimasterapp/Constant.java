@@ -6,5 +6,5 @@ package com.masterdroup.minimasterapp;
 
 public class Constant {
 
-    public final static String BASEURL = "http://server.gmri.com.cn:3001/";
+    public final static String BASEURL = "http://sever.gmri.com.cn:3001/";
 }

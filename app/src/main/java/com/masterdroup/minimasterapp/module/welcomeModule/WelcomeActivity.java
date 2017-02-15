@@ -107,7 +107,8 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 
     @Override
     public void onShowMainView() {
-
+        showMainViewAnimation();
+        iv_return_view.setVisibility(View.GONE);//隐藏返回按钮
         fragmentManager.beginTransaction()
                 .remove(loginFragment)
                 .remove(registeredFragment)

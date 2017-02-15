@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_button2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    tools:context=".module.welcomeModule.WelcomeActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/ll_button2"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="top"
+              android:orientation="vertical"
+              tools:context=".module.welcomeModule.WelcomeActivity">
 
-    <TextView
-        android:id="@+id/et_pwd_forget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="right"
-        android:text="@string/pwd_forget"
-        android:textColor="#fff" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +26,8 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/et_in_access"
-            android:textSize="14sp" />
+            android:text="admin"
+            android:textSize="14sp"/>
 
         <View
             android:id="@+id/view"
@@ -42,8 +35,9 @@
             android:layout_height="2px"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp"
-            android:visibility="gone"
-            android:background="#eee" />
+            android:background="#eee"
+
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/et_pwd"
@@ -53,7 +47,9 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/et_in_pwd"
-            android:textSize="14sp" />
+            android:inputType="textPassword"
+            android:text="111"
+            android:textSize="14sp"/>
 
 
     </LinearLayout>
@@ -66,5 +62,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_orange"
-        android:text="@string/submit" />
+        android:text="@string/submit"/>
+
+    <TextView
+        android:id="@+id/et_pwd_forget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:text="@string/pwd_forget"
+        android:textColor="#fff"/>
 </LinearLayout>

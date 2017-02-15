@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_menu_create2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.menu.MenuCreateActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_menu_create2"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.masterdroup.minimasterapp.module.menu.MenuCreateActivity">
 
+    <include layout="@layout/view_top_bar"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,13 +16,13 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="+菜谱封面" />
+            android:text="+菜谱封面"/>
 
     </FrameLayout>
 
@@ -37,14 +38,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="菜谱名"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="0.1dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="#bbb" />
+            android:background="#bbb"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -53,25 +54,25 @@
             android:gravity="center"
             android:text="菜谱简介"
             android:textColor="#aaa"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用料" />
+            android:text="用料"/>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="0.1dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="#bbb" />
+            android:background="#bbb"/>
 
 
         <TextView
-            android:text="做法"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="做法"/>
 
     </LinearLayout>
 

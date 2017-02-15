@@ -7,6 +7,7 @@ import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.User;
 
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -28,12 +29,18 @@ public interface Api {
     @POST("miniMasterApp/user/signup")
     Observable<Base<Nullable>> registered(@Field("name") String name, @Field("password") int password, @Field("phoneNun") String phoneNun);
 
+//    /**
+//     * 登录
+//     */
+//    @FormUrlEncoded
+//    @POST("miniMasterApp/user/signin")
+//    Observable<Base<Token>> login(@Field("name") String name, @Field("password") String password);
+
     /**
      * 登录
      */
-    @FormUrlEncoded
     @POST("miniMasterApp/user/signin")
-    Observable<Base<Token>> login(@Field("name") String name, @Field("password") int password);
+    Observable<Base<Token>> login(@Body String body);
 
     /**
      * 用户更新信息接口

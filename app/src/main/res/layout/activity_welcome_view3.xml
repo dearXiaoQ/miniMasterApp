@@ -4,7 +4,7 @@
     android:id="@+id/ll_button2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
+    android:gravity="top"
     android:orientation="vertical"
     tools:context=".module.welcomeModule.WelcomeActivity">
 
