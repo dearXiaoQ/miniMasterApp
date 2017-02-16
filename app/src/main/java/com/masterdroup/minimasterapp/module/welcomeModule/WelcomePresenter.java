@@ -1,23 +1,23 @@
 package com.masterdroup.minimasterapp.module.welcomeModule;
 
 
+import android.support.annotation.Nullable;
+
 import com.blankj.utilcode.utils.LogUtils;
-import com.blankj.utilcode.utils.SPUtils;
-import com.google.gson.Gson;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.api.Api;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.DebugUtils;
-import com.masterdroup.minimasterapp.util.SPUtil;
+import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by 11473 on 2016/11/29.
@@ -70,8 +70,15 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
     @Override
+    public boolean isLogin() {
+        //判读token值是否存在
+        return App.spUtils.contains(App.mContext.getString(R.string.key_token));
+
+    }
+
+    @Override
     public void login(String name, String pwd) {
-        DebugUtils.d("onClick", "button2");
+        DebugUtils.d("WelcomePresenter", "login()");
 
         if (name.isEmpty() || pwd.isEmpty()) {
             loginView.onLoginFailure(App.mContext.getString(R.string.err_login_1));
@@ -82,52 +89,123 @@ public class WelcomePresenter implements Contract.Presenter {
             userBean.setName(name);
             userBean.setPassword(pwd);
             user.setUserBean(userBean);
-            String body = new Gson().toJson(user);
 
+            Observable observable = Network.getMainApi().login(user);
 
-            Network.getMainApi().login(body)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Base<Token>>() {
-                        @Override
-                        public void call(Base<Token> tokenBase) {
-                            if (tokenBase.getErrorCode() == 0)
-                                SPUtil.putAndApply(App.mContext, "token", tokenBase.getRes().getToken());
-                            else {
-                                loginView.onLoginFailure(null);
-                                LogUtils.e("login()", tokenBase.getMessage());
-                            }
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    });
-//            Network.getMainApi().login(user)
-//                    .observeOn(Schedulers.io())
-//                    .subscribeOn(AndroidSchedulers.mainThread())
+//            observable.subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
 //                    .subscribe(new Action1<Base<Token>>() {
 //                        @Override
 //                        public void call(Base<Token> tokenBase) {
 //                            if (tokenBase.getErrorCode() == 0)
-//                                SPUtil.putAndApply(App.mContext, "token", tokenBase.getRes().getToken());
+//                                loginView.onLoginSuccess(tokenBase.getRes().getToken());
 //                            else {
-//                                loginView.onLoginFailure(null);
+//                                loginView.onLoginFailure(tokenBase.getMessage());
 //                                LogUtils.e("login()", tokenBase.getMessage());
 //                            }
-//
 //                        }
 //                    }, new Action1<Throwable>() {
 //                        @Override
 //                        public void call(Throwable throwable) {
-//                            throwable.printStackTrace();
-//                            loginView.onLoginFailure(null);
+//
 //                        }
 //                    });
 
+            Subscriber<Base<Token>> subscriber = new Subscriber<Base<Token>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onNext(Base<Token> tokenBase) {
+                    if (tokenBase.getErrorCode() == 0)
+                        loginView.onLoginSuccess(tokenBase.getRes().getToken());
+                    else {
+                        loginView.onLoginFailure(tokenBase.getMessage());
+                        LogUtils.e("login()", tokenBase.getMessage());
+                    }
+                }
+            };
+
+
+            Subscriber<Base<Token>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Token>>() {
+                @Override
+                public void onNext(Base<Token> o) {
+                    if (o.getErrorCode() == 0)
+                        loginView.onLoginSuccess(o.getRes().getToken());
+                    else {
+                        loginView.onLoginFailure(o.getMessage());
+                    }
+                }
+
+            });
+
+
+//            Subscriber<Base<Token>> s = new ActionSubscriber<>(new Action1<Base<Token>>() {
+//                @Override
+//                public void call(Base<Token> tokenBase) {
+//                    if (tokenBase.getErrorCode() == 0)
+//                        loginView.onLoginSuccess(tokenBase.getRes().getToken());
+//                    else {
+//                        loginView.onLoginFailure(tokenBase.getMessage());
+//                        LogUtils.e("login()", tokenBase.getMessage());
+//                    }
+//                }
+//            }, new Action1<Throwable>() {
+//                @Override
+//                public void call(Throwable throwable) {
+//                    throwable.printStackTrace();
+//                }
+//            }, new Action0() {
+//                @Override
+//                public void call() {
+//
+//                }
+//            });
+
+//            JxUtils.toSubscribe(observable, subscriber);
+            JxUtils.toSubscribe(observable, s);
         }
 
+
+    }
+
+    @Override
+    public void registered(String name, String password, @Nullable String phoneNum) {
+        DebugUtils.d("WelcomePresenter", "registered()");
+
+        if (name.isEmpty() || password.isEmpty()) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.registered_f));
+        } else {
+
+            User user = new User();
+            User.UserBean userBean = user.new UserBean();
+            userBean.setName(name);
+            userBean.setPassword(password);
+            userBean.setPhoneNun(phoneNum);
+            user.setUserBean(userBean);
+
+            Observable observable = Network.getMainApi().registered(user);
+            Subscriber<Base<Null>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
+                @Override
+                public void onNext(Base<Null> o) {
+                    if (o.getErrorCode() == 0)
+                        registeredView.onRegisteredSuccess();
+                    else {
+                        registeredView.onRegisteredFailure(o.getMessage());
+                    }
+                }
+
+            });
+
+            JxUtils.toSubscribe(observable, s);
+        }
 
     }
 

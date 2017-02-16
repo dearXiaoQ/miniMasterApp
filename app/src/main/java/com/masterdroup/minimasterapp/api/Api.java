@@ -4,8 +4,10 @@ import android.support.annotation.Nullable;
 
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.model.UserInfo;
 
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -13,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -25,35 +28,27 @@ public interface Api {
     /**
      * 注册
      */
-    @FormUrlEncoded
     @POST("miniMasterApp/user/signup")
-    Observable<Base<Nullable>> registered(@Field("name") String name, @Field("password") int password, @Field("phoneNun") String phoneNun);
-
-//    /**
-//     * 登录
-//     */
-//    @FormUrlEncoded
-//    @POST("miniMasterApp/user/signin")
-//    Observable<Base<Token>> login(@Field("name") String name, @Field("password") String password);
+    Observable<Base<Null>> registered(@Body User body);
 
     /**
      * 登录
      */
     @POST("miniMasterApp/user/signin")
-    Observable<Base<Token>> login(@Body String body);
+    Observable<Base<Token>> login(@Body User body);
 
     /**
      * 用户更新信息接口
      */
     @FormUrlEncoded
     @POST("miniMasterApp/user/infoUpdate")
-    Observable<Base<Nullable>> userinfoUpdate(@Field("user") User user);
+    Observable<Base<Null>> userinfoUpdate(@Field("user") User user);
 
     /**
      * 获取用户信息接口
      */
     @GET("miniMasterApp/user/info")
-    Observable<Base<User>> userinfo(@Field("name") String name);
+    Observable<Base<UserInfo>> getUserInfo();
 
 
     /**

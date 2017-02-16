@@ -25,6 +25,7 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/et_in_access"
+            android:text="jun"
             android:textSize="14sp" />
 
         <View
@@ -43,7 +44,9 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
+            android:inputType="textPassword"
             android:hint="@string/et_in_pwd"
+            android:text="123"
             android:textSize="14sp" />
 
         <EditText
@@ -53,7 +56,9 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
+            android:inputType="textPhonetic"
             android:hint="@string/et_in_phone"
+            android:text="13412513007"
             android:textSize="14sp" />
 
 

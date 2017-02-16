@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.blankj.utilcode.utils.ToastUtils;
+import com.blankj.utilcode.utils.ActivityUtils;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -62,9 +64,11 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
      * 登录成功
      */
     @Override
-    public void onLoginSuccess() {
+    public void onLoginSuccess(String token) {
 
+        App.spUtils.putString(App.mContext.getString(R.string.key_token), token);
         startActivity(new Intent(this.getActivity(), HomeActivity.class));
+        this.getActivity().finish();
 
     }
 
@@ -73,9 +77,7 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
      */
     @Override
     public void onLoginFailure(String info) {
-
-        ToastUtils.showShortToast(getActivity(), "登录失败 " + info);
-
+        Toast.makeText(ActivityUtils.getTopActivity(), "登录失败", Toast.LENGTH_SHORT).show();
     }
 
 

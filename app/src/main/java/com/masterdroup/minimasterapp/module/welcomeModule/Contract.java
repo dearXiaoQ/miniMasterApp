@@ -19,7 +19,11 @@ public class Contract {
 
         void showMainView();
 
+        boolean isLogin();//是否有用户登录
+
         void login(String name, String pwd);
+
+        void registered(String name, String password, @Nullable String phoneNum);
 
     }
 
@@ -37,13 +41,15 @@ public class Contract {
 
         void onLogin();
 
-        void onLoginSuccess();
+        void onLoginSuccess(String token);
 
         void onLoginFailure(@Nullable String info);
     }
 
     interface RegisteredView extends BaseView<Presenter> {
-
+        void onRegistered();
+        void onRegisteredSuccess();
+        void onRegisteredFailure(@Nullable String info);
 
     }
 }

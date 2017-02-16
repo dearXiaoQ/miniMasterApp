@@ -34,11 +34,18 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        fragmentManager = getFragmentManager();
-        loginFragment = new LoginFragment();
-        registeredFragment = new RegisteredFragment();
         new WelcomePresenter(this);
-        init();
+        if (mPresenter.isLogin()) {
+            //直接跳转到home页面
+            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+            finish();
+        } else
+            init();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         showMainViewAnimation();
     }
 
@@ -62,6 +69,10 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
             }
         });
 
+
+        fragmentManager = getFragmentManager();
+        loginFragment = new LoginFragment();
+        registeredFragment = new RegisteredFragment();
     }
 
     @Override

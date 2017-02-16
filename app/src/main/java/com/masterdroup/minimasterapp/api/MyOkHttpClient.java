@@ -2,6 +2,9 @@ package com.masterdroup.minimasterapp.api;
 
 import android.content.Context;
 
+import com.blankj.utilcode.utils.LogUtils;
+import com.masterdroup.minimasterapp.App;
+import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.DebugUtils;
 import com.masterdroup.minimasterapp.util.FileUtils;
 import com.masterdroup.minimasterapp.util.NetUtils;
@@ -36,6 +39,11 @@ public class MyOkHttpClient {
      * 日志拦截器
      */
     private final Interceptor LoggingInterceptor;
+
+    /**
+     * token拦截器
+     */
+    private final Interceptor mTokenInterceptor;
 
 
     private MyOkHttpClient(final Context mContext) {
@@ -80,6 +88,23 @@ public class MyOkHttpClient {
                 return response;
             }
         };
+
+        mTokenInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
+                String token = App.spUtils.getString(App.mContext.getString(R.string.key_token));
+                if (null == token) {
+                    return chain.proceed(originalRequest);
+                }
+
+                LogUtils.d("mTokenInterceptor________token值", token);
+                Request authorised = originalRequest.newBuilder()
+                        .header("Authorization", token)
+                        .build();
+                return chain.proceed(authorised);
+            }
+        };
     }
 
     public static MyOkHttpClient getInstance(Context mContext) {
@@ -102,6 +127,7 @@ public class MyOkHttpClient {
                 .addInterceptor(LoggingInterceptor)//设置拦截器  云端响应头拦截器需要同时设置networkInterceptors和interceptors
                 .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                .addNetworkInterceptor(mTokenInterceptor)
                 .cache(cache).build();
 
 
