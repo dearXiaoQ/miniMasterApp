@@ -13,6 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ActivityUtils;
+import com.blankj.utilcode.utils.LogUtils;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
@@ -40,7 +44,18 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new WelcomePresenter(this);
+        //每次启动activity都要注册一次sdk监听器，保证sdk状态能正确回调
+        GizWifiSDK.sharedInstance().setListener(mListener);
     }
+
+    private GizWifiSDKListener mListener = new GizWifiSDKListener() {
+        @Override
+        public void didUserLogin(GizWifiErrorCode result, String uid, String token) {
+            LogUtils.d("机智云登录======》", "uid:" + uid + "     result:" + result.toString() + "      token" + token);
+            mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString());
+        }
+    };
+
 
     @Nullable
     @Override
@@ -89,7 +104,8 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
 
     @OnClick(R.id.btn_registered)
     public void onClick() {
-        onLogin();
+
+        mPresenter.gizLogin(mEtPhone.getText().toString(), mEtPwd.getText().toString());
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.blankj.utilcode.utils.Utils;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
 
 /**
  * Created by 11473 on 2016/11/29.
@@ -20,6 +21,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID);//启动机智云SDK
+
+
         Utils.init(mContext);
         try {
             setSPUp();

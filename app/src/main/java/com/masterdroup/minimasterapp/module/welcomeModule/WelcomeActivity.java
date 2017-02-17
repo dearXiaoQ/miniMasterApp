@@ -12,6 +12,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.masterdroup.minimasterapp.BaseActivity;
+import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -30,11 +36,19 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     TextView tv_skip;
     int duration = 400;
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         new WelcomePresenter(this);
+
+
+
+
         if (mPresenter.isLogin()) {
             //直接跳转到home页面
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));

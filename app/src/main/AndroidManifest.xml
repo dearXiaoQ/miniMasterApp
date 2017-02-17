@@ -20,9 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".module.welcomeModule.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>

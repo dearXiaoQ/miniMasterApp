@@ -1,21 +1,16 @@
 package com.masterdroup.minimasterapp.api;
 
-import android.support.annotation.Nullable;
-
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.User;
-import com.masterdroup.minimasterapp.model.UserInfo;
 
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -48,7 +43,7 @@ public interface Api {
      * 获取用户信息接口
      */
     @GET("miniMasterApp/user/info")
-    Observable<Base<UserInfo>> getUserInfo();
+    Observable<Base<User>> getUserInfo();
 
 
     /**

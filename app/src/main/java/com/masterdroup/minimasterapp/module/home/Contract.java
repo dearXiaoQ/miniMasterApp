@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
-import com.masterdroup.minimasterapp.model.UserInfo;
+import com.masterdroup.minimasterapp.model.User;
 
 /**
  * Created by 11473 on 2017/2/16.
@@ -21,7 +21,7 @@ public class Contract {
     interface UserView extends BaseView<Presenter> {
         Context ongetContext();
 
-        void onShowUserInfo(UserInfo userInfo);
+        void onShowUserInfo(User user);
 
     }
 

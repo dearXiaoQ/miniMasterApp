@@ -4,7 +4,10 @@ package com.masterdroup.minimasterapp.module.welcomeModule;
 import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
 import com.masterdroup.minimasterapp.App;
+import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
@@ -51,7 +54,6 @@ public class WelcomePresenter implements Contract.Presenter {
 
     @Override
     public void start() {
-
     }
 
     @Override
@@ -88,7 +90,7 @@ public class WelcomePresenter implements Contract.Presenter {
             User.UserBean userBean = user.new UserBean();
             userBean.setName(name);
             userBean.setPassword(pwd);
-            user.setUserBean(userBean);
+            user.setUser(userBean);
 
             Observable observable = Network.getMainApi().login(user);
 
@@ -177,7 +179,13 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
     @Override
-    public void registered(String name, String password, @Nullable String phoneNum) {
+    public void gizLogin(String name, String pwd) {
+        GizWifiSDK.sharedInstance().userLogin(name, pwd);
+    }
+
+
+    @Override
+    public void registered(String name, String password, @Nullable String phoneNum, String uid) {
         DebugUtils.d("WelcomePresenter", "registered()");
 
         if (name.isEmpty() || password.isEmpty()) {
@@ -188,8 +196,9 @@ public class WelcomePresenter implements Contract.Presenter {
             User.UserBean userBean = user.new UserBean();
             userBean.setName(name);
             userBean.setPassword(password);
-            userBean.setPhoneNun(phoneNum);
-            user.setUserBean(userBean);
+            userBean.setPhoneNum(phoneNum);
+            userBean.setUid(uid);
+            user.setUser(userBean);
 
             Observable observable = Network.getMainApi().registered(user);
             Subscriber<Base<Null>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
@@ -207,6 +216,17 @@ public class WelcomePresenter implements Contract.Presenter {
             JxUtils.toSubscribe(observable, s);
         }
 
+    }
+
+
+    @Override
+    public void gizRegistered(String name, String password) {
+        GizWifiSDK.sharedInstance().registerUser(name, password, null, GizUserAccountType.GizUserNormal);
+    }
+
+    @Override
+    public void sendPhoneSMSCode(String phone) {
+        GizWifiSDK.sharedInstance().requestSendPhoneSMSCode(Constant.APP_Secret, phone);
     }
 
 

@@ -12,7 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.KeyboardUtils;
+import com.blankj.utilcode.utils.LogUtils;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
+import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.Utils;
 
@@ -40,7 +46,26 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new WelcomePresenter(this);
+        //每次启动activity都要注册一次sdk监听器，保证sdk状态能正确回调
+        GizWifiSDK.sharedInstance().setListener(mListener);
     }
+
+    private GizWifiSDKListener mListener = new GizWifiSDKListener() {
+        @Override
+        public void didRegisterUser(GizWifiErrorCode result, String uid, String token) {
+            // 实现逻辑
+            LogUtils.d("机智云注册======》", "uid:" + uid + "     result:" + result.toString() + "      token" + token);
+            mPresenter.registered(mEtName.getText().toString(), mEtPwd.getText().toString(), mEtPhone.getText().toString(), uid);
+
+        }
+
+        @Override
+        public void didRequestSendPhoneSMSCode(GizWifiErrorCode result, String token) {
+            super.didRequestSendPhoneSMSCode(result, token);
+            // 实现逻辑
+            LogUtils.d("机智云验证码发送======》", "     result:" + result.toString() + "      token" + token);
+        }
+    };
 
 
     @Nullable
@@ -62,12 +87,6 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
         return getActivity();
     }
 
-    @Override
-    public void onRegistered() {
-        mPresenter.registered(mEtName.getText().toString(), mEtPwd.getText().toString(), mEtPhone.getText().toString());
-
-
-    }
 
     @Override
     public void onRegisteredSuccess() {
@@ -93,6 +112,6 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
 
     @OnClick(R.id.btn_registered)
     public void onClick() {
-        onRegistered();
+        mPresenter.gizRegistered(mEtName.getText().toString(), mEtPwd.getText().toString());
     }
 }

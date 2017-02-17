@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.model.UserInfo;
+import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 
@@ -41,6 +41,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new HomePresenter(this);
+
     }
 
     @Nullable
@@ -66,9 +67,9 @@ public class UserFragment extends Fragment implements Contract.UserView {
     }
 
     @Override
-    public void onShowUserInfo(UserInfo userInfo) {
-        UserInfo.UserBean user = userInfo.getUser();
-        tvUserName.setText(user.getName());
+    public void onShowUserInfo(User user) {
+        User.UserBean userBean = user.getUser();
+        tvUserName.setText(userBean.getName());
     }
 
     @Override

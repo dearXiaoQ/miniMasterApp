@@ -24,8 +24,18 @@ public class Contract {
 
         void login(String name, String pwd);
 
-        void registered(String name, String password, @Nullable String phoneNum);
+        void gizLogin(String name, String pwd);//机智云登录
 
+        void registered(String name, String password, @Nullable String phoneNum, String uid);
+
+        /**
+         * @param name     注册用户名（可以是手机号、邮箱或普通用户名）
+         * @param password 注册密码
+         */
+        void gizRegistered(String name, String password);//机智云注册
+
+
+        void sendPhoneSMSCode(String phone);
     }
 
     interface MainView extends BaseView<Presenter> {
@@ -50,8 +60,6 @@ public class Contract {
 
     interface RegisteredView extends BaseView<Presenter> {
         Context onGetContext();
-
-        void onRegistered();
 
         void onRegisteredSuccess();
 
