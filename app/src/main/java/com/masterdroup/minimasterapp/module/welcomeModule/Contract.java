@@ -1,5 +1,6 @@
 package com.masterdroup.minimasterapp.module.welcomeModule;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.masterdroup.minimasterapp.BasePresenter;
@@ -38,6 +39,7 @@ public class Contract {
     }
 
     interface LoginView extends BaseView<Presenter> {
+        Context onGetContext();
 
         void onLogin();
 
@@ -47,8 +49,12 @@ public class Contract {
     }
 
     interface RegisteredView extends BaseView<Presenter> {
+        Context onGetContext();
+
         void onRegistered();
+
         void onRegisteredSuccess();
+
         void onRegisteredFailure(@Nullable String info);
 
     }

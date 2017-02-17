@@ -17,9 +17,6 @@ public class Network {
     private static Api mainApi;
 
     public static Api getMainApi() {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
         if (mainApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(MyOkHttpClient.getInstance(App.mContext).getOkHttpClient())

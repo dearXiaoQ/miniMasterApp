@@ -1,7 +1,10 @@
 package com.masterdroup.minimasterapp.module.progress;
 
+import android.content.Context;
+
 import com.blankj.utilcode.utils.ActivityUtils;
 import com.blankj.utilcode.utils.LogUtils;
+import com.masterdroup.minimasterapp.App;
 
 import rx.Subscriber;
 
@@ -13,9 +16,9 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
     private SubscriberOnNextListener mSubscriberOnNextListener;
     private ProgressDialogHandler mProgressDialogHandler;
 
-    public ProgressSubscriber(SubscriberOnNextListener mSubscriberOnNextListener) {
+    public ProgressSubscriber(SubscriberOnNextListener mSubscriberOnNextListener,Context context) {
         this.mSubscriberOnNextListener = mSubscriberOnNextListener;
-        mProgressDialogHandler = new ProgressDialogHandler(ActivityUtils.getTopActivity(), this, true);
+        mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 
     private void showProgressDialog() {

@@ -144,7 +144,7 @@ public class WelcomePresenter implements Contract.Presenter {
                     }
                 }
 
-            });
+            }, loginView.onGetContext());
 
 
 //            Subscriber<Base<Token>> s = new ActionSubscriber<>(new Action1<Base<Token>>() {
@@ -202,7 +202,7 @@ public class WelcomePresenter implements Contract.Presenter {
                     }
                 }
 
-            });
+            }, registeredView.onGetContext());
 
             JxUtils.toSubscribe(observable, s);
         }

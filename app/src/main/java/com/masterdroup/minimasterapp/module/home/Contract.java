@@ -1,5 +1,7 @@
 package com.masterdroup.minimasterapp.module.home;
 
+import android.content.Context;
+
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
 import com.masterdroup.minimasterapp.model.UserInfo;
@@ -17,6 +19,7 @@ public class Contract {
     }
 
     interface UserView extends BaseView<Presenter> {
+        Context ongetContext();
 
         void onShowUserInfo(UserInfo userInfo);
 

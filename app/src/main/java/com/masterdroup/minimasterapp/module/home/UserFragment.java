@@ -1,6 +1,7 @@
 package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -58,9 +59,16 @@ public class UserFragment extends Fragment implements Contract.UserView {
         //请求用户信息
         mHomePresenter.getUserInfo();
     }
+
+    @Override
+    public Context ongetContext() {
+        return this.getActivity();
+    }
+
     @Override
     public void onShowUserInfo(UserInfo userInfo) {
-
+        UserInfo.UserBean user = userInfo.getUser();
+        tvUserName.setText(user.getName());
     }
 
     @Override

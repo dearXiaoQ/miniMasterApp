@@ -1,6 +1,7 @@
 package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,6 +54,11 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
     @Override
     public void setPresenter(Contract.Presenter presenter) {
         mPresenter = Utils.checkNotNull(presenter);
+    }
+
+    @Override
+    public Context onGetContext() {
+        return getActivity();
     }
 
     @Override

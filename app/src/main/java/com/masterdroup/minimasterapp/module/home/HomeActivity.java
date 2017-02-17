@@ -86,7 +86,7 @@ public class HomeActivity extends Activity {
 
     void showUserFragment() {
 
-            if (userFragment == null)
+        if (userFragment == null)
             userFragment = (UserFragment) getFragmentManager().findFragmentByTag(userFragment_tag);
         getFragmentManager().beginTransaction().show(userFragment).commit();
     }

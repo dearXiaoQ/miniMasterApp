@@ -20,7 +20,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-
+        Utils.init(mContext);
         try {
             setSPUp();
         } catch (Exception e) {

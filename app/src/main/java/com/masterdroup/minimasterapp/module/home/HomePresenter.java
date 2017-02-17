@@ -37,6 +37,9 @@ public class HomePresenter implements Contract.Presenter {
     @Override
     public void getUserInfo() {
 
+
+
+
         Observable o = Network.getMainApi().getUserInfo();
         Subscriber<Base<UserInfo>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<UserInfo>>() {
             @Override
@@ -46,7 +49,9 @@ public class HomePresenter implements Contract.Presenter {
                 else ;
             }
 
-        });
+        },mUserView.ongetContext());
+
+
         JxUtils.toSubscribe(o, s);
 
     }
