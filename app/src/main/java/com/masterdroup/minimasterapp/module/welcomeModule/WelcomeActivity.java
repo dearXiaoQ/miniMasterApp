@@ -12,12 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.LogUtils;
-import com.gizwits.gizwifisdk.api.GizWifiSDK;
-import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
-import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
-import com.masterdroup.minimasterapp.BaseActivity;
-import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;

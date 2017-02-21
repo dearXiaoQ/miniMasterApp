@@ -4,13 +4,20 @@ import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Token;
+import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -35,9 +42,8 @@ public interface Api {
     /**
      * 用户更新信息接口
      */
-    @FormUrlEncoded
     @POST("miniMasterApp/user/infoUpdate")
-    Observable<Base<Null>> userinfoUpdate(@Field("user") User user);
+    Observable<Base<Null>> userInfoUpDate(@Body User body);
 
     /**
      * 获取用户信息接口
@@ -51,4 +57,20 @@ public interface Api {
      */
     @GET("?")
     Observable<Base<Menu>> menuInfo(@Field("id") int id);
+
+    /**
+     * 上传图片文件
+     */
+
+    @Multipart
+    @POST("uploadFile")
+    Observable<Base<Url>> uploadFile(@Part MultipartBody.Part file);
+
+    /**
+     * 删除图片文件
+     */
+    @POST("deleteFile/{fileName}")
+    Observable<Base<Null>> deleteFile(@Path("fileName") String fileName);
+
+
 }

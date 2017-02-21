@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by 11473 on 2016/12/20.
@@ -77,4 +80,14 @@ public class UserFragment extends Fragment implements Contract.UserView {
         mHomePresenter = Utils.checkNotNull(presenter);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.iv_settings)
+    public void onClick() {
+        startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+    }
 }

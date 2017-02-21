@@ -19,7 +19,9 @@ public class User {
         this.user = user;
     }
 
-    public  class UserBean {
+
+
+    public class UserBean {
         String name;
         String password;
         String phoneNum;
@@ -30,6 +32,10 @@ public class User {
         int sex;
         int __v;
         String uid;
+
+        public UserBean() {
+
+        }
 
         public int getRole() {
             return role;

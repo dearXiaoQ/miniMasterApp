@@ -12,7 +12,7 @@
     <string name="et_in_phone">请输入你的手机号码(可选)</string>
     <string name="et_in_pwd">请输入你的密码</string>
     <string name="err_login_1">登录信息不正确！</string>
-
-
     <string name="key_token">token</string>
+    <string name="settings_user_info">编辑个人资料</string>
+
 </resources>
