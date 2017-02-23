@@ -45,9 +45,6 @@ public class MenuPresenter implements Contract.Presenter {
                         menuAloneView.settingData(menuBase.getRes());
                     }
                 });
-
-
-
-
+        
     }
 }

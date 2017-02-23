@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
@@ -52,7 +53,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_user, container, false);
         ButterKnife.bind(this, view);
-        ImageLoader.getInstance().displayGlideImage("https://images.pexels.com/photos/208799/pexels-photo-208799.jpeg?h=350&auto=compress&cs=tinysrgb", ivUserHead, view.getContext(), true);
+
         return view;
 
     }
@@ -73,6 +74,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     public void onShowUserInfo(User user) {
         User.UserBean userBean = user.getUser();
         tvUserName.setText(userBean.getName());
+        ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), ivUserHead, tvUserName.getContext(), true);
     }
 
     @Override
@@ -86,8 +88,21 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.iv_settings)
-    public void onClick() {
-        startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+    @OnClick({R.id.iv_settings, R.id.tv_out})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_settings:
+
+                startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+                break;
+            case R.id.tv_out:
+                mHomePresenter.outLogin();
+
+                break;
+
+        }
+
     }
+
+
 }

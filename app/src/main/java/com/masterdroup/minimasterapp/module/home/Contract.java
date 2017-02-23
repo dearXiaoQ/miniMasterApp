@@ -15,13 +15,15 @@ public class Contract {
     interface Presenter extends BasePresenter {
 
         void getUserInfo();
-
+        void outLogin();
     }
 
     interface UserView extends BaseView<Presenter> {
         Context ongetContext();
 
         void onShowUserInfo(User user);
+
+
 
     }
 

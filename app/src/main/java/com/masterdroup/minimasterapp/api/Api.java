@@ -1,8 +1,12 @@
 package com.masterdroup.minimasterapp.api;
 
+import android.content.Intent;
+
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.Null;
+import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
@@ -57,6 +61,12 @@ public interface Api {
      */
     @GET("?")
     Observable<Base<Menu>> menuInfo(@Field("id") int id);
+
+    /**
+     * 新增菜谱
+     */
+    @POST("/miniMasterApp/recipes/createRecipes")
+    Observable<Base<MenuID>> createRecipes(@Body Recipes body);
 
     /**
      * 上传图片文件

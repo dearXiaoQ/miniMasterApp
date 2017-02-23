@@ -1,9 +1,16 @@
 package com.masterdroup.minimasterapp.module.home;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import com.blankj.utilcode.utils.SPUtils;
+import com.masterdroup.minimasterapp.App;
+import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
+import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 
@@ -48,6 +55,15 @@ public class HomePresenter implements Contract.Presenter {
 
 
         JxUtils.toSubscribe(o, s);
+
+    }
+
+    @Override
+    public void outLogin() {
+        App.spUtils.remove(App.mContext.getString(R.string.key_token));
+        Activity activity = (Activity) mUserView.ongetContext();
+        activity.startActivity(new Intent(activity, WelcomeActivity.class));
+        activity.finish();
 
     }
 }
