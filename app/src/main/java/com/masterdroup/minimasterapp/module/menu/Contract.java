@@ -1,6 +1,7 @@
 package com.masterdroup.minimasterapp.module.menu;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
@@ -25,8 +26,14 @@ public class Contract {
         //提交新创建的菜谱
         void submitNewMenu();
 
-        //启动图片选择器
-        void openImageSelector(int result_code);
+
+        void initStepRecyclerView(RecyclerView rv);
+
+
+        //增加一个步骤
+        void addStep();
+
+        void setStepPicture(String url,int requestCode);
     }
 
     interface MenuAloneView extends BaseView<Presenter> {
@@ -47,6 +54,7 @@ public class Contract {
         String getMenuCoverServerUrl();
 
         void setMenuCoverServerUrl(String url);
+
     }
 
     interface MenuListView extends BaseView<Presenter> {

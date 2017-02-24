@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,15 +13,12 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
+import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImgSelActivity;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.masterdroup.minimasterapp.module.settings.SettingsActivity.REQUEST_CODE;
 
 public class MenuCreateActivity extends Activity implements Contract.MenuCreateView {
 
@@ -38,14 +36,19 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     @Bind(R.id.et_menu_describe)
     EditText mEtMenuDescribe;
 
-
     //保存用户选择的菜谱封面的本地路径
     private static String menu_cover_local_url = "";
     //保存上传成功的菜谱封面的服务器路径
     private static String menu_cover_server_url = "";
 
-    private static final int menu_cover_requestCode = 1;//菜谱封面选择requestCode
+    private static final int menu_cover_requestCode = 0;//菜谱封面选择requestCode
 
+
+    @Bind(R.id.rv_menu_step)
+    RecyclerView mRvMenuStep;
+
+    @Bind(R.id.tv_add_step)
+    TextView mTvAddStep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,11 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
 
     }
 
+
     private void init() {
         mTvTitle.setText("创建菜谱");
+        mMenuCreatePresenter.start();
+        mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep);
 
     }
 
@@ -67,7 +73,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         mMenuCreatePresenter = presenter;
     }
 
-    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover})
+    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover, R.id.tv_add_step})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_more_button:
@@ -77,11 +83,14 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
                 finish();
                 break;
             case R.id.iv_menu_cover:
-                mMenuCreatePresenter.openImageSelector(menu_cover_requestCode);
+                Utils.openImageSelector(this, menu_cover_requestCode);
                 break;
+            case R.id.tv_add_step:
+                mMenuCreatePresenter.addStep();
 
+
+                break;
         }
-
     }
 
     @Override
@@ -92,10 +101,6 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         Recipes.RecipesBean.Detail detail = bean.new Detail();
         detail.setDescribe(mEtMenuDescribe.getText().toString());//菜谱简介
         detail.setImgSrc(getMenuCoverServerUrl());//菜谱cover
-
-
-
-
         bean.setDetail(detail);
         recipes.setRecipesBean(bean);
         return recipes;
@@ -126,21 +131,20 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         menu_cover_server_url = url;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // 图片选择结果回调
         if (resultCode == RESULT_OK && data != null) {
-            data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+            String url = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT).get(0);
             switch (requestCode) {
                 case menu_cover_requestCode:
-                    ImageLoader.getInstance().displayGlideImage(data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT).get(0), mIvMenuCover, this, false);
+                    ImageLoader.getInstance().displayGlideImage(url, mIvMenuCover, this, false);
+                    break;
+                default:
+                    mMenuCreatePresenter.setStepPicture(url,requestCode);
                     break;
             }
-
-
         }
     }
 }

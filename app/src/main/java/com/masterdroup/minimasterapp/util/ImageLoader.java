@@ -52,7 +52,6 @@ public class ImageLoader extends com.youth.banner.loader.ImageLoader {
 
 
     public void displayGlideImage(String url, ImageView imageView, Context context, boolean isCircle) {
-        DebugUtils.d(TAG, url);
 
         if (isCircle) {
             Glide

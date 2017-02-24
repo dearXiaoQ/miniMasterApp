@@ -10,6 +10,15 @@ public class Step {
     public int stepNo;
     String des;
     String picture_url;
+    int resultCode;
+
+    public int getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(int resultCode) {
+        this.resultCode = resultCode;
+    }
 
     public int getStepNo() {
         return stepNo;

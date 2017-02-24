@@ -14,6 +14,7 @@ import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.util.ImageLoader;
+import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImgSelActivity;
 
 import java.util.List;
@@ -57,7 +58,6 @@ public class SettingsActivity extends Activity implements Contract.View {
     private void init() {
         new SettingsPresenter(this);
         mTvTitle.setText(getString(R.string.settings_user_info));
-
         //获取用户信息
         mPresenter.getUserDate();
     }
@@ -78,7 +78,7 @@ public class SettingsActivity extends Activity implements Contract.View {
                 break;
             case R.id.iv_user_head:
                 //点击头像 选择图片
-                mPresenter.openImageSelector();
+                Utils.openImageSelector(this, REQUEST_CODE);
                 break;
         }
     }

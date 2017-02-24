@@ -21,8 +21,6 @@ public class Contract {
         //获取用户信息
         void getUserDate();
 
-        //启动图片选择器
-        void openImageSelector();
     }
 
     interface View extends BaseView<Presenter> {
