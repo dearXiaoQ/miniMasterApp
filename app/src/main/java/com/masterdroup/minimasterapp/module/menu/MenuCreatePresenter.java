@@ -83,6 +83,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     public void setStepPicture(String url, int requestCode) {
         for (Step step : mSteps) {
             if (step.getResultCode() == requestCode) {
+                step.setPicture_url(url);
+                adapter.notifyDataSetChanged();
                 //ImageLoader.getInstance().displayGlideImage(url, mIvMenuCover, this, false);
             }
         }
