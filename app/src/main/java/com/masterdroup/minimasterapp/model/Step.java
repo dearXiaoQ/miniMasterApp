@@ -9,7 +9,8 @@ public class Step {
 
     public int stepNo;
     String des;
-    String picture_url;
+    String picture_url;//图片本地路径
+    String picture_server_url;//图片服务器路径
     int resultCode;
 
     public int getResultCode() {
@@ -42,5 +43,13 @@ public class Step {
 
     public void setPicture_url(String picture_url) {
         this.picture_url = picture_url;
+    }
+
+    public String getPicture_server_url() {
+        return picture_server_url;
+    }
+
+    public void setPicture_server_url(String picture_server_url) {
+        this.picture_server_url = picture_server_url;
     }
 }
