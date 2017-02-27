@@ -59,27 +59,6 @@ public class Recipes {
         }
 
 
-        public class DescribeStep {
-            String imgSrc;
-            String describe;
-
-            public String getImgSrc() {
-                return imgSrc;
-            }
-
-            public void setImgSrc(String imgSrc) {
-                this.imgSrc = imgSrc;
-            }
-
-            public String getDescribe() {
-                return describe;
-            }
-
-            public void setDescribe(String describe) {
-                this.describe = describe;
-            }
-        }
-
         public class CookingStep {
             String imgSrc;
             String describe;

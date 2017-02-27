@@ -1,25 +1,33 @@
 package com.masterdroup.minimasterapp.model;
 
+import java.util.List;
+
 /**
  * Created by 11473 on 2017/2/20.
  */
 
 public class Url {
 
-    private String url;
-
-    public String getUrl() {
+    public List<String> getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(List<String> url) {
         this.url = url;
     }
+
+
+
+
+    private List<String> url;
+
+
+
 
     @Override
     public String toString() {
         return "Url{" +
-                "url='" + url + '\'' +
+                "url=" + url +
                 '}';
     }
 }

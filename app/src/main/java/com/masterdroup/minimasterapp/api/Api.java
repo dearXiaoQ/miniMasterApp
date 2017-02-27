@@ -11,6 +11,8 @@ import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -75,6 +77,14 @@ public interface Api {
     @Multipart
     @POST("uploadFile")
     Observable<Base<Url>> uploadFile(@Part MultipartBody.Part file);
+
+
+    /**
+     * 上传图片文件 多文件
+     */
+
+    @POST("uploadFile")
+    Observable<Base<Url>> uploadFiles(@Body MultipartBody multipartBody);
 
     /**
      * 删除图片文件

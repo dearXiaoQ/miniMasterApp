@@ -55,6 +55,9 @@ public class Contract {
 
         void setMenuCoverServerUrl(String url);
 
+        String getMenuName();
+        String getMenuDescribe();
+
     }
 
     interface MenuListView extends BaseView<Presenter> {

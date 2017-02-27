@@ -9,9 +9,9 @@ import android.widget.Toast;
 import com.blankj.utilcode.utils.FileUtils;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
-import com.masterdroup.minimasterapp.model.Step;
+import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.Url;
-import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.view.MenuStepRVAdapter;
@@ -47,49 +47,55 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     @Override
     public void submitNewMenu() {
 
-        for (final Step step : mSteps) {
-            String localUrl = step.getPicture_url();
-            if (FileUtils.isFileExists(localUrl)) {
-                File file = new File(localUrl);
+        List<String> pic_local_urls = new ArrayList<>();//本地图片路径  第一张为封面 其余为步骤图
+        pic_local_urls.add(0, menuCreateView.getMenuCoverLocalUrl());//
+        for (DescribeStep step : mSteps) {
+            pic_local_urls.add(step.getPicture_url());
+        }
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+
+        for (String pic : pic_local_urls) {
+            if (FileUtils.isFileExists(pic)) {
+                File file = new File(pic);
                 RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestBody);
-                o_uploadFile = Network.getMainApi().uploadFile(body);//上传图片接口
+                builder.addFormDataPart("picture", file.getName(), requestBody);
+            }
+        }
+
+        builder.setType(MultipartBody.FORM);
+        MultipartBody multipartBody = builder.build();
+
+        o_uploadFile = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
 
 
-                s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
-                    @Override
-                    public void onNext(Base<Url> urlBase) {
-                        if (urlBase.getErrorCode() == 0) {
-                            step.setPicture_server_url(urlBase.getRes().getUrl());
-                        } else {
-                            Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
-                        }
+        s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
+            @Override
+            public void onNext(Base<Url> urlBase) {
+                if (urlBase.getErrorCode() == 0) {
+                    List<String> list = new ArrayList<>();
+                    list = urlBase.getRes().getUrl();
+                    menuCreateView.setMenuCoverServerUrl(list.get(0));//第一张为封面
+                    list.remove(0);
+
+
+
+                    for (int i = 0; i < list.size(); i++) {
+                        mSteps.get(i).setImgSrc(list.get(i));
                     }
 
 
-                }, mContext);
-
-
+                } else {
+                    Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
+                }
             }
 
-            JxUtils.toSubscribe(o_uploadFile,s_uploadFile);
-        }
+
+        }, mContext);
+
+        JxUtils.toSubscribe(o_uploadFile, s_uploadFile);
 
 
-//        s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
-//            @Override
-//            public void onNext(Base<Url> urlBase) {
-//                if (urlBase.getErrorCode() == 0) {
-//                    step.setPicture_server_url(urlBase.getRes().getUrl());
-//                } else {
-//                    Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//              JxUtils.toSubscribe(o_submit, s_submit)
-//        }, mContext);
-
-
-//        Observable o_submit = Network.getMainApi().createRecipes(menuCreateView.getRecipesDate());
+//        Observable o_submit = Network.getMainApi().createRecipes(getRecipesDate());
 //        Subscriber s_submit = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<String>>() {
 //            @Override
 //            public void onNext(Base<String> o) {
@@ -104,7 +110,24 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     }
 
 
-    List<Step> mSteps = new ArrayList<>();
+    public Recipes getRecipesDate() {
+
+        Recipes recipes = new Recipes();
+        Recipes.RecipesBean bean = recipes.new RecipesBean();
+        bean.setName(menuCreateView.getMenuName());
+        Recipes.RecipesBean.Detail detail = bean.new Detail();
+        detail.setDescribe(menuCreateView.getMenuDescribe());//菜谱简介
+        detail.setImgSrc(menuCreateView.getMenuCoverServerUrl());//菜谱cover
+        bean.setDetail(detail);
+        bean.setDescribeSteps(mSteps);
+        recipes.setRecipesBean(bean);
+
+
+        return recipes;
+    }
+
+
+    List<DescribeStep> mSteps = new ArrayList<>();
 
     MenuStepRVAdapter adapter;
 
@@ -115,7 +138,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     public void initStepRecyclerView(RecyclerView rv) {
         rv.setLayoutManager(new LinearLayoutManager(mContext));
 
-        Step step = new Step();
+        DescribeStep step = new DescribeStep();
         step.setStepNo(step_number);
         step.setResultCode(step_number);
         mSteps.add(step);
@@ -128,7 +151,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     public void addStep() {
         step_number++;
 
-        Step step = new Step();
+        DescribeStep step = new DescribeStep();
         step.setStepNo(step_number);
         step.setResultCode(step_number);
         mSteps.add(step);
@@ -138,11 +161,10 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
     @Override
     public void setStepPicture(String url, int requestCode) {
-        for (Step step : mSteps) {
+        for (DescribeStep step : mSteps) {
             if (step.getResultCode() == requestCode) {
                 step.setPicture_url(url);
                 adapter.notifyDataSetChanged();
-
             }
         }
 

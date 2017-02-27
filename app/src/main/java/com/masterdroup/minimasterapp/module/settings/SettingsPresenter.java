@@ -66,10 +66,10 @@ public class SettingsPresenter implements Contract.Presenter {
                     if (urlBase.getErrorCode() == 0) {
                         Toast.makeText(mView.onGetContext(), "上传图片成功！", Toast.LENGTH_SHORT).show();
                         User.UserBean bean = user.getUser();
-                        bean.setHeadUrl(urlBase.getRes().getUrl());
+                        bean.setHeadUrl(urlBase.getRes().getUrl().get(0));
                         user.setUser(bean);
                         upDate(user);
-                        mView.putUserHeadServerUrl(urlBase.getRes().getUrl());
+                        mView.putUserHeadServerUrl(urlBase.getRes().getUrl().get(0));
                     } else {
                         Toast.makeText(mView.onGetContext(), "上传图片失败！", Toast.LENGTH_SHORT).show();
                     }

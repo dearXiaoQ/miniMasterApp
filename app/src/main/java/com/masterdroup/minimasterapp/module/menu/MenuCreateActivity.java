@@ -11,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImgSelActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,8 +91,6 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
                 break;
             case R.id.tv_add_step:
                 mMenuCreatePresenter.addStep();
-
-
                 break;
         }
     }
@@ -102,6 +104,9 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         detail.setDescribe(mEtMenuDescribe.getText().toString());//菜谱简介
         detail.setImgSrc(getMenuCoverServerUrl());//菜谱cover
         bean.setDetail(detail);
+        List<DescribeStep> describeSteps = new ArrayList<>();
+
+
         recipes.setRecipesBean(bean);
         return recipes;
     }
@@ -132,6 +137,16 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     }
 
     @Override
+    public String getMenuName() {
+        return mEtMenuName.getText().toString();
+    }
+
+    @Override
+    public String getMenuDescribe() {
+        return mEtMenuDescribe.getText().toString();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 图片选择结果回调
@@ -139,10 +154,11 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
             String url = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT).get(0);
             switch (requestCode) {
                 case menu_cover_requestCode:
+                    setMenuCoverLocalUrl(url);
                     ImageLoader.getInstance().displayGlideImage(url, mIvMenuCover, this, false);
                     break;
                 default:
-                    mMenuCreatePresenter.setStepPicture(url,requestCode);
+                    mMenuCreatePresenter.setStepPicture(url, requestCode);
                     break;
             }
         }
