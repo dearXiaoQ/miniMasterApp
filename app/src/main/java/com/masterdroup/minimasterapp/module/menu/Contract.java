@@ -33,7 +33,9 @@ public class Contract {
         //增加一个步骤
         void addStep();
 
-        void setStepPicture(String url,int requestCode);
+        void setStepPicture(String url, int requestCode);
+
+        void initDescribeStep();//
     }
 
     interface MenuAloneView extends BaseView<Presenter> {
@@ -42,8 +44,7 @@ public class Contract {
 
     interface MenuCreateView extends BaseView<MenuCreatePresenter> {
 
-        //打包菜谱数据
-        Recipes getRecipesDate();
+
 
         Context getContext();
 
@@ -56,6 +57,7 @@ public class Contract {
         void setMenuCoverServerUrl(String url);
 
         String getMenuName();
+
         String getMenuDescribe();
 
     }

@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 
 import android.content.Context;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     @Override
     public void submitNewMenu() {
 
+
         List<String> pic_local_urls = new ArrayList<>();//本地图片路径  第一张为封面 其余为步骤图
         pic_local_urls.add(0, menuCreateView.getMenuCoverLocalUrl());//
         for (DescribeStep step : mSteps) {
@@ -54,59 +56,61 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         }
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
+        List<File> files = new ArrayList<>();
+
         for (String pic : pic_local_urls) {
             if (FileUtils.isFileExists(pic)) {
                 File file = new File(pic);
+                files.add(file);
                 RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
                 builder.addFormDataPart("picture", file.getName(), requestBody);
             }
         }
+        if (files.size() != 0) {
 
-        builder.setType(MultipartBody.FORM);
-        MultipartBody multipartBody = builder.build();
+            builder.setType(MultipartBody.FORM);
+            MultipartBody multipartBody = builder.build();
 
-        o_uploadFile = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
+            o_uploadFile = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
+            s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
+                @Override
+                public void onNext(Base<Url> urlBase) {
+                    if (urlBase.getErrorCode() == 0) {
+                        List<String> list = new ArrayList<>();
+                        list = urlBase.getRes().getUrl();
+                        menuCreateView.setMenuCoverServerUrl(list.get(0));//第一张为封面
+                        list.remove(0);
+                        for (int i = 0; i < list.size(); i++) {
+                            mSteps.get(i).setImgSrc(list.get(i));
+                        }
 
-
-        s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
-            @Override
-            public void onNext(Base<Url> urlBase) {
-                if (urlBase.getErrorCode() == 0) {
-                    List<String> list = new ArrayList<>();
-                    list = urlBase.getRes().getUrl();
-                    menuCreateView.setMenuCoverServerUrl(list.get(0));//第一张为封面
-                    list.remove(0);
-
-
-
-                    for (int i = 0; i < list.size(); i++) {
-                        mSteps.get(i).setImgSrc(list.get(i));
+                        createRecipes();
+                    } else {
+                        Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
                     }
-
-
-                } else {
-                    Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
                 }
+            }, mContext);
+
+            JxUtils.toSubscribe(o_uploadFile, s_uploadFile);
+        } else {
+            createRecipes();
+        }
+
+    }
+
+    private void createRecipes() {
+        Observable o_submit = Network.getMainApi().createRecipes(getRecipesDate());
+        Subscriber s_submit = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<String>>() {
+            @Override
+            public void onNext(Base<String> o) {
+
+                if (o.getErrorCode() == 0) {
+
+                }
+
             }
-
-
-        }, mContext);
-
-        JxUtils.toSubscribe(o_uploadFile, s_uploadFile);
-
-
-//        Observable o_submit = Network.getMainApi().createRecipes(getRecipesDate());
-//        Subscriber s_submit = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<String>>() {
-//            @Override
-//            public void onNext(Base<String> o) {
-//
-//                if (o.getErrorCode() == 0) {
-//
-//                }
-//
-//            }
-//        }, menuCreateView.getContext());
-//        JxUtils.toSubscribe(o_submit, s_submit);
+        }, menuCreateView.getContext());
+        JxUtils.toSubscribe(o_submit, s_submit);
     }
 
 
@@ -120,6 +124,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         detail.setImgSrc(menuCreateView.getMenuCoverServerUrl());//菜谱cover
         bean.setDetail(detail);
         bean.setDescribeSteps(mSteps);
+
+
         recipes.setRecipesBean(bean);
 
 
@@ -127,35 +133,38 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     }
 
 
-    List<DescribeStep> mSteps = new ArrayList<>();
-
     MenuStepRVAdapter adapter;
 
-    static int step_number = 1;//当前总步骤数 默认为1
-
+    int step_number = 3;//当前总步骤数 默认为1
+    public static List<DescribeStep> mSteps = new ArrayList<>();
 
     @Override
     public void initStepRecyclerView(RecyclerView rv) {
         rv.setLayoutManager(new LinearLayoutManager(mContext));
+        rv.setItemAnimator(new DefaultItemAnimator());
+        for (int i = 1; i <= step_number; i++) {
+            DescribeStep step = new DescribeStep();
+            step.setStepNo(i);
+            step.setResultCode(i);
+            mSteps.add(step);
+        }
 
-        DescribeStep step = new DescribeStep();
-        step.setStepNo(step_number);
-        step.setResultCode(step_number);
-        mSteps.add(step);
-        adapter = new MenuStepRVAdapter(mContext, mSteps);
+        adapter = new MenuStepRVAdapter(mContext);
+
         rv.setAdapter(adapter);
         rv.setNestedScrollingEnabled(false);
+
     }
 
     @Override
     public void addStep() {
         step_number++;
-
         DescribeStep step = new DescribeStep();
         step.setStepNo(step_number);
         step.setResultCode(step_number);
         mSteps.add(step);
         adapter.notifyDataSetChanged();
+
 
     }
 
@@ -167,7 +176,11 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
                 adapter.notifyDataSetChanged();
             }
         }
+    }
 
+    @Override
+    public void initDescribeStep() {
+        mSteps = new ArrayList<>(step_number);
     }
 
     @Override

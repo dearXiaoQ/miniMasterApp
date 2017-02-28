@@ -14,10 +14,9 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.DescribeStep;
-import com.masterdroup.minimasterapp.model.Step;
+import com.masterdroup.minimasterapp.module.menu.MenuCreatePresenter;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
-import com.yuyh.library.imgsel.ImgSelActivity;
 
 import java.util.List;
 
@@ -31,12 +30,11 @@ import butterknife.ButterKnife;
 public class MenuStepRVAdapter extends RecyclerView.Adapter<MenuStepRVAdapter.MenuStepViewHolder> {
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    List<DescribeStep> list;
 
-    public MenuStepRVAdapter(Context context, List<DescribeStep> list) {
+    public MenuStepRVAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        this.list = list;
+
     }
 
 
@@ -46,42 +44,51 @@ public class MenuStepRVAdapter extends RecyclerView.Adapter<MenuStepRVAdapter.Me
     }
 
     @Override
-    public void onBindViewHolder(MenuStepViewHolder holder, int position) {
+    public void onBindViewHolder(MenuStepViewHolder holder, final int position) {
 
-        final DescribeStep step = list.get(position);
-        holder.mTvNo.setText("步骤 " + step.getStepNo());
-//        holder.mEtDescribe.setText(step.getDescribe());
-        ImageLoader.getInstance().displayGlideImage(step.getPicture_url(), holder.mIvMenuStepPicture, mContext, false);
+
+        holder.mTvNo.setText("步骤 " + MenuCreatePresenter.mSteps.get(position).getStepNo());
+//        holder.mEtDescribe.setText(MenuCreatePresenter.mSteps.get(position).getDescribe());
+        ImageLoader.getInstance().displayGlideImage(MenuCreatePresenter.mSteps.get(position).getPicture_url(), holder.mIvMenuStepPicture, mContext, false);
 
         holder.mIvMenuStepPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.openImageSelector(mContext, step.getResultCode());
+                Utils.openImageSelector(mContext, MenuCreatePresenter.mSteps.get(position).getResultCode());
             }
         });
 
-        holder.mEtDescribe.addTextChangedListener(new TextWatcher() {
+        //1、为了避免TextWatcher在第2步被调用，提前将他移除。
+        if ((holder).mEtDescribe.getTag() instanceof TextWatcher) {
+            (holder).mEtDescribe.removeTextChangedListener((TextWatcher) ((holder).mEtDescribe.getTag()));
+        }
+
+        // 第2步：移除TextWatcher之后，设置EditText的Text。
+        (holder).mEtDescribe.setText(MenuCreatePresenter.mSteps.get(position).getDescribe());
+
+
+        TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String s = "2";
-                step.setDescribe(editable.toString());
+                MenuCreatePresenter.mSteps.get(position).setDescribe(editable.toString());
             }
-        });
+        };
+
+        (holder).mEtDescribe.addTextChangedListener(watcher);
+        (holder).mEtDescribe.setTag(watcher);
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return MenuCreatePresenter.mSteps == null ? 0 : MenuCreatePresenter.mSteps.size();
     }
 
     class MenuStepViewHolder extends RecyclerView.ViewHolder {

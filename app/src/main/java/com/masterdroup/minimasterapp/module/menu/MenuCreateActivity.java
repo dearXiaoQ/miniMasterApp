@@ -72,6 +72,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
 
     }
 
+
     @Override
     public void setPresenter(Contract.MenuCreatePresenter presenter) {
         mMenuCreatePresenter = presenter;
@@ -84,6 +85,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
                 mMenuCreatePresenter.submitNewMenu();
                 break;
             case R.id.iv_return:
+//                mMenuCreatePresenter.initDescribeStep();
                 finish();
                 break;
             case R.id.iv_menu_cover:
@@ -95,21 +97,6 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         }
     }
 
-    @Override
-    public Recipes getRecipesDate() {
-        Recipes recipes = new Recipes();
-        Recipes.RecipesBean bean = recipes.new RecipesBean();
-        bean.setName(mEtMenuName.getText().toString());
-        Recipes.RecipesBean.Detail detail = bean.new Detail();
-        detail.setDescribe(mEtMenuDescribe.getText().toString());//菜谱简介
-        detail.setImgSrc(getMenuCoverServerUrl());//菜谱cover
-        bean.setDetail(detail);
-        List<DescribeStep> describeSteps = new ArrayList<>();
-
-
-        recipes.setRecipesBean(bean);
-        return recipes;
-    }
 
     @Override
     public Context getContext() {
@@ -162,5 +149,11 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMenuCreatePresenter.initDescribeStep();
     }
 }

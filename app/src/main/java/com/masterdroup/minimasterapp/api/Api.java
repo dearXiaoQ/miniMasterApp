@@ -7,6 +7,7 @@ import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Recipes;
+import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
@@ -67,8 +68,58 @@ public interface Api {
     /**
      * 新增菜谱
      */
-    @POST("/miniMasterApp/recipes/createRecipes")
+    @POST("miniMasterApp/recipes/createRecipes")
     Observable<Base<MenuID>> createRecipes(@Body Recipes body);
+
+
+    /**
+     * 获取菜谱列表
+     *
+     * @param index 页码
+     * @param count 每页数量
+     */
+    @GET("miniMasterApp/recipes/getRecipesList/{index}/{count}")
+    Observable<Base<RecipesList>> getRecipesList(@Path("index") int index, @Path("count") int count);
+
+
+    /**
+     * 获取菜谱详情
+     *
+     * @param id 菜谱id
+     */
+    @GET("miniMasterApp/recipes/getRecipesDetail/{id}")
+    Observable<Base<Recipes.RecipesBean>> getRecipesDetail(@Path("id") int id);
+
+
+
+
+    /**
+     * 删除菜谱
+     *
+     * @param _id 菜谱id
+     */
+    @FormUrlEncoded
+    @POST("miniMasterApp/recipes/deleteRecipes")
+    Observable<Base<Null>> deleteRecipes(@Field("_id") MenuID _id);
+
+
+    /**
+     * 菜谱点赞
+     *
+     * @param id 菜谱id
+     */
+    @POST("miniMasterApp/recipes/addFollower/{id}")
+    Observable<Base> addFollower(@Path("id") int id);
+
+
+    /**
+     * 增加评论
+     *
+     * @param id 菜谱id
+     */
+    @POST("miniMasterApp/recipes/addComment/{id}")
+    Observable<Base> addComment(@Path("id") int id);
+
 
     /**
      * 上传图片文件

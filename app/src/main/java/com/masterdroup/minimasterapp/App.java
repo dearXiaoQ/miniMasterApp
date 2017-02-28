@@ -11,7 +11,7 @@ import com.gizwits.gizwifisdk.api.GizWifiSDK;
  * Created by 11473 on 2016/11/29.
  */
 
-public class App extends Application {
+public class App extends Application implements Thread.UncaughtExceptionHandler {
     public static Context mContext;
 
 
@@ -40,5 +40,11 @@ public class App extends Application {
             spUtils = new SPUtils(getPackageName());
 
         }
+    }
+
+
+    @Override
+    public void uncaughtException(Thread thread, Throwable throwable) {
+        throwable.printStackTrace();
     }
 }
