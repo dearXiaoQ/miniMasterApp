@@ -59,7 +59,7 @@ public class MenuPresenter implements Contract.Presenter {
 
     }
 
-    int index = 1;//页码
+    int index = 0;//从第index个开始获取
     int count = 10;//页数
 
     @Override
