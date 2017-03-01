@@ -11,6 +11,7 @@ import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -62,7 +63,7 @@ public class MenuPresenter implements Contract.Presenter {
     int count = 10;//页数
 
     @Override
-    public void getRecipesList() {
+    public void getRecipesListData() {
         Observable o_recipesList = Network.getMainApi().getRecipesList(index, count);
         Subscriber s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
             @Override
@@ -76,6 +77,11 @@ public class MenuPresenter implements Contract.Presenter {
         }, mContext);
 
         JxUtils.toSubscribe(o_recipesList, s_recipesList);
+    }
+
+    @Override
+    public void initRV(PullLoadMoreRecyclerView rv) {
+        //// TODO: 2017/3/1 初始化 RecyclerView
     }
 
 }

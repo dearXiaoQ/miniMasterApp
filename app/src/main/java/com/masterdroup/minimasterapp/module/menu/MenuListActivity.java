@@ -38,10 +38,13 @@ public class MenuListActivity extends Activity implements Contract.MenuListView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
+        ButterKnife.bind(this);
+
+
         presenter = new MenuPresenter(this);
         presenter.start();
-        ButterKnife.bind(this);
-        presenter.getRecipesList();
+        presenter.getRecipesListData();//发起请求
+
 
         Menu menu = new Menu();
         menu.score = "2.0分";
@@ -68,7 +71,6 @@ public class MenuListActivity extends Activity implements Contract.MenuListView 
         menu3.head_url = "https://www.gravatar.com/avatar/156096673227a23cbbed3bfa9784167e?s=200&d=mm";
         menus.add(menu3);
 
-        mRv = (PullLoadMoreRecyclerView) findViewById(R.id.rv);
         thisAdapter = new ThisAdapter(this);
         mRv.setAdapter(thisAdapter);
         mRv.setLinearLayout();

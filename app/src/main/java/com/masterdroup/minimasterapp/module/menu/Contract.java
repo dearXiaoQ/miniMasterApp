@@ -8,6 +8,7 @@ import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Recipes;
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 /**
  * Created by 11473 on 2016/12/21.
@@ -20,7 +21,9 @@ public class Contract {
 
         void gettingData(int menuId);
 
-        void getRecipesList();
+        void getRecipesListData();
+
+        void initRV(PullLoadMoreRecyclerView rv);
 
     }
 
@@ -48,6 +51,7 @@ public class Contract {
 
     interface MenuListView extends BaseView<Presenter> {
         Context getContext();
+
 
     }
 
