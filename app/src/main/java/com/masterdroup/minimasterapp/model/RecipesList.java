@@ -9,7 +9,7 @@ import java.util.List;
 public class RecipesList {
 
     int total;
-    List<Recipes> list;
+    List<Recipes.RecipesBean> list;
 
     public int getTotal() {
         return total;
@@ -19,11 +19,11 @@ public class RecipesList {
         this.total = total;
     }
 
-    public List<Recipes> getList() {
+    public List<Recipes.RecipesBean> getList() {
         return list;
     }
 
-    public void setList(List<Recipes> list) {
+    public void setList(List<Recipes.RecipesBean> list) {
         this.list = list;
     }
 }

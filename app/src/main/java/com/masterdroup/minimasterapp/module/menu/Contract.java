@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
@@ -18,6 +19,8 @@ public class Contract {
     interface Presenter extends BasePresenter {
 
         void gettingData(int menuId);
+
+        void getRecipesList();
 
     }
 
@@ -42,8 +45,13 @@ public class Contract {
         void settingData(Menu menu);
     }
 
-    interface MenuCreateView extends BaseView<MenuCreatePresenter> {
 
+    interface MenuListView extends BaseView<Presenter> {
+        Context getContext();
+
+    }
+
+    interface MenuCreateView extends BaseView<MenuCreatePresenter> {
 
 
         Context getContext();
@@ -62,8 +70,5 @@ public class Contract {
 
     }
 
-    interface MenuListView extends BaseView<Presenter> {
 
-
-    }
 }

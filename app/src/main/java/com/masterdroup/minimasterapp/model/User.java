@@ -20,12 +20,13 @@ public class User {
     }
 
 
-
     public class UserBean {
         String name;
         String password;
         String phoneNum;
         String headUrl;
+        int age;
+        String address;
         Meta meta;
 
         int role;
@@ -35,6 +36,22 @@ public class User {
 
         public UserBean() {
 
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
         }
 
         public int getRole() {

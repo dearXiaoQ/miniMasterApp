@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.util.ImageLoader;
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +25,23 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MenuListActivity extends Activity {
+public class MenuListActivity extends Activity implements Contract.MenuListView {
 
-    RecyclerView recyclerView;
 
     List<Menu> menus = new ArrayList<>();
     ThisAdapter thisAdapter;
+    @Bind(R.id.rv)
+    PullLoadMoreRecyclerView mRv;
+    Contract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
+        presenter = new MenuPresenter(this);
+        presenter.start();
         ButterKnife.bind(this);
-
+        presenter.getRecipesList();
 
         Menu menu = new Menu();
         menu.score = "2.0分";
@@ -62,17 +68,63 @@ public class MenuListActivity extends Activity {
         menu3.head_url = "https://www.gravatar.com/avatar/156096673227a23cbbed3bfa9784167e?s=200&d=mm";
         menus.add(menu3);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
+        mRv = (PullLoadMoreRecyclerView) findViewById(R.id.rv);
         thisAdapter = new ThisAdapter(this);
-        recyclerView.setAdapter(thisAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRv.setAdapter(thisAdapter);
+        mRv.setLinearLayout();
+        mRv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                // 下拉刷新操作
+                new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
 
+
+                        // 千万别忘了告诉控件刷新完毕了哦！
+                        mRv.setPullLoadMoreCompleted();
+                    }
+                }.sendEmptyMessageDelayed(0, 3000);
+            }
+
+            @Override
+            public void onLoadMore() {
+                // 下拉刷新操作
+                new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+
+                        Menu menu3 = new Menu();
+                        menu3.score = "9.9分";
+                        menu3.menu_name = "Sponsored";
+                        menu3.user_name = "Daniel Lindstrom";
+                        menu3.cover_url = "https://images.pexels.com/photos/14737/pexels-photo.jpg?w=1260&h=750&auto=compress&cs=tinysrgb";
+                        menu3.head_url = "https://www.gravatar.com/avatar/156096673227a23cbbed3bfa9784167e?s=200&d=mm";
+                        menus.add(menu3);
+                        thisAdapter.notifyDataSetChanged();
+
+                        // 千万别忘了告诉控件刷新完毕了哦！
+                        mRv.setPullLoadMoreCompleted();
+                    }
+                }.sendEmptyMessageDelayed(0, 3000);
+            }
+        });
 
     }
 
     @OnClick(R.id.iv_return)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void setPresenter(Contract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
 

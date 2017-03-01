@@ -1,6 +1,5 @@
 package com.masterdroup.minimasterapp.api;
 
-import android.content.Intent;
 
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
@@ -12,11 +11,7 @@ import com.masterdroup.minimasterapp.model.Token;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
 
-import java.util.List;
-
 import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -50,7 +45,7 @@ public interface Api {
      * 用户更新信息接口
      */
     @POST("miniMasterApp/user/infoUpdate")
-    Observable<Base<Null>> userInfoUpDate(@Body User body);
+    Observable<Base> userInfoUpDate(@Body User body);
 
     /**
      * 获取用户信息接口

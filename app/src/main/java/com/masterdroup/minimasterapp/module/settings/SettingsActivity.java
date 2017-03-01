@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
@@ -33,8 +33,6 @@ public class SettingsActivity extends Activity implements Contract.View {
     TextView mTvMoreButton;
 
     Contract.Presenter mPresenter;
-    @Bind(R.id.et_name)
-    EditText mEtName;
     @Bind(R.id.et_phone)
     EditText mEtPhone;
     @Bind(R.id.iv_user_head)
@@ -46,6 +44,14 @@ public class SettingsActivity extends Activity implements Contract.View {
 
     //保存服务器里用户信息的头像图片路径
     private static String user_head_server_url = "";
+    @Bind(R.id.et_age)
+    EditText mEtAge;
+    @Bind(R.id.rb_male)
+    RadioButton mRbMale;
+    @Bind(R.id.rb_female)
+    RadioButton mRbFemale;
+    @Bind(R.id.et_address)
+    EditText mEtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,19 @@ public class SettingsActivity extends Activity implements Contract.View {
                 User user = new User();
                 User.UserBean userBean = user.new UserBean();
                 userBean.setPhoneNum(mEtPhone.getText().toString());
+                userBean.setAddress(mEtAddress.getText().toString());
+                if (mEtAge.getText().length() != 0)
+                    userBean.setAge(Integer.valueOf(mEtAge.getText().toString()));
+
+
+                if (mRbMale.isChecked())
+                    userBean.setSex(1);
+                if (mRbFemale.isChecked())
+                    userBean.setSex(2);
+
                 user.setUser(userBean);
+
+
                 mPresenter.upDate(user, getUserHeadUrl());
                 break;
             case R.id.iv_user_head:
@@ -117,6 +135,13 @@ public class SettingsActivity extends Activity implements Contract.View {
     public void setUserDate(User user) {
         User.UserBean userBean = user.getUser();
         mEtPhone.setText(userBean.getPhoneNum());
+        mEtAge.setText(userBean.getAge() == 0 ? null : String.valueOf(userBean.getAge()));
+        if (userBean.getSex() == 1)
+            mRbMale.setChecked(true);
+        if (userBean.getSex() == 2)
+            mRbFemale.setChecked(true);
+        mEtAddress.setText(userBean.getAddress());
+
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), mIvUserHead, this, true);
         putUserHeadServerUrl(userBean.getHeadUrl());
     }

@@ -58,6 +58,10 @@ public class Recipes {
             }
         }
 
+        public class Owner{
+
+        }
+
 
         public class CookingStep {
             String imgSrc;
