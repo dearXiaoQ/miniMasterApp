@@ -25,6 +25,7 @@ public class Contract {
 
         void initRV(PullLoadMoreRecyclerView rv);
 
+
     }
 
     interface MenuCreatePresenter extends BasePresenter {

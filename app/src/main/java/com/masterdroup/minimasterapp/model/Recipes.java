@@ -36,7 +36,7 @@ public class Recipes {
         List<DescribeStep> describeSteps;//烹饪前步骤准备
 
         List<CookingStep> cookingStep;
-
+        Owner owner;
         public class Detail {
             String imgSrc;
             String describe;
@@ -58,8 +58,59 @@ public class Recipes {
             }
         }
 
-        public class Owner{
+        public class Owner {
 
+            int ownerType;
+
+            OwnerUid ownerUid;
+
+            public class OwnerUid {
+
+
+                String _id;
+                String name;
+                String headUrl;
+
+                public String get_id() {
+                    return _id;
+                }
+
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getHeadUrl() {
+                    return headUrl;
+                }
+
+                public void setHeadUrl(String headUrl) {
+                    this.headUrl = headUrl;
+                }
+            }
+
+            public int getOwnerType() {
+                return ownerType;
+            }
+
+            public void setOwnerType(int ownerType) {
+                this.ownerType = ownerType;
+            }
+
+            public OwnerUid getOwnerUid() {
+                return ownerUid;
+            }
+
+            public void setOwnerUid(OwnerUid ownerUid) {
+                this.ownerUid = ownerUid;
+            }
         }
 
 
@@ -118,6 +169,15 @@ public class Recipes {
             public void setTriggerTemp(int triggerTemp) {
                 this.triggerTemp = triggerTemp;
             }
+        }
+
+
+        public Owner getOwner() {
+            return owner;
+        }
+
+        public void setOwner(Owner owner) {
+            this.owner = owner;
         }
 
         public String getName() {

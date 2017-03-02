@@ -2,16 +2,24 @@ package com.masterdroup.minimasterapp.module.menu;
 
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.masterdroup.minimasterapp.view.MenuListRVAdapter;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -25,10 +33,14 @@ import rx.schedulers.Schedulers;
 
 public class MenuPresenter implements Contract.Presenter {
     Context mContext;
+    MenuListRVAdapter adapter;
+    public static List<Recipes.RecipesBean> list;
 
     @Override
     public void start() {
         mContext = menuListView.getContext();
+        list = new ArrayList<>();
+        adapter = new MenuListRVAdapter(mContext, list);
     }
 
     Contract.MenuAloneView menuAloneView;
@@ -60,16 +72,21 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     int index = 0;//从第index个开始获取
-    int count = 10;//页数
+    int count = 3;//页数
+
+    Observable o_recipesList;
+    Subscriber s_recipesList;
 
     @Override
     public void getRecipesListData() {
-        Observable o_recipesList = Network.getMainApi().getRecipesList(index, count);
-        Subscriber s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
+        o_recipesList = Network.getMainApi().getRecipesList(index, count);
+        s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
             @Override
             public void onNext(Base<RecipesList> o) {
 
                 if (o.getErrorCode() == 0) {
+                    list = o.getRes().getList();
+                    adapter.notifyDataSetChanged();
                 }
 
 
@@ -80,8 +97,62 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void initRV(PullLoadMoreRecyclerView rv) {
+    public void initRV(final PullLoadMoreRecyclerView rv) {
         //// TODO: 2017/3/1 初始化 RecyclerView
+
+        rv.setAdapter(adapter);
+        rv.setLinearLayout();
+        rv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                refreshRV(rv);
+            }
+
+            @Override
+            public void onLoadMore() {
+                loadMore(rv);
+
+            }
+        });
+
+
     }
 
+    void refreshRV(final PullLoadMoreRecyclerView rv) {
+        s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
+            @Override
+            public void onNext(Base<RecipesList> o) {
+
+                if (o.getErrorCode() == 0) {
+                    list = o.getRes().getList();
+                    adapter.notifyDataSetChanged();
+                    rv.setPullLoadMoreCompleted();
+
+                }
+            }
+        }, mContext);
+        JxUtils.toSubscribe(o_recipesList, s_recipesList);
+    }
+
+    void loadMore(final PullLoadMoreRecyclerView rv) {
+        count = count + 1;
+        o_recipesList = Network.getMainApi().getRecipesList(index, count);
+        s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
+            @Override
+            public void onNext(Base<RecipesList> o) {
+
+
+                if (list.size() == o.getRes().getList().size()) {
+                    Toast.makeText(mContext, "没有更多了", Toast.LENGTH_SHORT).show();
+                } else {
+                    list = o.getRes().getList();
+                    adapter.notifyDataSetChanged();
+                }
+                rv.setPullLoadMoreCompleted();
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o_recipesList, s_recipesList);
+
+    }
 }

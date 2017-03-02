@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_cover"
         android:layout_width="match_parent"
         android:layout_height="@dimen/menu_cover_h"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"/>
 
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:text="焖牛肉"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/tv_menu_score"
@@ -28,11 +28,12 @@
         android:layout_alignLeft="@id/tv_menu_name"
         android:layout_below="@id/tv_menu_name"
         android:layout_marginTop="5dp"
-        android:gravity="center"
         android:drawableRight="@drawable/ic_like"
+        android:gravity="center"
         android:text="99"
         android:textColor="@color/app_orange"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="invisible"/>
 
 
     <LinearLayout
@@ -49,7 +50,7 @@
             android:layout_width="@dimen/menu_user_head_pic_h"
             android:layout_height="@dimen/menu_user_head_pic_h"
             android:layout_marginBottom="20dp"
-            android:layout_weight="0.45" />
+            android:layout_weight="0.45"/>
 
         <TextView
             android:id="@+id/tv_menu_user_name"
@@ -60,7 +61,7 @@
             android:singleLine="true"
             android:text="用户"
             android:textColor="#bbb"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
     </LinearLayout>
 
 
@@ -70,5 +71,5 @@
         android:layout_below="@id/tv_menu_score"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:background="#ccc" />
+        android:background="#ccc"/>
 </RelativeLayout>
