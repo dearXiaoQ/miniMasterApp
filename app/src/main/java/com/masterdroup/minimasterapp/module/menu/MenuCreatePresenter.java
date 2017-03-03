@@ -11,6 +11,7 @@ import com.blankj.utilcode.utils.FileUtils;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -100,9 +101,9 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
     private void createRecipes() {
         Observable o_submit = Network.getMainApi().createRecipes(getRecipesDate());
-        Subscriber s_submit = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<String>>() {
+        Subscriber s_submit = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<MenuID>>() {
             @Override
-            public void onNext(Base<String> o) {
+            public void onNext(Base<MenuID> o) {
 
                 if (o.getErrorCode() == 0) {
 
@@ -135,7 +136,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
     MenuStepRVAdapter adapter;
 
-    int step_number = 3;//当前总步骤数 默认为1
+    int step_number = 1;//当前总步骤数 默认为1
     public static List<DescribeStep> mSteps = new ArrayList<>();
 
     @Override

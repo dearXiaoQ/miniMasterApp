@@ -69,7 +69,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         mTvTitle.setText("创建菜谱");
         mMenuCreatePresenter.start();
         mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep);
-
+        mTvMoreButton.setVisibility(View.GONE);
     }
 
 
