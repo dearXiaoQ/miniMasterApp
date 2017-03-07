@@ -114,63 +114,6 @@ public class Recipes {
         }
 
 
-        public class CookingStep {
-            String imgSrc;
-            String describe;
-            int temperaturek;
-            int power;
-            int duration;
-            int triggerTemp;
-
-            public String getImgSrc() {
-                return imgSrc;
-            }
-
-            public void setImgSrc(String imgSrc) {
-                this.imgSrc = imgSrc;
-            }
-
-            public String getDescribe() {
-                return describe;
-            }
-
-            public void setDescribe(String describe) {
-                this.describe = describe;
-            }
-
-            public int getTemperaturek() {
-                return temperaturek;
-            }
-
-            public void setTemperaturek(int temperaturek) {
-                this.temperaturek = temperaturek;
-            }
-
-            public int getPower() {
-                return power;
-            }
-
-            public void setPower(int power) {
-                this.power = power;
-            }
-
-            public int getDuration() {
-                return duration;
-            }
-
-            public void setDuration(int duration) {
-                this.duration = duration;
-            }
-
-            public int getTriggerTemp() {
-                return triggerTemp;
-            }
-
-            public void setTriggerTemp(int triggerTemp) {
-                this.triggerTemp = triggerTemp;
-            }
-        }
-
 
         public Owner getOwner() {
             return owner;

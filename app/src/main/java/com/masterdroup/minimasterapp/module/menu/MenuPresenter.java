@@ -40,7 +40,7 @@ public class MenuPresenter implements Contract.Presenter {
     public void start() {
         mContext = menuListView.getContext();
         list = new ArrayList<>();
-        adapter = new MenuListRVAdapter(mContext, list);
+        adapter = new MenuListRVAdapter(mContext);
     }
 
     Contract.MenuAloneView menuAloneView;
@@ -114,7 +114,6 @@ public class MenuPresenter implements Contract.Presenter {
 
             }
         });
-
 
     }
 

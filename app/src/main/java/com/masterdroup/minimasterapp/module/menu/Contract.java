@@ -34,11 +34,15 @@ public class Contract {
         void submitNewMenu();
 
 
-        void initStepRecyclerView(RecyclerView rv);
+        void initStepRecyclerView(RecyclerView rv, RecyclerView rv_cooking);
 
 
         //增加一个步骤
         void addStep();
+
+
+        //增加一个烹饪步骤
+        void addCookingStep();
 
         void setStepPicture(String url, int requestCode);
 

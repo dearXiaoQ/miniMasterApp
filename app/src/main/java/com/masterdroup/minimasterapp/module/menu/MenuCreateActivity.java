@@ -11,14 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.model.DescribeStep;
-import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImgSelActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +35,19 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     @Bind(R.id.et_menu_describe)
     EditText mEtMenuDescribe;
 
+
+    @Bind(R.id.rv_menu_step)
+    RecyclerView mRvMenuStep;
+
+    @Bind(R.id.tv_add_step)
+    TextView mTvAddStep;
+    @Bind(R.id.rv_menu_cooking_step)
+    RecyclerView mRvMenuCookingStep;
+
+    @Bind(R.id.tv_add_cooking_step)
+    TextView mTvAddCookingStep;
+
+
     //保存用户选择的菜谱封面的本地路径
     private static String menu_cover_local_url = "";
     //保存上传成功的菜谱封面的服务器路径
@@ -47,12 +55,6 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
 
     private static final int menu_cover_requestCode = 0;//菜谱封面选择requestCode
 
-
-    @Bind(R.id.rv_menu_step)
-    RecyclerView mRvMenuStep;
-
-    @Bind(R.id.tv_add_step)
-    TextView mTvAddStep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     private void init() {
         mTvTitle.setText("创建菜谱");
         mMenuCreatePresenter.start();
-        mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep);
+        mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep, mRvMenuCookingStep);
         mTvMoreButton.setVisibility(View.GONE);
     }
 
@@ -78,7 +80,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         mMenuCreatePresenter = presenter;
     }
 
-    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover, R.id.tv_add_step})
+    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover, R.id.tv_add_step, R.id.tv_add_cooking_step})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_more_button:
@@ -93,6 +95,9 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
                 break;
             case R.id.tv_add_step:
                 mMenuCreatePresenter.addStep();
+                break;
+            case R.id.tv_add_cooking_step:
+                mMenuCreatePresenter.addCookingStep();
                 break;
         }
     }

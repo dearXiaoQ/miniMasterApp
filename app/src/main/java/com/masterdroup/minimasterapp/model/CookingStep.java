@@ -5,14 +5,50 @@ package com.masterdroup.minimasterapp.model;
  * Created by 11473 on 2017/2/27.
  */
 
-public class DescribeStep {
+public class CookingStep {
 
     public int stepNo;
     String describe;
     String picture_url;//图片本地路径
     String imgSrc;//图片服务器路径
     int resultCode;
+    int temperature;//温度
+    int power;//火力
+    int duration;//时间
+    int triggerTemp;//温度变化率，1S钟温度下降的幅值
 
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getTriggerTemp() {
+        return triggerTemp;
+    }
+
+    public void setTriggerTemp(int triggerTemp) {
+        this.triggerTemp = triggerTemp;
+    }
 
     public int getStepNo() {
         return stepNo;

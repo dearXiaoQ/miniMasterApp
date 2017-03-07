@@ -13,6 +13,7 @@ import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.module.menu.MenuPresenter;
+import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 
 import java.util.List;
@@ -28,13 +29,11 @@ public class MenuListRVAdapter extends RecyclerView.Adapter<MenuListRVAdapter.Me
 
     LayoutInflater layoutInflater;
     Context context;
-    List<Recipes.RecipesBean> mRecipesBeanList;
 
 
-    public MenuListRVAdapter(Context context, List<Recipes.RecipesBean> list) {
+    public MenuListRVAdapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-        mRecipesBeanList = list;
     }
 
     @Override
@@ -47,8 +46,6 @@ public class MenuListRVAdapter extends RecyclerView.Adapter<MenuListRVAdapter.Me
     public void onBindViewHolder(MenuListRVHolder holder, int position) {
 
 
-//        Recipes.RecipesBean recipesBean = mRecipesBeanList.get(position);
-//        holder.score.setText(menu.getScore());
         holder.menu_name.setText(MenuPresenter.list.get(position).getName());
         holder.user_name.setText(MenuPresenter.list.get(position).getOwner().getOwnerUid().getName());
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + MenuPresenter.list.get(position).getDetail().getImgSrc(), holder.iv_cover, context, false);
@@ -56,7 +53,7 @@ public class MenuListRVAdapter extends RecyclerView.Adapter<MenuListRVAdapter.Me
         holder.iv_cover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                context.startActivity(new Intent(context, MenuViewActivity.class));
+                context.startActivity(new Intent(context, MenuViewActivity.class));
             }
         });
     }
