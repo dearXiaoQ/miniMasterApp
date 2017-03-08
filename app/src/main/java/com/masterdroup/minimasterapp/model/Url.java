@@ -16,12 +16,7 @@ public class Url {
         this.url = url;
     }
 
-
-
-
     private List<String> url;
-
-
 
 
     @Override

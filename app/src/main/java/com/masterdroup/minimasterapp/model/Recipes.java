@@ -171,4 +171,11 @@ public class Recipes {
             this.cookingStep = cookingStep;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Recipes{" +
+                "recipes=" + recipes +
+                '}';
+    }
 }

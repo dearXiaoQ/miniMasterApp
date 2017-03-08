@@ -8,11 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.FileUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.MenuID;
+import com.masterdroup.minimasterapp.model.MenuPicture;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -29,6 +31,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
+import rx.functions.Func3;
+import rx.internal.util.ActionSubscriber;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by 11473 on 2017/2/22.
@@ -38,8 +47,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     Contract.MenuCreateView menuCreateView;
     Context mContext;
 
-    Observable o_uploadFile, o_upDate, o_delete, o_userInfo;
-    Subscriber s_uploadFile, s_upDate, s_delete, s_userInfo;
+    Observable o_uploadFile, o_uploadFile_step, o_uploadFile_cooking_step, o_upDate, o_delete, o_userInfo;
+    Subscriber s_uploadFile, s_uploadFile_step, s_uploadFile_cooking_step, s_upDate, s_delete, s_userInfo;
 
 
     public MenuCreatePresenter(Contract.MenuCreateView menuCreateView) {
@@ -51,94 +60,113 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     @Override
     public void submitNewMenu() {
 
-
-//        List<String> pic_local_urls = new ArrayList<>();//本地图片路径  第一张为封面 其余为步骤图
-//        pic_local_urls.add(0, menuCreateView.getMenuCoverLocalUrl());//
-//        for (DescribeStep step : mSteps) {
-//            pic_local_urls.add(step.getPicture_url());
-//        }
-//        MultipartBody.Builder builder = new MultipartBody.Builder();
-//
-//        List<File> files = new ArrayList<>();
-//
-//        for (String pic : pic_local_urls) {
-//            if (FileUtils.isFileExists(pic)) {
-//                File file = new File(pic);
-//                files.add(file);
-//                RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
-//                builder.addFormDataPart("picture", file.getName(), requestBody);
-//            }
-//        }
-//        if (files.size() != 0) {
-//
-//            builder.setType(MultipartBody.FORM);
-//            MultipartBody multipartBody = builder.build();
-//
-//            o_uploadFile = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
-//            s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
-//                @Override
-//                public void onNext(Base<Url> urlBase) {
-//                    if (urlBase.getErrorCode() == 0) {
-//                        List<String> list = urlBase.getRes().getUrl();
-//
-//                        for (int i = 0; i < list.size(); i++) {
-//                            mSteps.get(i).setImgSrc(list.get(i));
-//                        }
-//
-//                        createRecipes();
-//                    } else {
-//                        Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }, mContext);
-//
-//            JxUtils.toSubscribe(o_uploadFile, s_uploadFile);
-//        } else {
-//            createRecipes();
-//        }
-
-
         //// TODO: 2017/3/7 分别保存&提交封面图片,准备步骤,烹饪步骤的本地图片url
 
-        coverLocalUrls = new ArrayList<>();
-        coverLocalUrls.add(0, menuCreateView.getMenuCoverLocalUrl());//
+
+        //提交封面图片
+        if (FileUtils.isFileExists(menuCreateView.getMenuCoverLocalUrl())) {
+
+            File file = new File(menuCreateView.getMenuCoverLocalUrl());
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestBody);
+            o_uploadFile = Network.getMainApi().uploadFile(body);//上传图片接口
+        } else {
+
+            ToastUtils.showShortToast("请添加封面");
+            return;
+        }
+
         MultipartBody.Builder builder = new MultipartBody.Builder();
-        List<File> files = new ArrayList<>();
+        MultipartBody.Builder builder2 = new MultipartBody.Builder();
+        List<File> files_dstep = new ArrayList<>();
+        List<File> files_cooking_step = new ArrayList<>();
 
-
-        for (String pic : coverLocalUrls) {
-            if (FileUtils.isFileExists(pic)) {
-                File file = new File(pic);
-                files.add(file);
+        for (DescribeStep dStep : mSteps) {
+            if (FileUtils.isFileExists(dStep.getPicture_url())) {
+                File file = new File(dStep.getPicture_url());
+                files_dstep.add(file);
                 RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
                 builder.addFormDataPart("picture", file.getName(), requestBody);
             }
         }
 
-
-        if (files.size() != 0) {
-
+        if (files_dstep.size() != 0) {
             builder.setType(MultipartBody.FORM);
             MultipartBody multipartBody = builder.build();
-
-            o_uploadFile = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
-
-            s_uploadFile = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Url>>() {
-                @Override
-                public void onNext(Base<Url> urlBase) {
-                    if (urlBase.getErrorCode() == 0) {
-
-
-                    } else {
-                        Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }, mContext);
-            JxUtils.toSubscribe(o_uploadFile, s_uploadFile);
-        } else {
-            createRecipes();
+            o_uploadFile_step = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
+        } else if (files_dstep.size() != mSteps.size()) {
+            ToastUtils.showShortToast("请添加准备步骤的步骤图");
+            return;
         }
+
+
+        for (CookingStep cStep : mCookingSteps) {
+            if (FileUtils.isFileExists(cStep.getPicture_url())) {
+                File file = new File(cStep.getPicture_url());
+                files_cooking_step.add(file);
+                RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+                builder2.addFormDataPart("picture", file.getName(), requestBody);
+            }
+        }
+
+        if (files_cooking_step.size() != 0) {
+            builder2.setType(MultipartBody.FORM);
+            MultipartBody multipartBody = builder2.build();
+
+            o_uploadFile_cooking_step = Network.getMainApi().uploadFiles(multipartBody);//上传图片接口
+
+        } else if (files_cooking_step.size() != mCookingSteps.size()) {
+            ToastUtils.showShortToast("请添加烹饪步骤的步骤图");
+            return;
+        }
+
+        Observable all = Observable.zip(o_uploadFile, o_uploadFile_step, o_uploadFile_cooking_step, new Func3<Base<Url>, Base<Url>, Base<Url>, MenuPicture>() {
+            @Override
+            public MenuPicture call(Base<Url> o, Base<Url> o2, Base<Url> o3) {
+                return addBase3(o, o2, o3);
+            }
+        });
+
+
+        Subscriber all_s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<MenuPicture>() {
+            @Override
+            public void onNext(MenuPicture mp) {
+                if (mp.getErrorCode() == 0) {
+                    menuCreateView.setMenuCoverServerUrl(mp.getMenuCover());
+
+                    for (int i = 0; i < mp.getSetpPicture().size(); i++) {
+                        mSteps.get(i).setImgSrc(mp.getSetpPicture().get(i));
+                    }
+                    for (int i = 0; i < mp.getCookingSetpPicture().size(); i++) {
+                        mCookingSteps.get(i).setImgSrc(mp.getCookingSetpPicture().get(i));
+                    }
+
+                    createRecipes();
+                } else {
+                    Toast.makeText(mContext, "上传图片失败！", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, mContext);
+
+        JxUtils.toSubscribe(all, all_s);
+
     }
+
+
+    MenuPicture addBase3(Base<Url> o, Base<Url> o2, Base<Url> o3) {
+        MenuPicture mp = new MenuPicture();
+
+        mp.setMenuCover(o.getRes().getUrl().get(0));
+        mp.setSetpPicture(o2.getRes().getUrl());
+        mp.setCookingSetpPicture(o3.getRes().getUrl());
+
+        int i = (o.getErrorCode() == 0 && o2.getErrorCode() == 0 && o3.getErrorCode() == 0) ? 0 : 1;
+        mp.setErrorCode(i);
+
+        return mp;
+    }
+
 
     private void createRecipes() {
         Observable o_submit = Network.getMainApi().createRecipes(getRecipesDate());
@@ -155,12 +183,6 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         JxUtils.toSubscribe(o_submit, s_submit);
     }
 
-
-    List<String> coverLocalUrls;//菜谱封面
-    List<String> stepImgUrls;//准备步骤图片
-    List<String> cookingStepImgUrls;//烹饪步骤图片
-
-
     public Recipes getRecipesDate() {
 
         Recipes recipes = new Recipes();
@@ -171,7 +193,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         detail.setImgSrc(menuCreateView.getMenuCoverServerUrl());//菜谱cover
         bean.setDetail(detail);
         bean.setDescribeSteps(mSteps);
-
+        bean.setCookingStep(mCookingSteps);
         recipes.setRecipesBean(bean);
 
 

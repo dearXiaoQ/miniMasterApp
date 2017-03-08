@@ -13,7 +13,8 @@ public class JxUtils {
 
 
     public static void toSubscribe(Observable o, Subscriber s) {
-        o.subscribeOn(Schedulers.io())
+        o
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
