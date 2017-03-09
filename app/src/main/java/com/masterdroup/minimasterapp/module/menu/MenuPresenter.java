@@ -2,80 +2,109 @@ package com.masterdroup.minimasterapp.module.menu;
 
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.LinearLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.masterdroup.minimasterapp.Constant;
+import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
-import com.masterdroup.minimasterapp.model.Menu;
+import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
+import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.masterdroup.minimasterapp.view.FoodsAdapter;
 import com.masterdroup.minimasterapp.view.MenuListRVAdapter;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by 11473 on 2016/12/21.
  */
 
 public class MenuPresenter implements Contract.Presenter {
-    Context mContext;
-    MenuListRVAdapter adapter;
-    public static List<Recipes.RecipesBean> list;
-
-    @Override
-    public void start() {
-        mContext = menuListView.getContext();
-        list = new ArrayList<>();
-        adapter = new MenuListRVAdapter(mContext);
-    }
-
     Contract.MenuAloneView menuAloneView;
     Contract.MenuListView menuListView;
 
-    public MenuPresenter(Contract.MenuAloneView View) {
-        menuAloneView = Utils.checkNotNull(View, "mView cannot be null!");
-        menuAloneView.setPresenter(this);
-    }
 
-    public MenuPresenter(Contract.MenuListView View) {
-        menuListView = Utils.checkNotNull(View, "mView cannot be null!");
-        menuListView.setPresenter(this);
-    }
+    Context mContext;
+    MenuListRVAdapter adapter;
+    FoodsAdapter food_adapter;
+    StepAdapter step_adapter;
+    public static List<Recipes.RecipesBean> list;
 
 
-    @Override
-    public void gettingData(int menuId) {
-        Network.getMainApi().menuInfo(menuId)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Base<Menu>>() {
-                    @Override
-                    public void call(Base<Menu> menuBase) {
-                        menuAloneView.settingData(menuBase.getRes());
-                    }
-                });
+    List<DescribeStep> mSteps = new ArrayList<>();
+    List<Recipes.RecipesBean.Food> mFoods = new ArrayList<>();
 
-    }
 
     int index = 0;//从第index个开始获取
     int count = 3;//页数
 
     Observable o_recipesList;
     Subscriber s_recipesList;
+
+    @Override
+    public void start() {
+
+        list = new ArrayList<>();
+        adapter = new MenuListRVAdapter(mContext);
+        food_adapter = new FoodsAdapter(mContext);
+        step_adapter = new StepAdapter(mContext);
+
+    }
+
+
+    public MenuPresenter(Contract.MenuAloneView View) {
+        menuAloneView = Utils.checkNotNull(View, "mView cannot be null!");
+        menuAloneView.setPresenter(this);
+        mContext = menuAloneView.getContext();
+    }
+
+    public MenuPresenter(Contract.MenuListView View) {
+        menuListView = Utils.checkNotNull(View, "mView cannot be null!");
+        menuListView.setPresenter(this);
+        mContext = menuListView.getContext();
+    }
+
+
+    @Override
+    public void gettingData(String menuId) {
+        Observable o = Network.getMainApi().getRecipesDetail(menuId);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+            @Override
+            public void onNext(Base<Recipes.RecipesBean> base) {
+                if (base.getErrorCode() == 0) {
+                    menuAloneView.settingData(base.getRes());
+
+                    mFoods = base.getRes().getFoodList();
+                    mSteps = base.getRes().getDescribeSteps();
+                    food_adapter.notifyDataSetChanged();
+                    step_adapter.notifyDataSetChanged();
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+    }
+
 
     @Override
     public void getRecipesListData() {
@@ -111,9 +140,21 @@ public class MenuPresenter implements Contract.Presenter {
             @Override
             public void onLoadMore() {
                 loadMore(rv);
-
             }
         });
+
+    }
+
+    @Override
+    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv) {
+
+        food_rv.setAdapter(food_adapter);
+        food_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
+
+        step_rv.setAdapter(step_adapter);
+        step_rv.setLayoutManager(new LinearLayoutManager(mContext));
+        step_rv.setNestedScrollingEnabled(false);
+
 
     }
 
@@ -154,4 +195,93 @@ public class MenuPresenter implements Contract.Presenter {
         JxUtils.toSubscribe(o_recipesList, s_recipesList);
 
     }
+
+
+    class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
+        LayoutInflater layoutInflater;
+        Context context;
+
+        public StepAdapter(Context context) {
+            this.context = context;
+            layoutInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public StepHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new StepHolder(layoutInflater.inflate(R.layout.view_menu_step_show_item, parent, false));
+
+        }
+
+        @Override
+        public void onBindViewHolder(StepHolder holder, int position) {
+
+            holder.tvStepNo.setText(String.format("步骤 %d", position + 1));
+            holder.tvDec.setText(mSteps.get(position).getDescribe());
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + mSteps.get(position).getImgSrc(), holder.ivPicture, context, false);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSteps == null ? 0 : mSteps.size();
+        }
+
+        class StepHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.tv_step_no)
+            TextView tvStepNo;
+            @Bind(R.id.iv_picture)
+            ImageView ivPicture;
+            @Bind(R.id.tv_dec)
+            TextView tvDec;
+
+            StepHolder(View view) {
+                super(view);
+                ButterKnife.bind(this, view);
+            }
+        }
+    }
+
+    class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder> {
+        LayoutInflater layoutInflater;
+        Context context;
+
+        public FoodsAdapter(Context context) {
+            this.context = context;
+            layoutInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public FoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new FoodsHolder(layoutInflater.inflate(R.layout.view_menu_food_item, parent, false));
+
+        }
+
+        @Override
+        public void onBindViewHolder(FoodsHolder holder, int position) {
+
+            holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
+            holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
+            holder.mTvAmount.setText(mFoods.get(position).getAmount()+"克");
+        }
+
+        @Override
+        public int getItemCount() {
+            return mFoods == null ? 0 : mFoods.size();
+        }
+
+        class FoodsHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.tv_food_type)
+            TextView mTvFoodType;
+            @Bind(R.id.tv_amount)
+            TextView mTvAmount;
+
+
+            FoodsHolder(View view) {
+                super(view);
+                ButterKnife.bind(this, view);
+            }
+        }
+    }
+
+
 }

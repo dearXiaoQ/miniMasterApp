@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Step;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 
@@ -24,10 +25,10 @@ import butterknife.ButterKnife;
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
     LayoutInflater layoutInflater;
     Context context;
-    List<Step> list;
+    List<DescribeStep> list;
 
 
-    public StepAdapter(Context context, List<Step> list) {
+    public StepAdapter(Context context, List<DescribeStep> list) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.list = list;
@@ -42,10 +43,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
     @Override
     public void onBindViewHolder(StepHolder holder, int position) {
 
-        Step step = list.get(position);
+        DescribeStep step = list.get(position);
         holder.tvStepNo.append(step.getStepNo() + "");
-        holder.tvDec.setText(step.getDes());
-        ImageLoader.getInstance().displayGlideImage(step.getPicture_url(), holder.ivPicture, context, false);
+        holder.tvDec.setText(step.getDescribe());
+        ImageLoader.getInstance().displayGlideImage(step.getImgSrc(), holder.ivPicture, context, false);
 
     }
 

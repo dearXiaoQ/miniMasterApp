@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
+import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
@@ -19,12 +20,13 @@ public class Contract {
 
     interface Presenter extends BasePresenter {
 
-        void gettingData(int menuId);
+        void gettingData(String menuId);
 
         void getRecipesListData();
 
         void initRV(PullLoadMoreRecyclerView rv);
 
+        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv);
 
     }
 
@@ -50,7 +52,10 @@ public class Contract {
     }
 
     interface MenuAloneView extends BaseView<Presenter> {
-        void settingData(Menu menu);
+        void settingData(Recipes.RecipesBean b);
+
+        Context getContext();
+
     }
 
 

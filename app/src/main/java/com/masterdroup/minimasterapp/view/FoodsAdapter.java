@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.model.Recipes;
 
 import java.util.List;
 
@@ -21,13 +22,12 @@ import butterknife.ButterKnife;
 public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder> {
     LayoutInflater layoutInflater;
     Context context;
-    List<String> list;
+    List<Recipes.RecipesBean.Food> mFoods;
 
-
-    public FoodsAdapter(Context context, List<String> strings) {
+    public FoodsAdapter(Context context, List<Recipes.RecipesBean.Food> mFoods) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-        this.list = strings;
+        this.mFoods = mFoods;
     }
 
     @Override
@@ -39,17 +39,21 @@ public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder>
     @Override
     public void onBindViewHolder(FoodsHolder holder, int position) {
 
-        holder.tvFood.setText(list.get(position));
+        holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
+        holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return mFoods == null ? 0 : mFoods.size();
     }
 
     class FoodsHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_food)
-        TextView tvFood;
+        @Bind(R.id.tv_food_type)
+        TextView mTvFoodType;
+        @Bind(R.id.tv_amount)
+        TextView mTvAmount;
+
 
         FoodsHolder(View view) {
             super(view);

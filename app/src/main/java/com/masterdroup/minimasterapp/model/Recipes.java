@@ -26,6 +26,16 @@ public class Recipes {
 
         }
 
+        String _id;
+
+        public String get_id() {
+            return _id;
+        }
+
+        public void set_id(String _id) {
+            this._id = _id;
+        }
+
         String name;//菜谱名称 必填字段
 
         List<String> powerProductKey;//加热设备产品号
@@ -33,10 +43,20 @@ public class Recipes {
 
         Detail detail;//菜谱主要简介及封面图 必填字段
 
-        List<DescribeStep> describeSteps;//烹饪前步骤准备
+        List<DescribeStep> describeStep;//烹饪前步骤准备
 
         List<CookingStep> cookingStep;
         Owner owner;
+        List<Food> foodList;
+
+        public List<Food> getFoodList() {
+            return foodList;
+        }
+
+        public void setFoodList(List<Food> foodList) {
+            this.foodList = foodList;
+        }
+
         public class Detail {
             String imgSrc;
             String describe;
@@ -113,6 +133,26 @@ public class Recipes {
             }
         }
 
+        public class Food {
+            String foodType;
+            int amount;
+
+            public String getFoodType() {
+                return foodType;
+            }
+
+            public void setFoodType(String foodType) {
+                this.foodType = foodType;
+            }
+
+            public int getAmount() {
+                return amount;
+            }
+
+            public void setAmount(int amount) {
+                this.amount = amount;
+            }
+        }
 
 
         public Owner getOwner() {
@@ -156,11 +196,11 @@ public class Recipes {
         }
 
         public List<DescribeStep> getDescribeSteps() {
-            return describeSteps;
+            return describeStep;
         }
 
         public void setDescribeSteps(List<DescribeStep> describeSteps) {
-            this.describeSteps = describeSteps;
+            this.describeStep = describeSteps;
         }
 
         public List<CookingStep> getCookingStep() {

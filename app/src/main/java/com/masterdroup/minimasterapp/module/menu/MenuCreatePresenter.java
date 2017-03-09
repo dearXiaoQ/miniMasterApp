@@ -194,6 +194,27 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         bean.setDetail(detail);
         bean.setDescribeSteps(mSteps);
         bean.setCookingStep(mCookingSteps);
+
+        List<Recipes.RecipesBean.Food> foods = new ArrayList<>();
+
+        Recipes.RecipesBean.Food food1 = bean.new Food();
+        food1.setAmount(100);
+        food1.setFoodType("白糖");
+        foods.add(food1);
+
+        Recipes.RecipesBean.Food food2 = bean.new Food();
+        food2.setAmount(22100);
+        food2.setFoodType("白糖");
+        foods.add(food2);
+
+        Recipes.RecipesBean.Food food3 = bean.new Food();
+        food3.setAmount(130);
+        food3.setFoodType("白糖");
+        foods.add(food3);
+
+
+        bean.setFoodList(foods);
+
         recipes.setRecipesBean(bean);
 
 

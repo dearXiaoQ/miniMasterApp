@@ -83,7 +83,7 @@ public interface Api {
      * @param id 菜谱id
      */
     @GET("miniMasterApp/recipes/getRecipesDetail/{id}")
-    Observable<Base<Recipes.RecipesBean>> getRecipesDetail(@Path("id") int id);
+    Observable<Base<Recipes.RecipesBean>> getRecipesDetail(@Path("id") String id);
 
 
 

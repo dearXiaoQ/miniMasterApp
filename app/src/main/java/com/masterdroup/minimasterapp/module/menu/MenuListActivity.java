@@ -31,10 +31,16 @@ public class MenuListActivity extends Activity implements Contract.MenuListView 
 
         presenter = new MenuPresenter(this);
         presenter.start();
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presenter.initRV(mRv);
         presenter.getRecipesListData();//发起请求
-
-
     }
 
     @OnClick(R.id.iv_return)
