@@ -53,11 +53,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="火力设置"
         android:layout_marginLeft="10dp"
+        android:text="火力设置"
         android:textSize="17sp"/>
 
     <RadioGroup
+        android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -89,32 +90,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="温度设置"
         android:layout_marginLeft="10dp"
+        android:text="温度设置"
         android:textSize="17sp"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/pb_temperature"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-
+        <EditText
+            android:id="@+id/et_temperature"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:inputType="number"
+            android:gravity="center"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="C"
-            android:textSize="20dp"
+            android:text="℃     "
             />
 
     </LinearLayout>
@@ -122,23 +119,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="时间设置"
         android:layout_marginLeft="10dp"
+        android:text="时间设置"
         android:textSize="17sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <TextClock
-            android:id="@+id/textClock"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/et_duration"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="25sp"/>
+            android:inputType="number"
+            android:gravity="center"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分钟"
+            />
 
     </LinearLayout>
 

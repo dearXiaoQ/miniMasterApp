@@ -16,6 +16,7 @@ import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
@@ -23,7 +24,6 @@ import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
-import com.masterdroup.minimasterapp.view.FoodsAdapter;
 import com.masterdroup.minimasterapp.view.MenuListRVAdapter;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
@@ -48,11 +48,13 @@ public class MenuPresenter implements Contract.Presenter {
     MenuListRVAdapter adapter;
     FoodsAdapter food_adapter;
     StepAdapter step_adapter;
+    CookingStepAdapter cooking_step_adapter;
     public static List<Recipes.RecipesBean> list;
 
 
     List<DescribeStep> mSteps = new ArrayList<>();
     List<Recipes.RecipesBean.Food> mFoods = new ArrayList<>();
+    List<CookingStep> mCookingSteps = new ArrayList<>();
 
 
     int index = 0;//从第index个开始获取
@@ -68,6 +70,8 @@ public class MenuPresenter implements Contract.Presenter {
         adapter = new MenuListRVAdapter(mContext);
         food_adapter = new FoodsAdapter(mContext);
         step_adapter = new StepAdapter(mContext);
+        cooking_step_adapter = new CookingStepAdapter(mContext);
+
 
     }
 
@@ -96,8 +100,12 @@ public class MenuPresenter implements Contract.Presenter {
 
                     mFoods = base.getRes().getFoodList();
                     mSteps = base.getRes().getDescribeSteps();
+                    mCookingSteps = base.getRes().getCookingStep();
+
+
                     food_adapter.notifyDataSetChanged();
                     step_adapter.notifyDataSetChanged();
+                    cooking_step_adapter.notifyDataSetChanged();
                 }
             }
         }, mContext);
@@ -155,7 +163,9 @@ public class MenuPresenter implements Contract.Presenter {
         step_rv.setLayoutManager(new LinearLayoutManager(mContext));
         step_rv.setNestedScrollingEnabled(false);
 
-
+        cooking_step_rv.setAdapter(cooking_step_adapter);
+        cooking_step_rv.setLayoutManager(new LinearLayoutManager(mContext));
+        cooking_step_rv.setNestedScrollingEnabled(false);
     }
 
     void refreshRV(final PullLoadMoreRecyclerView rv) {
@@ -196,7 +206,6 @@ public class MenuPresenter implements Contract.Presenter {
 
     }
 
-
     class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
         LayoutInflater layoutInflater;
         Context context;
@@ -215,7 +224,7 @@ public class MenuPresenter implements Contract.Presenter {
         @Override
         public void onBindViewHolder(StepHolder holder, int position) {
 
-            holder.tvStepNo.setText(String.format("步骤 %d", position + 1));
+            holder.tvStepNo.setText(String.format("准备步骤 %d", position + 1));
             holder.tvDec.setText(mSteps.get(position).getDescribe());
             ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + mSteps.get(position).getImgSrc(), holder.ivPicture, context, false);
 
@@ -261,7 +270,7 @@ public class MenuPresenter implements Contract.Presenter {
 
             holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
             holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
-            holder.mTvAmount.setText(mFoods.get(position).getAmount()+"克");
+            holder.mTvAmount.setText(mFoods.get(position).getAmount() + "克");
         }
 
         @Override
@@ -283,5 +292,72 @@ public class MenuPresenter implements Contract.Presenter {
         }
     }
 
+    class CookingStepAdapter extends RecyclerView.Adapter<CookingStepAdapter.CookingHolder> {
+        LayoutInflater layoutInflater;
+        Context context;
+
+
+        public CookingStepAdapter(Context context) {
+            this.context = context;
+            layoutInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public CookingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new CookingHolder(layoutInflater.inflate(R.layout.view_menu_cooking_step_show_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(CookingHolder holder, int position) {
+            holder.mTvStepNo.setText(String.format("烹饪步骤 %d", position + 1));
+            holder.mTvDec.setText(mCookingSteps.get(position).getDescribe());
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + mCookingSteps.get(position).getImgSrc(), holder.mIvPicture, context, false);
+
+            holder.mTvTemperature.setText(String.format("%d℃", mCookingSteps.get(position).getTemperature()));
+            holder.mTvDuration.setText(String.format("%d分钟", mCookingSteps.get(position).getDuration()));
+
+            String power = "";
+            switch (mCookingSteps.get(position).getPower()) {
+                case 1:
+                    power = "文火";
+                    break;
+                case 2:
+                    power = "中火";
+                    break;
+                case 3:
+                    power = "大火";
+                    break;
+            }
+            holder.mTvFire.setText(power);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mCookingSteps == null ? 0 : mCookingSteps.size();
+        }
+
+
+        class CookingHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.tv_step_no)
+            TextView mTvStepNo;
+            @Bind(R.id.iv_picture)
+            ImageView mIvPicture;
+            @Bind(R.id.tv_dec)
+            TextView mTvDec;
+
+            @Bind(R.id.tv_fire)
+            TextView mTvFire;
+            @Bind(R.id.tv_temperature)
+            TextView mTvTemperature;
+            @Bind(R.id.tv_duration)
+            TextView mTvDuration;
+
+            public CookingHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+            }
+        }
+
+    }
 
 }

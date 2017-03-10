@@ -175,8 +175,9 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
             public void onNext(Base<MenuID> o) {
 
                 if (o.getErrorCode() == 0) {
-
-                }
+                    ToastUtils.showShortToast("提交成功");
+                } else
+                    ToastUtils.showShortToast("提交失败");
 
             }
         }, menuCreateView.getContext());
@@ -258,6 +259,9 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         c_adapter = new MenuCookingStepRVAdapter(mContext);
         rv_cooking.setAdapter(c_adapter);
         rv_cooking.setNestedScrollingEnabled(false);
+
+
+        //// TODO: 2017/3/10 烹饪用料
 
 
     }

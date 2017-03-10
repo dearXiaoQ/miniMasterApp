@@ -3,8 +3,6 @@ package com.masterdroup.minimasterapp.module.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,14 +12,8 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Recipes;
-import com.masterdroup.minimasterapp.model.Step;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
-import com.masterdroup.minimasterapp.view.FoodsAdapter;
-import com.masterdroup.minimasterapp.view.StepAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +49,9 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.tv_more_button)
     TextView mTvMoreButton;
 
+    @Bind(R.id.rv_cooking_step)
+    RecyclerView mRvCookingStep;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +70,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     private void initData() {
 
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, null);
+        mPresenter.initMenuViewRV(rv_food, rv_step, mRvCookingStep);
 
 
         String i = getIntent().getStringExtra("_id");
@@ -139,7 +134,6 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
-
     }
 
     @Override

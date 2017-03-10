@@ -2,11 +2,15 @@ package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.utils.SPUtils;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.DebugUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -90,10 +94,14 @@ public class HomeActivity extends Activity {
     }
 
     void showUserFragment() {
+        if (App.spUtils.contains(App.mContext.getString(R.string.key_token))) {
 
-        if (userFragment == null)
-            userFragment = (UserFragment) getFragmentManager().findFragmentByTag(userFragment_tag);
-        getFragmentManager().beginTransaction().show(userFragment).commit();
+            if (userFragment == null)
+                userFragment = (UserFragment) getFragmentManager().findFragmentByTag(userFragment_tag);
+            getFragmentManager().beginTransaction().show(userFragment).commit();
+        } else {
+            finish();
+        }
     }
 
     void hideAllFragment() {
