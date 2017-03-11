@@ -1,18 +1,27 @@
 package com.masterdroup.minimasterapp.module.menu;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.Food;
 import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.MenuPicture;
 import com.masterdroup.minimasterapp.model.Recipes;
@@ -26,6 +35,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -176,6 +187,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
                 if (o.getErrorCode() == 0) {
                     ToastUtils.showShortToast("提交成功");
+                    ((Activity) mContext).finish();
                 } else
                     ToastUtils.showShortToast("提交失败");
 
@@ -196,44 +208,43 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         bean.setDescribeSteps(mSteps);
         bean.setCookingStep(mCookingSteps);
 
-        List<Recipes.RecipesBean.Food> foods = new ArrayList<>();
+//        List<Food> foods = new ArrayList<>();
+//
+//        Food food1 = new Food();
+//        food1.setAmount(100);
+//        food1.setFoodType("白糖");
+//        foods.add(food1);
+//
+//        Food food2 = new Food();
+//        food2.setAmount(22100);
+//        food2.setFoodType("白糖");
+//        foods.add(food2);
+//
+//        Food food3 = new Food();
+//        food3.setAmount(130);
+//        food3.setFoodType("白糖");
+//        foods.add(food3);
 
-        Recipes.RecipesBean.Food food1 = bean.new Food();
-        food1.setAmount(100);
-        food1.setFoodType("白糖");
-        foods.add(food1);
-
-        Recipes.RecipesBean.Food food2 = bean.new Food();
-        food2.setAmount(22100);
-        food2.setFoodType("白糖");
-        foods.add(food2);
-
-        Recipes.RecipesBean.Food food3 = bean.new Food();
-        food3.setAmount(130);
-        food3.setFoodType("白糖");
-        foods.add(food3);
-
-
-        bean.setFoodList(foods);
-
+        bean.setFoodList(mFoods);
         recipes.setRecipesBean(bean);
-
-
         return recipes;
     }
 
 
     MenuStepRVAdapter adapter;
     MenuCookingStepRVAdapter c_adapter;
+    FoodsAdapter f_adapter;
 
     int step_number = 1;//当前总步骤数 默认为1
     int cooking_step_number = 1;//当前烹饪总步骤数 默认为1
+    int food_list_number = 1;//食材列表 默认为1
 
     public static List<DescribeStep> mSteps = new ArrayList<>();
     public static List<CookingStep> mCookingSteps = new ArrayList<>();
+    public static List<Food> mFoods = new ArrayList<>();
 
     @Override
-    public void initStepRecyclerView(RecyclerView rv, RecyclerView rv_cooking) {
+    public void initStepRecyclerView(RecyclerView rv, RecyclerView rv_cooking, RecyclerView rv_food) {
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setItemAnimator(new DefaultItemAnimator());
         for (int i = 1; i <= step_number; i++) {
@@ -262,6 +273,14 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
 
         //// TODO: 2017/3/10 烹饪用料
+        rv_food.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_food.setItemAnimator(new DefaultItemAnimator());
+        for (int i = 0; i < food_list_number; i++) {
+            mFoods.add(new Food());
+        }
+        f_adapter = new FoodsAdapter(mContext);
+        rv_food.setAdapter(f_adapter);
+        rv_food.setNestedScrollingEnabled(false);
 
 
     }
@@ -288,6 +307,16 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     }
 
     @Override
+    public void addFood() {
+
+        food_list_number++;
+        Food f = new Food();
+        mFoods.add(f);
+        f_adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
     public void setStepPicture(String url, int requestCode) {
         //大于100表示是烹饪步骤
         if (requestCode < 100) {
@@ -311,10 +340,124 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     public void initDescribeStep() {
         mSteps = new ArrayList<>(step_number);
         mCookingSteps = new ArrayList<>(cooking_step_number);
+        mFoods = new ArrayList<>(food_list_number);
     }
 
     @Override
     public void start() {
         mContext = menuCreateView.getContext();
+    }
+
+
+    class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder> {
+        LayoutInflater layoutInflater;
+        Context context;
+
+        public FoodsAdapter(Context context) {
+            this.context = context;
+            layoutInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public FoodsAdapter.FoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new FoodsAdapter.FoodsHolder(layoutInflater.inflate(R.layout.view_menu_food_item, parent, false));
+
+        }
+
+        @Override
+        public void onBindViewHolder(FoodsAdapter.FoodsHolder holder, final int position) {
+
+            holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
+            holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
+
+            //1、为了避免TextWatcher在第2步被调用，提前将他移除。
+            if ((holder).mTvFoodType.getTag() instanceof TextWatcher) {
+                (holder).mTvFoodType.removeTextChangedListener((TextWatcher) ((holder).mTvFoodType.getTag()));
+            }
+
+            // 第2步：移除TextWatcher之后，设置EditText的Text。
+            (holder).mTvFoodType.setText(MenuCreatePresenter.mFoods.get(position).getFoodType());
+
+
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+
+                    MenuCreatePresenter.mFoods.get(position).setFoodType(editable.toString());
+                }
+            };
+
+            (holder).mTvFoodType.addTextChangedListener(watcher);
+            (holder).mTvFoodType.setTag(watcher);
+
+
+            //1、为了避免TextWatcher在第2步被调用，提前将他移除。
+            if ((holder).mTvAmount.getTag() instanceof TextWatcher) {
+                (holder).mTvAmount.removeTextChangedListener((TextWatcher) ((holder).mTvAmount.getTag()));
+            }
+
+            // 第2步：移除TextWatcher之后，设置EditText的Text。
+            if (MenuCreatePresenter.mFoods.get(position).getAmount() != 0)
+                (holder).mTvAmount.setText(String.valueOf(MenuCreatePresenter.mFoods.get(position).getAmount()));
+            else
+                (holder).mTvAmount.setText("");
+
+
+            TextWatcher watcher2 = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+
+                    int temperature;
+                    try {
+                        temperature = Integer.valueOf(editable.toString());
+                        if (temperature > 0)
+                            MenuCreatePresenter.mFoods.get(position).setAmount(temperature);
+
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        ToastUtils.showShortToast("请输入正确的数值！");
+                    }
+                }
+            };
+
+            (holder).mTvAmount.addTextChangedListener(watcher2);
+            (holder).mTvAmount.setTag(watcher2);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mFoods == null ? 0 : mFoods.size();
+        }
+
+        class FoodsHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.tv_food_type)
+            TextView mTvFoodType;
+            @Bind(R.id.tv_amount)
+            TextView mTvAmount;
+
+            FoodsHolder(View view) {
+                super(view);
+                ButterKnife.bind(this, view);
+            }
+        }
     }
 }

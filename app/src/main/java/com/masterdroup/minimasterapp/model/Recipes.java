@@ -133,26 +133,6 @@ public class Recipes {
             }
         }
 
-        public class Food {
-            String foodType;
-            int amount;
-
-            public String getFoodType() {
-                return foodType;
-            }
-
-            public void setFoodType(String foodType) {
-                this.foodType = foodType;
-            }
-
-            public int getAmount() {
-                return amount;
-            }
-
-            public void setAmount(int amount) {
-                this.amount = amount;
-            }
-        }
 
 
         public Owner getOwner() {

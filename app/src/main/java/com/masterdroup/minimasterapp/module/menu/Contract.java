@@ -36,7 +36,7 @@ public class Contract {
         void submitNewMenu();
 
 
-        void initStepRecyclerView(RecyclerView rv, RecyclerView rv_cooking);
+        void initStepRecyclerView(RecyclerView rv, RecyclerView rv_cooking, RecyclerView rv_food);
 
 
         //增加一个步骤
@@ -45,6 +45,9 @@ public class Contract {
 
         //增加一个烹饪步骤
         void addCookingStep();
+
+        //增加一列食材
+        void addFood();
 
         void setStepPicture(String url, int requestCode);
 

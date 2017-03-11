@@ -11,4 +11,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.masterdroup.minimasterapp.module.cooking.CookingActivity">
 
+
+
+
+
+
+
 </RelativeLayout>

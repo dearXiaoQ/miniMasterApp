@@ -18,6 +18,7 @@ import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.Food;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -53,7 +54,7 @@ public class MenuPresenter implements Contract.Presenter {
 
 
     List<DescribeStep> mSteps = new ArrayList<>();
-    List<Recipes.RecipesBean.Food> mFoods = new ArrayList<>();
+    List<Food> mFoods = new ArrayList<>();
     List<CookingStep> mCookingSteps = new ArrayList<>();
 
 
@@ -261,7 +262,7 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         public FoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new FoodsHolder(layoutInflater.inflate(R.layout.view_menu_food_item, parent, false));
+            return new FoodsHolder(layoutInflater.inflate(R.layout.view_menu_food_show_item, parent, false));
 
         }
 

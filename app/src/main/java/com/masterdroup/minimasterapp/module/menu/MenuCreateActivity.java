@@ -47,6 +47,12 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     @Bind(R.id.tv_add_cooking_step)
     TextView mTvAddCookingStep;
 
+    @Bind(R.id.rv_food)
+    RecyclerView mRvFood;
+
+    @Bind(R.id.tv_add_food)
+    TextView mTvAddFood;
+
 
     //保存用户选择的菜谱封面的本地路径
     private static String menu_cover_local_url = "";
@@ -70,7 +76,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
     private void init() {
         mTvTitle.setText("创建菜谱");
         mMenuCreatePresenter.start();
-        mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep, mRvMenuCookingStep);
+        mMenuCreatePresenter.initStepRecyclerView(mRvMenuStep, mRvMenuCookingStep, mRvFood);
     }
 
 
@@ -79,7 +85,7 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
         mMenuCreatePresenter = presenter;
     }
 
-    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover, R.id.tv_add_step, R.id.tv_add_cooking_step})
+    @OnClick({R.id.tv_more_button, R.id.iv_return, R.id.iv_menu_cover, R.id.tv_add_step, R.id.tv_add_cooking_step, R.id.tv_add_food})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_more_button:
@@ -98,6 +104,10 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
             case R.id.tv_add_cooking_step:
                 mMenuCreatePresenter.addCookingStep();
                 break;
+            case R.id.tv_add_food:
+                mMenuCreatePresenter.addFood();
+                break;
+
         }
     }
 

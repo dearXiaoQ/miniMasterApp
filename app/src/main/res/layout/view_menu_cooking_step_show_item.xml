@@ -4,6 +4,11 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginBottom="15dp"
+        android:background="#ccc"/>
 
     <TextView
         android:id="@+id/tv_step_no"
@@ -12,8 +17,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:text="烹饪步骤 "
+        android:textColor="@color/app_text_color_dark111"
         android:textSize="17sp"
-        android:textStyle="bold"/>
+        />
 
 
     <FrameLayout
@@ -41,8 +47,8 @@
         android:layout_margin="10dp"
         android:background="@null"
         android:gravity="center_vertical"
+        android:textColor="@color/app_text_color_dark"
         android:textSize="16sp"/>
-
 
 
     <TextView
@@ -50,16 +56,21 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="烹饪信息"
-        android:textSize="16sp"/>
+        android:textColor="@color/app_text_color_dark111"
+        android:textSize="17sp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_margin="15dp"
+        android:background="#ddd"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -69,7 +80,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="大火"
-
+            android:textColor="@color/app_text_color_dark"
             android:textSize="15sp"/>
 
 
@@ -80,6 +91,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="230度"
+            android:textColor="@color/app_text_color_dark"
             android:textSize="15sp"/>
 
 
@@ -90,15 +102,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="20分钟"
+            android:textColor="@color/app_text_color_dark"
             android:textSize="15sp"/>
 
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginBottom="20dp"
-        android:background="#ccc"/>
 
 </LinearLayout>

@@ -3,10 +3,10 @@ package com.masterdroup.minimasterapp.module.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
@@ -14,6 +14,7 @@ import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,11 +36,10 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
 
-    Contract.Presenter mPresenter;
+
     @Bind(R.id.tv_menu_note)
     TextView tvMenuNote;
-    @Bind(R.id.activity_menu_view)
-    LinearLayout activityMenuView;
+
     @Bind(R.id.rv_food)
     RecyclerView rv_food;
 
@@ -51,6 +51,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
     @Bind(R.id.rv_cooking_step)
     RecyclerView mRvCookingStep;
+
+    Contract.Presenter mPresenter;
+
+    @Bind(R.id.vsv)
+    NestedScrollView mVsv;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,17 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
     private void initView() {
         mTvMoreButton.setVisibility(View.GONE);
+
+        mVsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    mFab.hide();
+                } else {
+                    mFab.show();
+                }
+            }
+        });
     }
 
     private void initData() {

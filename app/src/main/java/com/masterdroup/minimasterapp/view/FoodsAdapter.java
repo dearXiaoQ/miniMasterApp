@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.model.Recipes;
+import com.masterdroup.minimasterapp.model.Food;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
 public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder> {
     LayoutInflater layoutInflater;
     Context context;
-    List<Recipes.RecipesBean.Food> mFoods;
+    List<Food> mFoods;
 
-    public FoodsAdapter(Context context, List<Recipes.RecipesBean.Food> mFoods) {
+    public FoodsAdapter(Context context, List<Food> mFoods) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.mFoods = mFoods;

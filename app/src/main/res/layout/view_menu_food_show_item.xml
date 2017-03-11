@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_margin="20dp"
+              android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_food_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="鸡肉"
+        android:textColor="@color/app_text_color_dark"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/app_text_color_dark"
+        android:gravity="center"
+        android:text="500g"
+        android:textSize="14sp"/>
+
+</LinearLayout>
