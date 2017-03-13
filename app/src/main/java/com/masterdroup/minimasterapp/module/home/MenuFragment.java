@@ -4,7 +4,12 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +27,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by 11473 on 2016/12/19.
@@ -35,8 +41,9 @@ public class MenuFragment extends Fragment {
     ImageView ivCenter1;
     @Bind(R.id.iv_center2)
     ImageView ivCenter2;
-    @Bind(R.id.iv_add_menu)
-    ImageView ivAddMenu;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    View view;
 
     @Nullable
     @Override
@@ -80,15 +87,34 @@ public class MenuFragment extends Fragment {
                 startActivity(new Intent(view.getContext(), MenuListActivity.class));
             }
         });
-        ivAddMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), MenuCreateActivity.class));
-            }
-        });
 
 
+
+
+
+        //设置ActionBar
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        setHasOptionsMenu(true);//需要额外调用
+        this.view = view;
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.ic_add:
+                startActivity(new Intent(view.getContext(), MenuCreateActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -109,5 +135,9 @@ public class MenuFragment extends Fragment {
         super.onStop();
         //结束轮播
         banner.stopAutoPlay();
+    }
+
+    @OnClick(R.id.toolbar)
+    public void onClick() {
     }
 }

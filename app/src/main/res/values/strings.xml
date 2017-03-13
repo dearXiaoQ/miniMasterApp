@@ -15,4 +15,14 @@
     <string name="key_token">token</string>
     <string name="settings_user_info">编辑个人资料</string>
 
+    <string name="devicelist_titles">我的设备</string>
+    <string name="offline_devices">离线设备</string>
+    <string name="found_devices">发现新设备</string>
+    <string name="havenot_device">没有设备</string>
+    <string name="bound_divices">已绑定设备</string>
+
+
+
+    <string name="add_device">添加</string>
+    <string name="QR_code">扫码绑定设备</string>
 </resources>

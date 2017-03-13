@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_QR_code"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/QR_code"/>
+    <item
+        android:id="@+id/action_addDevice"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/add_device"/>
+
+
+    <!--搜索框-->
+    <!--<item android:id="@+id/action_search"-->
+          <!--android:icon="@drawable/ic_search_black_24dp"-->
+          <!--app:actionViewClass="android.support.v7.widget.SearchView"-->
+          <!--android:title="Search"-->
+          <!--android:inputType="textCapWords"-->
+          <!--android:imeOptions="actionSearch"-->
+          <!--android:orderInCategory="80"-->
+          <!--app:showAsAction="ifRoom|collapseActionView"/>-->
+</menu>

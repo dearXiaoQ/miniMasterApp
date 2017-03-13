@@ -1,16 +1,15 @@
 package com.masterdroup.minimasterapp.module.home;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.blankj.utilcode.utils.SPUtils;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.DebugUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -18,7 +17,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends AppCompatActivity {
 
     @Bind(R.id.bottomBar)
     BottomBar bottomBar;
@@ -31,6 +30,7 @@ public class HomeActivity extends Activity {
 
     String menuFragment_tag = "tag1", deviceFragment_tag = "tag2", userFragment_tag = "tag3";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class HomeActivity extends Activity {
         ButterKnife.bind(this);
         init();
         showMenuFragment();
+
     }
 
     @Override
@@ -48,7 +49,6 @@ public class HomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     private void init() {
@@ -76,6 +76,7 @@ public class HomeActivity extends Activity {
                 }
             }
         });
+
 
     }
 

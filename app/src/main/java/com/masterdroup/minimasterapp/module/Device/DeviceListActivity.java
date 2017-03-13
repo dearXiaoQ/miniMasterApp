@@ -1,4 +1,4 @@
-package com.masterdroup.minimasterapp.module.cooking;
+package com.masterdroup.minimasterapp.module.Device;
 
 import android.app.Activity;
 import android.os.Bundle;

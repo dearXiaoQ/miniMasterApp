@@ -32,8 +32,8 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
     @Bind(R.id.iv_user_head)
     ImageView ivUserHead;
-    @Bind(R.id.iv_settings)
-    ImageView ivSettings;
+//    @Bind(R.id.iv_settings)
+//    ImageView ivSettings;
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
     @Bind(R.id.tv_user_follow)
@@ -87,22 +87,22 @@ public class UserFragment extends Fragment implements Contract.UserView {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    @OnClick({R.id.iv_settings, R.id.tv_out})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_settings:
-
-                startActivity(new Intent(this.getActivity(), SettingsActivity.class));
-                break;
-            case R.id.tv_out:
-                mHomePresenter.outLogin();
-
-                break;
-
-        }
-
-    }
+//
+//    @OnClick({R.id.iv_settings, R.id.tv_out})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_settings:
+//
+//                startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+//                break;
+//            case R.id.tv_out:
+//                mHomePresenter.outLogin();
+//
+//                break;
+//
+//        }
+//
+//    }
 
 
 }

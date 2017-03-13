@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.masterdroup.minimasterapp.module.cooking.DeviceListActivity">
+    tools:context="com.masterdroup.minimasterapp.module.Device.DeviceListActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
+        android:id="@+id/id_swipe_ly"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:id="@+id/svListGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/icBoundDevices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/view_gos_title_listview" />
+
+                <include
+                    android:id="@+id/icFoundDevices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/view_gos_title_listview" />
+
+                <include
+                    android:id="@+id/icOfflineDevices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/view_gos_title_listview" />
+            </LinearLayout>
+        </ScrollView>
+    </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>
+
+
+</LinearLayout>

@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_home"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.home.HomeActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_home"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.masterdroup.minimasterapp.module.home.HomeActivity">
 
+    <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"-->
+                                       <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                                       <!--android:id="@+id/toolbar"-->
+                                       <!--android:layout_width="match_parent"-->
+                                       <!--android:layout_height="wrap_content"-->
+                                       <!--app:titleTextColor="@color/white"-->
+                                       <!--android:background="?attr/colorPrimary"-->
+                                       <!--android:minHeight="?attr/actionBarSize"-->
+                                       <!--style="@style/MyToolbarStyle">-->
+
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <FrameLayout
         android:id="@+id/fl_content"
@@ -21,7 +32,6 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-
-        app:bb_tabXmlResource="@xml/bottombar_tabs" />
+        app:bb_tabXmlResource="@xml/bottombar_tabs"/>
 
 </LinearLayout>
