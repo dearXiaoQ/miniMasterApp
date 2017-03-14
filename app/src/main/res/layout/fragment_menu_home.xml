@@ -1,66 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <include
+        layout="@layout/my_toolbar"
+        android:visibility="visible"/>
 
-    <include layout="@layout/my_toolbar"/>
-
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="220dp"/>
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp">
 
-            <ImageView
-                android:id="@+id/iv_center1"
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/menu_cover_h"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="本周流行菜谱"
-                android:textColor="#fff"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
-
-            <ImageView
-                android:id="@+id/iv_center2"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_menu_b"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="附近流行菜谱"
-                android:textColor="#fff"/>
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                />
 
-        </FrameLayout>
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"/>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

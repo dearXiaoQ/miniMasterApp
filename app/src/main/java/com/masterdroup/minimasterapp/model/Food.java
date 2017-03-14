@@ -8,6 +8,15 @@ public class Food {
 
     String foodType;
     int amount;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFoodType() {
         return foodType;

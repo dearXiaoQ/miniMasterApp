@@ -208,22 +208,6 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         bean.setDescribeSteps(mSteps);
         bean.setCookingStep(mCookingSteps);
 
-//        List<Food> foods = new ArrayList<>();
-//
-//        Food food1 = new Food();
-//        food1.setAmount(100);
-//        food1.setFoodType("白糖");
-//        foods.add(food1);
-//
-//        Food food2 = new Food();
-//        food2.setAmount(22100);
-//        food2.setFoodType("白糖");
-//        foods.add(food2);
-//
-//        Food food3 = new Food();
-//        food3.setAmount(130);
-//        food3.setFoodType("白糖");
-//        foods.add(food3);
 
         bean.setFoodList(mFoods);
         recipes.setRecipesBean(bean);
@@ -276,7 +260,9 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         rv_food.setLayoutManager(new LinearLayoutManager(mContext));
         rv_food.setItemAnimator(new DefaultItemAnimator());
         for (int i = 0; i < food_list_number; i++) {
-            mFoods.add(new Food());
+            Food food = new Food();
+            food.setId(food_list_number);
+            mFoods.add(food);
         }
         f_adapter = new FoodsAdapter(mContext);
         rv_food.setAdapter(f_adapter);
@@ -311,6 +297,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
         food_list_number++;
         Food f = new Food();
+        f.setId(food_list_number);
         mFoods.add(f);
         f_adapter.notifyDataSetChanged();
 
@@ -367,9 +354,6 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
         @Override
         public void onBindViewHolder(FoodsAdapter.FoodsHolder holder, final int position) {
 
-            holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
-            holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
-
             //1、为了避免TextWatcher在第2步被调用，提前将他移除。
             if ((holder).mTvFoodType.getTag() instanceof TextWatcher) {
                 (holder).mTvFoodType.removeTextChangedListener((TextWatcher) ((holder).mTvFoodType.getTag()));
@@ -393,6 +377,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
 
                     MenuCreatePresenter.mFoods.get(position).setFoodType(editable.toString());
+                    MenuCreatePresenter.mFoods.size();
                 }
             };
 

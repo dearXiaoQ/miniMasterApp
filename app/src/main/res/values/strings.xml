@@ -22,7 +22,6 @@
     <string name="bound_divices">已绑定设备</string>
 
 
-
     <string name="add_device">添加</string>
     <string name="QR_code">扫码绑定设备</string>
 </resources>

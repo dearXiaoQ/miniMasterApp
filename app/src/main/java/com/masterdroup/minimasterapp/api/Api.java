@@ -76,6 +76,15 @@ public interface Api {
     @GET("miniMasterApp/recipes/getRecipesList/{index}/{count}")
     Observable<Base<RecipesList>> getRecipesList(@Path("index") int index, @Path("count") int count);
 
+    /**
+     * 获取用户自身菜谱列表
+     *
+     * @param index 页码
+     * @param count 每页数量
+     */
+    @GET("miniMasterApp/recipes/listByOwner/{index}/{count}")
+    Observable<Base<RecipesList>> listByOwner(@Path("index") int index, @Path("count") int count);
+
 
     /**
      * 获取菜谱详情
@@ -84,8 +93,6 @@ public interface Api {
      */
     @GET("miniMasterApp/recipes/getRecipesDetail/{id}")
     Observable<Base<Recipes.RecipesBean>> getRecipesDetail(@Path("id") String id);
-
-
 
 
     /**

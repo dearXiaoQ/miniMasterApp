@@ -45,6 +45,7 @@ dependencies {
     compile 'com.blankj:utilcode:1.3.6'
     compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.6'
     testCompile 'junit:junit:4.12'
 }

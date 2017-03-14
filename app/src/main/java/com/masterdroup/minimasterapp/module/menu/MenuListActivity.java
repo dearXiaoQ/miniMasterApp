@@ -21,6 +21,8 @@ public class MenuListActivity extends Activity implements Contract.MenuListView 
     Contract.Presenter presenter;
     @Bind(R.id.tv_more_button)
     TextView mTvMoreButton;
+    @Bind(R.id.tv_title)
+    TextView mTvTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,13 @@ public class MenuListActivity extends Activity implements Contract.MenuListView 
         presenter = new MenuPresenter(this);
         presenter.start();
 
+        initView();
 
+    }
+
+    void initView() {
+        String title = getIntent().getStringExtra("title");
+        mTvTitle.setText(title);
 
     }
 

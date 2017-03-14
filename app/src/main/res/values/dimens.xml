@@ -5,6 +5,6 @@
     <dimen name="viewpage_viewpager">10dp</dimen>
 
 
-    <dimen name="menu_cover_h">220dp</dimen>
+    <dimen name="menu_cover_h">200dp</dimen>
     <dimen name="menu_user_head_pic_h">45dp</dimen>
 </resources>

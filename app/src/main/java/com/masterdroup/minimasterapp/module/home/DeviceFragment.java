@@ -130,8 +130,8 @@ public class DeviceFragment extends Fragment {
         tvFoundDevicesListTitle.setText(foundDevicesListTitle);
         String offlineDevicesListTitle = (String) getText(R.string.offline_devices);
         tvOfflineDevicesListTitle.setText(offlineDevicesListTitle);
-//
-//        //设置ActionBar
+
+        //设置ActionBar
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 //        setHasOptionsMenu(true);//需要额外调用
 
@@ -146,8 +146,8 @@ public class DeviceFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu, menu);
+        menu.clear();
+        inflater.inflate(R.menu.devicelist_fragment, menu);
     }
 
     @Override

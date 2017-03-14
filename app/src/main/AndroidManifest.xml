@@ -49,6 +49,8 @@
         </activity>
         <activity android:name=".module.Device.DeviceListActivity">
         </activity>
+        <activity android:name=".module.menu.MyMenuListActivity">
+        </activity>
     </application>
 
 </manifest>
