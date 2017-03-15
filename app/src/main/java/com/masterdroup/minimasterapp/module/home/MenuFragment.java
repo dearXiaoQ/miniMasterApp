@@ -232,8 +232,10 @@ public class MenuFragment extends Fragment {
             ImageLoader.getInstance().displayImage(view.getContext(), Constant.BASEURL + r.getDetail().getImgSrc(), holder.mIvMenuCover);
             holder.mTvMenuName.setText(r.getName());
 
-            holder.mTvUserName.setText(r.getOwner().getOwnerUid().getName());
-
+            if (null != r.getOwner().getOwnerUid())
+                holder.mTvUserName.setText(r.getOwner().getOwnerUid().getName());
+            else
+                holder.mTvUserName.setText("null");
         }
 
         @Override

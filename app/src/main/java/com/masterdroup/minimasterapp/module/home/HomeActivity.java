@@ -1,15 +1,14 @@
 package com.masterdroup.minimasterapp.module.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.util.DebugUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -69,7 +68,9 @@ public class HomeActivity extends AppCompatActivity {
                     showMenuFragment();
                 } else if (tabId == R.id.tab_device) {
                     DebugUtils.d("TAB", "tab_device");
-                    showDeviceFragment();
+//                    showDeviceFragment();
+
+                    startActivity(new Intent(HomeActivity.this, DeviceListActivity.class));
                 } else if (tabId == R.id.tab_user) {
                     DebugUtils.d("TAB", "tab_user");
                     showUserFragment();
