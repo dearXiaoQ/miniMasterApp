@@ -5,8 +5,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.blankj.utilcode.utils.NetworkUtils;
+import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.api.GizWifiSSID;
 import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
@@ -39,14 +41,14 @@ public class DeviceListActivity extends Activity {
 
         //在 Soft-AP 模式时，获得设备的 SSID 列表。SSID 列表通过异步回调方式返回
 //        GizWifiSDK.sharedInstance().setListener(getSSIDListListener);
-//        GizWifiSDK.sharedInstance().getSSIDList();
-
-
-         //AirLink配置
-        GizWifiSDK.sharedInstance().setListener(AirLink_mListener);
-        List<GizWifiGAgentType> types = new ArrayList<>();
-        types.add(GizWifiGAgentType.GizGAgentESP);
-        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiAirLink, null, 60, types);
+////        GizWifiSDK.sharedInstance().getSSIDList();
+//
+//
+//         //AirLink配置
+//        GizWifiSDK.sharedInstance().setListener(AirLink_mListener);
+//        List<GizWifiGAgentType> types = new ArrayList<>();
+//        types.add(GizWifiGAgentType.GizGAgentESP);
+//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiAirLink, null, 60, types);
 
         //SoftAP配置
 //        GizWifiSDK.sharedInstance().setListener(SoftAP_mListener);
@@ -54,6 +56,21 @@ public class DeviceListActivity extends Activity {
 
 
     }
+
+    // 实现回调
+    GizWifiSDKListener getBoundDevices_mListener = new GizWifiSDKListener() {
+        @Override
+        public void didDiscovered(GizWifiErrorCode result,
+                                  List<GizWifiDevice> deviceList) {
+            // 提示错误原因
+            if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                Log.d("", "result: " + result.name());
+            }
+            // 显示设备列表
+            Log.d("", "discovered deviceList: " + deviceList);
+        }
+    };
+
 
     GizWifiSDKListener getSSIDListListener = new GizWifiSDKListener() {
         @Override
