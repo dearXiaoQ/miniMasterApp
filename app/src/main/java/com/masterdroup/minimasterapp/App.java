@@ -5,7 +5,12 @@ import android.content.Context;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.blankj.utilcode.utils.Utils;
+import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizEventType;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 /**
  * Created by 11473 on 2016/11/29.
@@ -23,7 +28,7 @@ public class App extends Application implements Thread.UncaughtExceptionHandler 
         mContext = this;
         GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID);//启动机智云SDK
 
-
+        GizWifiSDK.sharedInstance().setListener(mListener);
         Utils.init(mContext);
         try {
             setSPUp();
@@ -31,6 +36,26 @@ public class App extends Application implements Thread.UncaughtExceptionHandler 
             e.printStackTrace();
         }
     }
+
+    GizWifiSDKListener mListener = new GizWifiSDKListener() {
+        @Override
+        public void didNotifyEvent(GizEventType eventType, Object eventSource, GizWifiErrorCode eventID, String eventMessage) {
+            if (eventType == GizEventType.GizEventSDK) {
+                // SDK的事件通知
+                LogUtils.i("GizWifiSDK", "SDK event happened: " + eventID + ", " + eventMessage);
+            } else if (eventType == GizEventType.GizEventDevice) {
+                // 设备连接断开时可能产生的通知
+                GizWifiDevice mDevice = (GizWifiDevice) eventSource;
+                LogUtils.i("GizWifiSDK", "device mac: " + mDevice.getMacAddress() + " disconnect caused by eventID: " + eventID + ", eventMessage: " + eventMessage);
+            } else if (eventType == GizEventType.GizEventM2MService) {
+                // M2M服务返回的异常通知
+                LogUtils.i("GizWifiSDK", "M2M domain " + (String) eventSource + " exception happened, eventID: " + eventID + ", eventMessage: " + eventMessage);
+            } else if (eventType == GizEventType.GizEventToken) {
+                // token失效通知
+                LogUtils.i("GizWifiSDK", "token " + (String) eventSource + " expired: " + eventMessage);
+            }
+        }
+    };
 
     public void setSPUp() throws Exception {
         if (spUtils == null) {
