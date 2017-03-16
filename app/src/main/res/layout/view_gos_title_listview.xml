@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvListViewTitle"
@@ -15,7 +15,7 @@
         android:layout_marginTop="30dp"
         android:text="TextView"
         android:textColor="@color/title_gray"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 
     <LinearLayout
         android:id="@+id/llHaveNotDevice"
@@ -25,7 +25,7 @@
         android:layout_below="@+id/tvListViewTitle"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView2"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="@string/havenot_device"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <com.masterdroup.minimasterapp.view.SlideListView2
@@ -45,7 +45,7 @@
         android:background="@color/white"
         android:divider="@color/line_gray"
         android:dividerHeight="0.5dp"
-        android:listSelector="@drawable/devicelist_item_selector" >
+        android:listSelector="@drawable/devicelist_item_selector">
     </com.masterdroup.minimasterapp.view.SlideListView2>
 
 </RelativeLayout>

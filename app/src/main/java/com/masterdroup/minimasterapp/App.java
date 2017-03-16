@@ -26,7 +26,7 @@ public class App extends Application implements Thread.UncaughtExceptionHandler 
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID);//启动机智云SDK
+        GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID, Constant.APP_Secret, null, null, false);//启动机智云SDK
 
         GizWifiSDK.sharedInstance().setListener(mListener);
         Utils.init(mContext);

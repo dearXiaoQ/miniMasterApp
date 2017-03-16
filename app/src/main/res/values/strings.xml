@@ -13,6 +13,9 @@
     <string name="et_in_pwd">请输入你的密码</string>
     <string name="err_login_1">登录信息不正确！</string>
     <string name="key_token">token</string>
+    <string name="giz_token">giz_token</string>
+    <string name="giz_uid">giz_uid</string>
+
     <string name="settings_user_info">编辑个人资料</string>
 
     <string name="devicelist_titles">我的设备</string>
@@ -20,8 +23,30 @@
     <string name="found_devices">发现新设备</string>
     <string name="havenot_device">没有设备</string>
     <string name="bound_divices">已绑定设备</string>
-
-
+    <string name="loadingtext">处理中，请稍等...</string>
+    <string name="no_devices">暂无设备，请添加</string>
     <string name="add_device">添加</string>
     <string name="QR_code">扫码绑定设备</string>
+    <string name="push_type_string">推送功能仅限于企业开发者使用，目前版本暂不支持推送</string>
+    <string name="found_many_devices">发现多台设备名，点击选择配置设备</string>
+    <string name="check_psw">检查Wi-Fi密码是否正确</string>
+    <string name="choose_wifi_list_title">请选择可用的Wi-Fi网络</string>
+    <string name="next">下一步</string>
+    <string name="softPsw_hint">请输入Wi-Fi密码</string>
+    <string name="devicedisconnected">设备已断开</string>
+    <string name="sure">确定</string>
+    <string name="remove_bound">解除绑定</string>
+
+    <string name="no_lan">远程</string>
+    <string name="lan">局域网</string>
+    <string name="unbind">未绑定</string>
+
+    <string name="network_error">请切换至Wi-Fi环境</string>
+    <!-- MessageHandler -->
+    <string name="not_ticker">Gizwits：您有新设备上线，请注意查看！</string>
+    <string name="not_title">新设备</string>
+    <string name="not_text">，点击可配置此设备！</string>
+    <string name="notify">提醒</string>
+    <string name="sorry">很抱歉，由于网络原因无法获取邀请信息</string>
+    <string name="verysorry">很抱歉，无法获取到邀请信息，可能二维码信息有误</string>
 </resources>

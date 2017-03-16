@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.masterdroup.minimasterapp.App;
 import com.yuyh.library.imgsel.*;
 
 
@@ -97,5 +99,4 @@ public class Utils {
 
 
     }
-
 }

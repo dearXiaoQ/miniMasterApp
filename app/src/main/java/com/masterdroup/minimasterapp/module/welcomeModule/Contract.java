@@ -22,11 +22,12 @@ public class Contract {
 
         boolean isLogin();//是否有用户登录
 
-        void login(String name, String pwd);
+        void login(String name, String pwd, String giz_uid, String giz_token);
 
         void gizLogin(String name, String pwd);//机智云登录
 
         void registered(String name, String password, @Nullable String phoneNum, String uid);
+
 
         /**
          * @param name     注册用户名（可以是手机号、邮箱或普通用户名）
@@ -51,11 +52,10 @@ public class Contract {
     interface LoginView extends BaseView<Presenter> {
         Context onGetContext();
 
-        void onLogin();
-
-        void onLoginSuccess(String token);
+        void onLoginSuccess(String token, String giz_uid, String giz_token);
 
         void onLoginFailure(@Nullable String info);
+
     }
 
     interface RegisteredView extends BaseView<Presenter> {

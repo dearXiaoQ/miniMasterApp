@@ -12,15 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.KeyboardUtils;
-import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
-import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
-import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,10 +52,17 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
     private GizWifiSDKListener mListener = new GizWifiSDKListener() {
         @Override
         public void didRegisterUser(GizWifiErrorCode result, String uid, String token) {
-            // 实现逻辑
-            LogUtils.d("机智云注册======》", "uid:" + uid + "     result:" + result.toString() + "      token" + token);
-            mPresenter.registered(mEtName.getText().toString(), mEtPwd.getText().toString(), mEtPhone.getText().toString(), uid);
 
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                // 注册成功
+                LogUtils.d("GizWifiSDK", "机智云注册 成功======》" + "uid:" + uid + "     result:" + result.toString() + "      token" + token);
+
+                mPresenter.registered(mEtName.getText().toString(), mEtPwd.getText().toString(), mEtPhone.getText().toString(), uid);
+            } else {
+                // 注册失败
+                LogUtils.d("GizWifiSDK", "机智云注册 失败======》" + "result:" + result.toString());
+                ToastUtils.showShortToast("机智云注册 失败");
+            }
         }
 
         @Override

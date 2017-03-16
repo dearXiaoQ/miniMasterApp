@@ -14,6 +14,8 @@ import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 
+import java.util.Map;
+
 import rx.Observable;
 import rx.Subscriber;
 
@@ -60,7 +62,10 @@ public class HomePresenter implements Contract.Presenter {
 
     @Override
     public void outLogin() {
-        App.spUtils.remove(App.mContext.getString(R.string.key_token));
+
+
+//        App.spUtils.remove(App.mContext.getString(R.string.key_token));
+        App.spUtils.clear();
         Activity activity = (Activity) mUserView.ongetContext();
         activity.startActivity(new Intent(activity, WelcomeActivity.class));
         activity.finish();

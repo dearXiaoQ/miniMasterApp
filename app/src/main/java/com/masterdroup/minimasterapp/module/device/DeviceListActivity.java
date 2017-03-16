@@ -15,7 +15,9 @@ import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.util.NetUtils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -31,31 +33,34 @@ public class DeviceListActivity extends Activity {
         setContentView(R.layout.activity_device_list);
 
 
-        //
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        LogUtils.d("wifiInfo::::::::::::", wifiInfo.toString());
-        LogUtils.d("SSID::::::::::", wifiInfo.getSSID());
-        String ssid = whetherToRemoveTheDoubleQuotationMarks(wifiInfo.getSSID());
+        String ssid = NetUtils.getCurentWifiSSID(this);
+        String paw = "Mk2925288";
 
 
-        //在 Soft-AP 模式时，获得设备的 SSID 列表。SSID 列表通过异步回调方式返回
+//        //SoftAP配置
+//        GizWifiSDK.sharedInstance().setListener(SoftAP_mListener);
+//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiSoftAP, "XPG-GAgent-DF4A", 60, null);
+
+//        //在 Soft-AP 模式时，获得设备的 SSID 列表。SSID 列表通过异步回调方式返回
 //        GizWifiSDK.sharedInstance().setListener(getSSIDListListener);
-////        GizWifiSDK.sharedInstance().getSSIDList();
-//
-//
+//        GizWifiSDK.sharedInstance().getSSIDList();
+
 //         //AirLink配置
 //        GizWifiSDK.sharedInstance().setListener(AirLink_mListener);
 //        List<GizWifiGAgentType> types = new ArrayList<>();
 //        types.add(GizWifiGAgentType.GizGAgentESP);
 //        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiAirLink, null, 60, types);
 
-        //SoftAP配置
-//        GizWifiSDK.sharedInstance().setListener(SoftAP_mListener);
-//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiSoftAP, "XPG-GAgent-", 60, null);
 
+        String giz_uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
+        String giz_token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
+
+        GizWifiSDK.sharedInstance().setListener(getBoundDevices_mListener);
+        GizWifiSDK.sharedInstance().getBoundDevices(giz_uid,
+                giz_token, null);
 
     }
+
 
     // 实现回调
     GizWifiSDKListener getBoundDevices_mListener = new GizWifiSDKListener() {
@@ -64,10 +69,11 @@ public class DeviceListActivity extends Activity {
                                   List<GizWifiDevice> deviceList) {
             // 提示错误原因
             if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                Log.d("", "result: " + result.name());
+                LogUtils.e("GizWifiSDK", "result: " + result.name());
+            } else {
+                // 显示设备列表
+                Log.d("GizWifiSDK", "discovered deviceList: " + deviceList);
             }
-            // 显示设备列表
-            Log.d("", "discovered deviceList: " + deviceList);
         }
     };
 
@@ -125,20 +131,5 @@ public class DeviceListActivity extends Activity {
     };
 
 
-    //根据Android的版本判断获取到的SSID是否有双引号
-    public String whetherToRemoveTheDoubleQuotationMarks(String ssid) {
 
-        //获取Android版本号
-        int deviceVersion = Build.VERSION.SDK_INT;
-
-        if (deviceVersion >= 17) {
-
-            if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-
-                ssid = ssid.substring(1, ssid.length() - 1);
-            }
-
-        }
-        return ssid;
-    }
 }

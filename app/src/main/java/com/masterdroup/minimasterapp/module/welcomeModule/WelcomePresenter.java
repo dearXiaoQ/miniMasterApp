@@ -79,7 +79,7 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
     @Override
-    public void login(String name, String pwd) {
+    public void login(String name, String pwd, final String giz_uid, final String giz_token) {
         DebugUtils.d("WelcomePresenter", "login()");
 
         if (name.isEmpty() || pwd.isEmpty()) {
@@ -94,53 +94,11 @@ public class WelcomePresenter implements Contract.Presenter {
 
             Observable observable = Network.getMainApi().login(user);
 
-//            observable.subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Action1<Base<Token>>() {
-//                        @Override
-//                        public void call(Base<Token> tokenBase) {
-//                            if (tokenBase.getErrorCode() == 0)
-//                                loginView.onLoginSuccess(tokenBase.getRes().getToken());
-//                            else {
-//                                loginView.onLoginFailure(tokenBase.getMessage());
-//                                LogUtils.e("login()", tokenBase.getMessage());
-//                            }
-//                        }
-//                    }, new Action1<Throwable>() {
-//                        @Override
-//                        public void call(Throwable throwable) {
-//
-//                        }
-//                    });
-
-            Subscriber<Base<Token>> subscriber = new Subscriber<Base<Token>>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onNext(Base<Token> tokenBase) {
-                    if (tokenBase.getErrorCode() == 0)
-                        loginView.onLoginSuccess(tokenBase.getRes().getToken());
-                    else {
-                        loginView.onLoginFailure(tokenBase.getMessage());
-                        LogUtils.e("login()", tokenBase.getMessage());
-                    }
-                }
-            };
-
-
             Subscriber<Base<Token>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Token>>() {
                 @Override
                 public void onNext(Base<Token> o) {
                     if (o.getErrorCode() == 0)
-                        loginView.onLoginSuccess(o.getRes().getToken());
+                        loginView.onLoginSuccess(o.getRes().getToken(), giz_uid, giz_token);
                     else {
                         loginView.onLoginFailure(o.getMessage());
                     }
@@ -149,29 +107,6 @@ public class WelcomePresenter implements Contract.Presenter {
             }, loginView.onGetContext());
 
 
-//            Subscriber<Base<Token>> s = new ActionSubscriber<>(new Action1<Base<Token>>() {
-//                @Override
-//                public void call(Base<Token> tokenBase) {
-//                    if (tokenBase.getErrorCode() == 0)
-//                        loginView.onLoginSuccess(tokenBase.getRes().getToken());
-//                    else {
-//                        loginView.onLoginFailure(tokenBase.getMessage());
-//                        LogUtils.e("login()", tokenBase.getMessage());
-//                    }
-//                }
-//            }, new Action1<Throwable>() {
-//                @Override
-//                public void call(Throwable throwable) {
-//                    throwable.printStackTrace();
-//                }
-//            }, new Action0() {
-//                @Override
-//                public void call() {
-//
-//                }
-//            });
-
-//            JxUtils.toSubscribe(observable, subscriber);
             JxUtils.toSubscribe(observable, s);
         }
 

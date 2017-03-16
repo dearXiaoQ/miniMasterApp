@@ -4,42 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.masterdroup.minimasterapp.module.Device.DeviceListActivity">
+    android:orientation="vertical"
+    tools:context="com.masterdroup.minimasterapp.module.device.DeviceListActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_settings"/>
+
+    </RelativeLayout>
 
     <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
         android:id="@+id/id_swipe_ly"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ScrollView
             android:id="@+id/svListGroup"
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:visibility="visible" >
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/icBoundDevices"
+                    layout="@layout/view_gos_title_listview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    layout="@layout/view_gos_title_listview" />
+                    android:layout_height="wrap_content"/>
 
                 <include
                     android:id="@+id/icFoundDevices"
+                    layout="@layout/view_gos_title_listview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    layout="@layout/view_gos_title_listview" />
+                    android:layout_height="wrap_content"/>
 
                 <include
                     android:id="@+id/icOfflineDevices"
+                    layout="@layout/view_gos_title_listview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    layout="@layout/view_gos_title_listview" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </ScrollView>
     </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>

@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#eee"
             android:orientation="vertical">
 
 
@@ -28,8 +29,8 @@
                 android:id="@+id/rv_menu_b"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:background="#fff"
                 android:padding="5dp"
                 />
 

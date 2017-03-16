@@ -5,48 +5,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.Device.DeviceListActivity">
+    tools:context="com.masterdroup.minimasterapp.module.device.DeviceListActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-    <include layout="@layout/my_toolbar"/>
-
-    <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
-
-        android:id="@+id/id_swipe_ly"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        <ScrollView
-            android:id="@+id/svListGroup"
+        <ImageView
+            android:id="@+id/iv_z"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="visible">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_settings"/>
 
-            <LinearLayout
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
+            android:id="@+id/id_swipe_ly1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ScrollView
+                android:id="@+id/llNoDevice"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/icBoundDevices"
-                    layout="@layout/view_gos_title_listview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-                <include
-                    android:id="@+id/icFoundDevices"
-                    layout="@layout/view_gos_title_listview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:id="@+id/imgNoDevice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="100dp"
+                        android:src="@drawable/nodevice"/>
 
-                <include
-                    android:id="@+id/icOfflineDevices"
-                    layout="@layout/view_gos_title_listview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </ScrollView>
-    </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>
+                    <Button
+                        android:id="@+id/btnNoDevice"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/border_layer_list"
+                        android:paddingLeft="13dp"
+                        android:paddingRight="13dp"
+                        android:text="@string/no_devices"
+                        android:textColor="#919191"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+            </ScrollView>
+        </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>
+
+        <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
+            android:id="@+id/id_swipe_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/svListGroup"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/icBoundDevices"
+                        layout="@layout/view_gos_title_listview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <include
+                        android:id="@+id/icFoundDevices"
+                        layout="@layout/view_gos_title_listview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <include
+                        android:id="@+id/icOfflineDevices"
+                        layout="@layout/view_gos_title_listview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </ScrollView>
+        </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.util.DebugUtils;
+import com.masterdroup.minimasterapp.view.TipsDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -68,9 +69,9 @@ public class HomeActivity extends AppCompatActivity {
                     showMenuFragment();
                 } else if (tabId == R.id.tab_device) {
                     DebugUtils.d("TAB", "tab_device");
-//                    showDeviceFragment();
+                    showDeviceFragment();
 
-                    startActivity(new Intent(HomeActivity.this, DeviceListActivity.class));
+//                    startActivity(new Intent(HomeActivity.this, DeviceListActivity.class));
                 } else if (tabId == R.id.tab_user) {
                     DebugUtils.d("TAB", "tab_user");
                     showUserFragment();
@@ -112,4 +113,17 @@ public class HomeActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().hide(userFragment).commit();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == 666) {
+            finish();
+        } else if (resultCode == 98765) {
+            TipsDialog dialog = new TipsDialog(HomeActivity.this,
+                    getResources().getString(R.string.devicedisconnected));
+
+            dialog.show();
+        }
+    }
+
 }

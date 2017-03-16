@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ActivityUtils;
-import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
@@ -21,6 +21,7 @@ import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,8 +52,21 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
     private GizWifiSDKListener mListener = new GizWifiSDKListener() {
         @Override
         public void didUserLogin(GizWifiErrorCode result, String uid, String token) {
-            LogUtils.d("机智云登录======》", "uid:" + uid + "     result:" + result.toString() + "      token" + token);
-            mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString());
+            LogUtils.d("GizWifiSDK", "机智云登录==>   uid:" + uid + "     result:" + result.toString() + "      token" + token);
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                LogUtils.d("GizWifiSDK", "机智云登录==>成功");
+                // 登录成功
+                mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString(), uid, token);
+
+
+            } else {
+                LogUtils.e("GizWifiSDK", "机智云登录==>失败");
+                // 登录失败
+                ToastUtils.showShortToast("机智云登录 失败");
+
+            }
+
+
         }
     };
 
@@ -76,18 +90,18 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
         return getActivity();
     }
 
-    @Override
-    public void onLogin() {
-        mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString());
-    }
-
     /**
      * 登录成功
      */
     @Override
-    public void onLoginSuccess(String token) {
+    public void onLoginSuccess(String token,String giz_uid, String giz_token) {
 
         App.spUtils.putString(App.mContext.getString(R.string.key_token), token);
+
+        App.spUtils.putString(App.mContext.getString(R.string.giz_uid), giz_uid);
+
+        App.spUtils.putString(App.mContext.getString(R.string.giz_token), giz_token);
+
         startActivity(new Intent(this.getActivity(), HomeActivity.class));
         this.getActivity().finish();
 
