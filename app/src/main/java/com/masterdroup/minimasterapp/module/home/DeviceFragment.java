@@ -6,28 +6,38 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gizwits.gizwifisdk.api.GizDeviceSharing;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizDeviceSharingListener;
+import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.device.DeviceControlActivity;
 import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.util.NetUtils;
+import com.masterdroup.minimasterapp.util.Utils;
 import com.masterdroup.minimasterapp.view.GosDeviceListAdapter;
 import com.masterdroup.minimasterapp.view.GosMessageHandler;
 import com.masterdroup.minimasterapp.view.SlideListView2;
@@ -43,8 +53,26 @@ import butterknife.ButterKnife;
  * Created by 11473 on 2016/12/20.
  */
 
-public class DeviceFragment extends Fragment {
+public class DeviceFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    /**
+     * The sv ListGroup
+     */
+    private ScrollView svListGroup;
+    /**
+     * The ll NoDevice
+     */
+    private ScrollView llNoDevice;
+
+    /**
+     * The img NoDevice
+     */
+    private ImageView imgNoDevice;
+
+    /**
+     * The btn NoDevice
+     */
+    private Button btnNoDevice;
     /**
      * The ic BoundDevices
      */
@@ -174,7 +202,6 @@ public class DeviceFragment extends Fragment {
      * 设备热点名称列表
      */
     ArrayList<String> softNameList = new ArrayList<String>();
-    ;
 
     @Nullable
     @Override
@@ -182,12 +209,60 @@ public class DeviceFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu_device, container, false);
         ButterKnife.bind(view);
         mView = view;
-        initView();
         initData();
+        initView();
+        initEvent();
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GizDeviceSharing.setListener(new GizDeviceSharingListener() {
+
+            @Override
+            public void didCheckDeviceSharingInfoByQRCode(GizWifiErrorCode result, String userName, String productName,
+                                                          String deviceAlias, String expiredAt) {
+                // TODO Auto-generated method stub
+                super.didCheckDeviceSharingInfoByQRCode(result, userName, productName, deviceAlias, expiredAt);
+
+                progressDialogCancel();
+                int errorcode = result.ordinal();
+
+                if (8041 <= errorcode && errorcode <= 8050 || errorcode == 8308) {
+                    Toast.makeText(mView.getContext(), getResources().getString(R.string.sorry), Toast.LENGTH_SHORT).show();
+                } else if (errorcode != 0) {
+                    Toast.makeText(mView.getContext(), getResources().getString(R.string.verysorry), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+        deviceslist = GizWifiSDK.sharedInstance().getDeviceList();
+        UpdateUI();
+        // TODO GosMessageHandler.getSingleInstance().SetHandler(handler);
+        if (boundMessage.size() != 0) {
+            progressDialog.show();
+            if (boundMessage.size() == 2) {
+                GizWifiSDK.sharedInstance().bindDevice(uid, token, boundMessage.get(0), boundMessage.get(1), null);
+            } else if (boundMessage.size() == 1) {
+                GizWifiSDK.sharedInstance().bindDeviceByQRCode(uid, token, boundMessage.get(0));
+            } else if (boundMessage.size() == 3) {
+
+                GizDeviceSharing.checkDeviceSharingInfoByQRCode(App.spUtils.getString("Token", ""), boundMessage.get(2));
+            } else {
+                Log.i("Apptest", "ListSize:" + boundMessage.size());
+            }
+        }
+    }
+
     void initView() {
+
+        svListGroup = (ScrollView) mView.findViewById(R.id.svListGroup);
+        llNoDevice = (ScrollView) mView.findViewById(R.id.llNoDevice);
+        imgNoDevice = (ImageView) mView.findViewById(R.id.imgNoDevice);
+        btnNoDevice = (Button) mView.findViewById(R.id.btnNoDevice);
+
 
         icBoundDevices = mView.findViewById(R.id.icBoundDevices);
         icFoundDevices = mView.findViewById(R.id.icFoundDevices);
@@ -230,21 +305,145 @@ public class DeviceFragment extends Fragment {
         setProgressDialog();
     }
 
+    private void initEvent() {
+
+        imgNoDevice.setOnClickListener(this);
+        btnNoDevice.setOnClickListener(this);
+
+        slvFoundDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                progressDialog.show();
+                slvFoundDevices.setEnabled(false);
+                slvFoundDevices.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        slvFoundDevices.setEnabled(true);
+                    }
+                }, 3000);
+                GizWifiDevice device = foundDevicesList.get(position);
+                device.setListener(gizWifiDeviceListener);
+
+                String productKey = device.getProductKey();
+
+                //订阅设备
+                device.setSubscribe(productKey, true);
+
+
+            }
+        });
+
+        slvBoundDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                progressDialog.show();
+                slvBoundDevices.setEnabled(false);
+                slvBoundDevices.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        slvBoundDevices.setEnabled(true);
+                    }
+                }, 3000);
+                GizWifiDevice device = boundDevicesList.get(position);
+                device.setListener(gizWifiDeviceListener);
+                String productKey = device.getProductKey();
+
+                //订阅设备
+                device.setSubscribe(productKey, true);
+
+            }
+        });
+
+        slvBoundDevices.initSlideMode(SlideListView2.MOD_RIGHT);
+        slvOfflineDevices.initSlideMode(SlideListView2.MOD_RIGHT);
+    }
+
+
+    private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
+
+        public void didDiscovered(GizWifiErrorCode result, java.util.List<GizWifiDevice> list) {
+            // 提示错误原因
+            if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                LogUtils.e("GizWifiSDK", "result: " + result.name());
+            } else {
+                // 显示设备列表
+                LogUtils.d("GizWifiSDK", "discovered deviceList: " + list);
+                deviceslist = list;
+                UpdateUI();
+            }
+
+        }
+
+        /** 用于设备解绑 */
+        public void didUnbindDevice(GizWifiErrorCode result, java.lang.String did) {
+            progressDialogCancel();
+        }
+
+        /** 用于设备绑定 */
+        public void didBindDevice(GizWifiErrorCode result, java.lang.String did) {
+            progressDialogCancel();
+
+        }
+
+        /** 用于设备绑定（旧） */
+        public void didBindDevice(int error, String errorMessage, String did) {
+            progressDialogCancel();
+        }
+
+
+        /** 用于绑定推送 */
+        public void didChannelIDBind(GizWifiErrorCode result) {
+            progressDialogCancel();
+        }
+
+    };
+
+
+    /**
+     * 设备监听
+     */
+    protected GizWifiDeviceListener gizWifiDeviceListener = new GizWifiDeviceListener() {
+
+        @Override
+        public void didSetSubscribe(GizWifiErrorCode result, GizWifiDevice device, boolean isSubscribed) {
+            progressDialog.cancel();
+            Message msg = new Message();
+            if (GizWifiErrorCode.GIZ_SDK_SUCCESS == result) {
+                msg.what = TOCONTROL;
+                msg.obj = device;
+            } else {
+                if (device.isBind()) {
+                    msg.what = TOAST;
+                    // String setSubscribeFail = (String)
+                    // getText(R.string.setsubscribe_failed);
+                    msg.obj = result;// setSubscribeFail + "\n" + arg0;
+                }
+            }
+            handler.sendMessage(msg);
+        }
+
+    };
+
+    public static List<String> boundMessage;
 
     void initData() {
+        boundMessage = new ArrayList<String>();
+//        ProductKeyList = GosDeploy.setProductKeyList();
+
+
         uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
         token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
+        if (uid.isEmpty() && token.isEmpty()) {
+            loginStatus = 0;
+        }
 
-
-        GizWifiSDK.sharedInstance().setListener(getBoundDevices_mListener);
-
-        handler.sendEmptyMessage(GETLIST);
-
+        GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
+        handler.sendEmptyMessage(GETLIST);//发送获取设备列表请求
 
     }
 
 
-    // 实现回调
+    //实现回调
     GizWifiSDKListener getBoundDevices_mListener = new GizWifiSDKListener() {
         @Override
         public void didDiscovered(GizWifiErrorCode result,
@@ -336,9 +535,7 @@ public class DeviceFragment extends Fragment {
                     break;
 
                 case UPDATALIST:
-                    if (progressDialog.isShowing()) {
-                        progressDialog.cancel();
-                    }
+                    progressDialogCancel();
                     UpdateUI();
                     break;
 
@@ -356,7 +553,6 @@ public class DeviceFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
                     intent.putExtras(bundle);
-                    // startActivity(intent);
                     startActivityForResult(intent, 1);
                     break;
 
@@ -458,4 +654,33 @@ public class DeviceFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+
+    @Override
+    public void onRefresh() {
+        handler.sendEmptyMessageDelayed(PULL_TO_REFRESH, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imgNoDevice:
+            case R.id.btnNoDevice:
+                if (!NetUtils.checkNetwork(mView.getContext())) {
+                    Toast.makeText(mView.getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(mView.getContext(), DeviceListActivity.class);
+                startActivity(intent);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void progressDialogCancel() {
+        if (progressDialog != null && progressDialog.isShowing())
+            progressDialog.cancel();
+
+    }
 }
