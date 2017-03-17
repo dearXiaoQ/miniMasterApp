@@ -55,12 +55,6 @@ public interface Api {
 
 
     /**
-     * 获取菜谱详情
-     */
-    @GET("?")
-    Observable<Base<Menu>> menuInfo(@Field("id") int id);
-
-    /**
      * 新增菜谱
      */
     @POST("miniMasterApp/recipes/createRecipes")

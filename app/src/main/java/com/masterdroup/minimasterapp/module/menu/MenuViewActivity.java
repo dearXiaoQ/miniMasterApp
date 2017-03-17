@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
@@ -59,6 +60,12 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.fab)
     FloatingActionButton mFab;
 
+
+    /**
+     * 菜谱id
+     */
+    String recipesBeanID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,51 +92,17 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         });
     }
 
+
     private void initData() {
 
 
         mPresenter.initMenuViewRV(rv_food, rv_step, mRvCookingStep);
 
 
-        String i = getIntent().getStringExtra("_id");
-        if (null != i)
-            mPresenter.gettingData(i);
-//
-//
-//        List<String> foods = new ArrayList<>();
-//        foods.add("油    30g");
-//        foods.add("面粉   30g");
-//        foods.add("面粉   30g");
-//        foods.add("面粉   30g");
-//        rv_food.setAdapter(new FoodsAdapter(this,null));
-//        rv_food.setLayoutManager(new GridLayoutManager(this, 2));
-//
-//        List<Step> steps = new ArrayList<>();
-//
-//        Step step1 = new Step();
-//        step1.setStepNo(1);
-//        step1.setDes("放在温度37度左右湿度75%的环境下发酵至2倍大\n" + "手指轻摁表面可以缓慢回弹");
-//        step1.setPicture_url("http://s1.cdn.xiachufang.com/58e03f86c72411e6bc9d0242ac110002_1333w_1000h.jpg@2o_50sh_1pr_1l_200w_90q_1wh");
-//
-//        Step step2 = new Step();
-//        step2.setStepNo(2);
-//        step2.setDes("放入预热好的烤箱，中下层\n" +
-//                "上下管180度烘烤20分钟出炉，顶部上色要及时盖锡纸");
-//        step2.setPicture_url("http://s1.cdn.xiachufang.com/60d7fea4c72411e6947d0242ac110002_1333w_1000h.jpg@2o_50sh_1pr_1l_200w_90q_1wh");
-//
-//        Step step3 = new Step();
-//        step3.setStepNo(3);
-//        step3.setDes("出炉趁热刷一层黄油，脱模冷却即可");
-//        step3.setPicture_url("http://s1.cdn.xiachufang.com/681cc2d0c72411e6bc9d0242ac110002_1333w_1000h.jpg@2o_50sh_1pr_1l_200w_90q_1wh");
-//
-//        steps.add(step1);
-//        steps.add(step2);
-//        steps.add(step3);
-//
-//        rv_step.setAdapter(new StepAdapter(this, null));
-////        rv_step.setLayoutManager(new GridLayoutManager(this, 1));
-//        rv_step.setLayoutManager(new LinearLayoutManager(this));
-//        rv_step.setNestedScrollingEnabled(false);
+        recipesBeanID = getIntent().getStringExtra("_id");
+
+        mPresenter.gettingData(recipesBeanID);
+
 
     }
 
@@ -138,9 +111,18 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter = Utils.checkNotNull(presenter);
     }
 
-    @OnClick(R.id.iv_return)
-    public void onClick() {
-        finish();
+    @OnClick({R.id.iv_return, R.id.fab})
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_return)
+            finish();
+        if (v.getId() == R.id.fab) {
+
+            Intent intent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
+            intent.putExtra("_id", recipesBeanID);
+
+            startActivity(intent);
+        }
+
     }
 
     @Override
