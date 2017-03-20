@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
-import com.masterdroup.minimasterapp.App;
+import com.masterdroup.minimasterapp.*;
 import com.yuyh.library.imgsel.*;
 
 
@@ -97,6 +97,16 @@ public class Utils {
 
         ImgSelActivity.startActivity((Activity) context, config, result_code);
 
+
+    }
+
+    public static boolean isLogin() {
+
+        String token = App.spUtils.getString(App.mContext.getString(com.masterdroup.minimasterapp.R.string.key_token));
+
+        if (null == token)
+            return false;
+        else return true;
 
     }
 }

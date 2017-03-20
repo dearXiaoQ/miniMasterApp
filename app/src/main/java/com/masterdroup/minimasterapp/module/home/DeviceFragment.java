@@ -209,16 +209,25 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         View view = inflater.inflate(R.layout.fragment_menu_device, container, false);
         ButterKnife.bind(view);
         mView = view;
-        initData();
-        initView();
-        initEvent();
+
 
         return view;
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        initData();
+        initView();
+        initEvent();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        if (!Utils.isLogin())
+            return;
         GizDeviceSharing.setListener(new GizDeviceSharingListener() {
 
             @Override
@@ -430,16 +439,18 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         boundMessage = new ArrayList<String>();
 //        ProductKeyList = GosDeploy.setProductKeyList();
 
+        try {
+            uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
+            token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
+            if (uid.isEmpty() && token.isEmpty()) {
+                loginStatus = 0;
+            }
 
-        uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
-        token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
-        if (uid.isEmpty() && token.isEmpty()) {
-            loginStatus = 0;
+            GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
+            handler.sendEmptyMessage(GETLIST);//发送获取设备列表请求
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
-        handler.sendEmptyMessage(GETLIST);//发送获取设备列表请求
-
     }
 
 

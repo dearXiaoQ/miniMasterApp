@@ -40,9 +40,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
         setContentView(R.layout.activity_welcome);
         new WelcomePresenter(this);
 
-
-
-
         if (mPresenter.isLogin()) {
             //直接跳转到home页面
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
@@ -74,6 +71,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+                finish();
             }
         });
 

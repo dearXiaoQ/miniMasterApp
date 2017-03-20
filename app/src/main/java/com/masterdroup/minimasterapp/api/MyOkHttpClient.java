@@ -93,16 +93,19 @@ public class MyOkHttpClient {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
-                String token = App.spUtils.getString(App.mContext.getString(R.string.key_token));
-                if (null == token) {
-                    return chain.proceed(originalRequest);
-                }
 
-                LogUtils.d("mTokenInterceptor________token值", token);
-                Request authorised = originalRequest.newBuilder()
-                        .header("Authorization", token)
-                        .build();
-                return chain.proceed(authorised);
+                String token = App.spUtils.getString(App.mContext.getString(R.string.key_token));
+
+                if (token != null) {
+                    LogUtils.d("mTokenInterceptor________token值", token);
+                    Request authorised = originalRequest.newBuilder()
+                            .header("Authorization", token)
+                            .build();
+                    return chain.proceed(authorised);
+                } else
+                    return chain.proceed(originalRequest);
+
+
             }
         };
     }

@@ -22,17 +22,24 @@ public class App extends Application implements Thread.UncaughtExceptionHandler 
 
     public static SPUtils spUtils;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID, Constant.APP_Secret, null, null, false);//启动机智云SDK
-
-        GizWifiSDK.sharedInstance().setListener(mListener);
         Utils.init(mContext);
+
         try {
             setSPUp();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try{
+            GizWifiSDK.sharedInstance().startWithAppID(getApplicationContext(), Constant.APP_ID, Constant.APP_Secret, null, null, false);//启动机智云SDK
+            GizWifiSDK.sharedInstance().setListener(mListener);
+
+        } catch (VerifyError e) {
             e.printStackTrace();
         }
     }

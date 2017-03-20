@@ -182,7 +182,7 @@ public class CookingActivity extends AppCompatActivity {
             mTvStepInfoCurrent.setText(current_cs.getDescribe());
             next_cs = cookingSteps.get(step + 1);
             mTvStepInfoNext.setText(next_cs.getDescribe());
-            startStepCountDown(current_cs.getDuration() * 4);
+            startStepCountDown(current_cs.getDuration() * 10);
 
             upDataPower();
         } else if (step == cookingSteps.size() - 1) {
@@ -191,7 +191,7 @@ public class CookingActivity extends AppCompatActivity {
             mTvStepNo.setText(String.format("当前步骤:第%s步", step + 1));
             mTvStepInfoCurrent.setText(current_cs.getDescribe());
             mTvStepInfoNext.setText("无");
-            startStepCountDown(current_cs.getDuration() * 4);
+            startStepCountDown(current_cs.getDuration() * 10);
             upDataPower();
         } else {
             mLlCooking.setVisibility(View.GONE);

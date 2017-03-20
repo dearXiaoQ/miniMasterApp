@@ -2,7 +2,6 @@ package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +37,7 @@ import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerClickListener;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
+
+import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 
 /**
  * Created by 11473 on 2016/12/19.
@@ -82,32 +84,24 @@ public class MenuFragment extends Fragment {
         ButterKnife.bind(this, view);
 
 //
-//        ImageLoader.getInstance().displayGlideImage("https://images.pexels.com/photos/5485/handwritten-italian-marketing-menu.jpg?w=1260&h=750&auto=compress&cs=tinysrgb", ivCenter1, view.getContext(), false);
-//        ImageLoader.getInstance().displayGlideImage("https://images.pexels.com/photos/3498/italian-pizza-restaurant-italy.jpg?w=1260&h=750&auto=compress&cs=tinysrgb", ivCenter2, view.getContext(), false);
-//        ivCenter1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), MenuListActivity.class));
-//            }
-//        });
-//
-//        ivCenter2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), MenuListActivity.class));
-//            }
-//        });
-
-
+        if (isLogin())
+            LogUtils.d("已登陆");
+        else
+            LogUtils.d("未登陆");
         //设置ActionBar
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);//需要额外调用
         this.view = view;
 
-        initData();
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
 
     void initData() {
         mAdapter = new StaggeredMenuRVAdapter();

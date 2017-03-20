@@ -9,7 +9,9 @@ import android.widget.FrameLayout;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
+import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.DebugUtils;
+import com.masterdroup.minimasterapp.util.Utils;
 import com.masterdroup.minimasterapp.view.TipsDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -54,11 +56,17 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
 
         menuFragment = new MenuFragment();
-        deviceFragment = new DeviceFragment();
-        userFragment = new UserFragment();
+
         getFragmentManager().beginTransaction().add(R.id.fl_content, menuFragment, menuFragment_tag).commit();
-        getFragmentManager().beginTransaction().add(R.id.fl_content, deviceFragment, deviceFragment_tag).commit();
-        getFragmentManager().beginTransaction().add(R.id.fl_content, userFragment, userFragment_tag).commit();
+
+
+        if (Utils.isLogin()) {
+            deviceFragment = new DeviceFragment();
+            userFragment = new UserFragment();
+            getFragmentManager().beginTransaction().add(R.id.fl_content, deviceFragment, deviceFragment_tag).commit();
+            getFragmentManager().beginTransaction().add(R.id.fl_content, userFragment, userFragment_tag).commit();
+
+        }
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -69,12 +77,19 @@ public class HomeActivity extends AppCompatActivity {
                     showMenuFragment();
                 } else if (tabId == R.id.tab_device) {
                     DebugUtils.d("TAB", "tab_device");
-                    showDeviceFragment();
-
-//                    startActivity(new Intent(HomeActivity.this, DeviceListActivity.class));
+                    if (!Utils.isLogin()) {
+                        finish();
+                        startActivity(new Intent(HomeActivity.this, WelcomeActivity.class));
+                    } else
+                        showDeviceFragment();
                 } else if (tabId == R.id.tab_user) {
+
                     DebugUtils.d("TAB", "tab_user");
-                    showUserFragment();
+                    if (!Utils.isLogin()) {
+                        finish();
+                        startActivity(new Intent(HomeActivity.this, WelcomeActivity.class));
+                    } else
+                        showUserFragment();
                 }
             }
         });
@@ -97,6 +112,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     void showUserFragment() {
+
         if (App.spUtils.contains(App.mContext.getString(R.string.key_token))) {
 
             if (userFragment == null)
@@ -109,8 +125,11 @@ public class HomeActivity extends AppCompatActivity {
 
     void hideAllFragment() {
         getFragmentManager().beginTransaction().hide(menuFragment).commit();
-        getFragmentManager().beginTransaction().hide(deviceFragment).commit();
-        getFragmentManager().beginTransaction().hide(userFragment).commit();
+
+        if (null != deviceFragment)
+            getFragmentManager().beginTransaction().hide(deviceFragment).commit();
+        if (null != userFragment)
+            getFragmentManager().beginTransaction().hide(userFragment).commit();
 
     }
 

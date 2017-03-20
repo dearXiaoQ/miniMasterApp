@@ -65,6 +65,8 @@ public class UserFragment extends Fragment implements Contract.UserView {
     @Override
     public void onResume() {
         super.onResume();
+        if (!Utils.isLogin())
+            return;
         //请求用户信息
         mHomePresenter.getUserInfo();
     }

@@ -73,8 +73,16 @@ public class WelcomePresenter implements Contract.Presenter {
 
     @Override
     public boolean isLogin() {
+
         //判读token值是否存在
-        return App.spUtils.contains(App.mContext.getString(R.string.key_token));
+        try {
+
+            return App.spUtils.contains(App.mContext.getString(R.string.key_token));
+
+        } catch (Exception e) {
+            return false;
+        }
+
 
     }
 
