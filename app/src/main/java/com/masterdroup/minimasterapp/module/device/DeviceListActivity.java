@@ -1,36 +1,41 @@
 package com.masterdroup.minimasterapp.module.device;
 
 import android.app.Activity;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.blankj.utilcode.utils.NetworkUtils;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.api.GizWifiSSID;
-import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
-import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.util.NetUtils;
+import com.masterdroup.minimasterapp.view.SlideListView2;
+import com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import static com.gizwits.gizwifisdk.enumration.GizWifiErrorCode.GIZ_SDK_DEVICE_CONFIG_IS_RUNNING;
 
 public class DeviceListActivity extends Activity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+        ButterKnife.bind(this);
 
 
         String ssid = NetUtils.getCurentWifiSSID(this);
@@ -129,7 +134,6 @@ public class DeviceListActivity extends Activity {
             }
         }
     };
-
 
 
 }

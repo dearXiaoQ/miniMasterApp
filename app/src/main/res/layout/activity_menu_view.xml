@@ -7,8 +7,45 @@
              android:orientation="vertical"
              tools:context="com.masterdroup.minimasterapp.module.menu.MenuViewActivity">
 
-    <include
-        layout="@layout/view_top_bar"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_return"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="本周最佳"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_more_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/vsv"
@@ -86,12 +123,37 @@
                 android:text="法式手撕面包是以高低粉、黄油等食材制成的一道美食。高粉150克、低粉100克、黄油15克、鸡蛋一个、水90克左右、盐5克、白糖25克、酵母3克。
 裹入用黄油140克"
                 android:textColor="@color/app_text_color_dark"/>
+            jj
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_margin="20dp"
                 android:background="#ddd"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:text="点赞"
+                android:textColor="@color/app_text_color_dark111"
+                android:textSize="18sp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_margin="20dp"
+                android:background="#ddd"/>
+
+
 
             <TextView
                 android:layout_width="wrap_content"

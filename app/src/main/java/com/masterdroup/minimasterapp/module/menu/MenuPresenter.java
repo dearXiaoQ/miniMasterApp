@@ -12,6 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.SPUtils;
+import com.blankj.utilcode.utils.ToastUtils;
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
@@ -19,6 +25,8 @@ import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Food;
+import com.masterdroup.minimasterapp.model.Like;
+import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -36,6 +44,9 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 
+import static android.widget.LinearLayout.HORIZONTAL;
+import static com.masterdroup.minimasterapp.util.Utils.isLogin;
+
 /**
  * Created by 11473 on 2016/12/21.
  */
@@ -49,6 +60,7 @@ public class MenuPresenter implements Contract.Presenter {
     MenuListRVAdapter adapter;
     FoodsAdapter food_adapter;
     StepAdapter step_adapter;
+    LikeAdapter like_adapter;
     CookingStepAdapter cooking_step_adapter;
     public static List<Recipes.RecipesBean> list;
 
@@ -56,13 +68,15 @@ public class MenuPresenter implements Contract.Presenter {
     List<DescribeStep> mSteps = new ArrayList<>();
     List<Food> mFoods = new ArrayList<>();
     List<CookingStep> mCookingSteps = new ArrayList<>();
-
+    List<Like> likes = new ArrayList<>();
 
     int index = 0;//从第index个开始获取
     int count = 3;//页数
 
     Observable o_recipesList;
     Subscriber s_recipesList;
+
+    Recipes.RecipesBean recipesBean;
 
     @Override
     public void start() {
@@ -72,6 +86,7 @@ public class MenuPresenter implements Contract.Presenter {
         food_adapter = new FoodsAdapter(mContext);
         step_adapter = new StepAdapter(mContext);
         cooking_step_adapter = new CookingStepAdapter(mContext);
+        like_adapter = new LikeAdapter();
 
 
     }
@@ -98,15 +113,17 @@ public class MenuPresenter implements Contract.Presenter {
             public void onNext(Base<Recipes.RecipesBean> base) {
                 if (base.getErrorCode() == 0) {
                     menuAloneView.settingData(base.getRes());
-
+                    recipesBean = base.getRes();
                     mFoods = base.getRes().getFoodList();
                     mSteps = base.getRes().getDescribeSteps();
                     mCookingSteps = base.getRes().getCookingStep();
+                    likes = base.getRes().getLikes();
 
 
                     food_adapter.notifyDataSetChanged();
                     step_adapter.notifyDataSetChanged();
                     cooking_step_adapter.notifyDataSetChanged();
+                    like_adapter.notifyDataSetChanged();
                 }
             }
         }, mContext);
@@ -155,7 +172,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv) {
+    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv) {
 
         food_rv.setAdapter(food_adapter);
         food_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
@@ -167,6 +184,40 @@ public class MenuPresenter implements Contract.Presenter {
         cooking_step_rv.setAdapter(cooking_step_adapter);
         cooking_step_rv.setLayoutManager(new LinearLayoutManager(mContext));
         cooking_step_rv.setNestedScrollingEnabled(false);
+
+        like_rv.setAdapter(like_adapter);
+        like_rv.setLayoutManager(new LinearLayoutManager(mContext, HORIZONTAL, false));
+
+    }
+
+    @Override
+    public void like() {
+
+        if (!isLogin()) {
+            ToastUtils.showShortToast("点赞前请登录");
+            return;
+        }
+        if (!isLike()) {
+
+            Observable o = Network.getMainApi().addComment(recipesBean.get_id());
+            Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
+                @Override
+                public void onNext(Base o) {
+
+                }
+            }, mContext);
+            JxUtils.toSubscribe(o, s);
+        }else {
+            
+        }
+    }
+
+    @Override
+    public boolean isLike() {
+        
+        //// TODO: 2017/3/21 判断是否登录 
+        
+        return false;
     }
 
     void refreshRV(final PullLoadMoreRecyclerView rv) {
@@ -204,6 +255,21 @@ public class MenuPresenter implements Contract.Presenter {
         }, mContext);
 
         JxUtils.toSubscribe(o_recipesList, s_recipesList);
+
+    }
+
+    class LikeAdapter extends BaseQuickAdapter<Like, BaseViewHolder> {
+
+        public LikeAdapter() {
+            super(R.layout.view_menu_like_show_item, likes);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder holder, Like o) {
+            Glide.with(mContext).load(Constant.BASEURL + o.getHeadUrl()).crossFade().into((ImageView) holder.getView(R.id.iv_head));
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + o.getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
+
+        }
 
     }
 

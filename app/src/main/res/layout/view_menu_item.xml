@@ -30,6 +30,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="99"
+        android:visibility="invisible"
         android:textColor="@color/app_orange"
         android:textSize="12sp" />
 

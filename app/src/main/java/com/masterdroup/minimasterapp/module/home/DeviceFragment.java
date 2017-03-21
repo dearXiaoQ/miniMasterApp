@@ -301,12 +301,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
         mSwipeLayout = (VerticalSwipeRefreshLayout) mView.findViewById(R.id.id_swipe_ly);
 
-//        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setOnRefreshListener(this);
 //        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         mSwipeLayout1 = (VerticalSwipeRefreshLayout) mView.findViewById(R.id.id_swipe_ly1);
-//        mSwipeLayout1.setOnRefreshListener(this);
+        mSwipeLayout1.setOnRefreshListener(this);
 //        mSwipeLayout1.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
@@ -453,23 +453,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         }
     }
 
-
-    //实现回调
-    GizWifiSDKListener getBoundDevices_mListener = new GizWifiSDKListener() {
-        @Override
-        public void didDiscovered(GizWifiErrorCode result,
-                                  List<GizWifiDevice> list) {
-            // 提示错误原因
-            if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                LogUtils.e("GizWifiSDK", "result: " + result.name());
-            } else {
-                // 显示设备列表
-                LogUtils.d("GizWifiSDK", "discovered deviceList: " + list);
-                deviceslist = list;
-                UpdateUI();
-            }
-        }
-    };
 
     private void UpdateUI() {
 

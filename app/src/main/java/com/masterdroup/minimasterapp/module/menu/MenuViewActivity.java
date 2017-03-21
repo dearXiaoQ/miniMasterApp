@@ -51,7 +51,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     TextView mTvMoreButton;
 
     @Bind(R.id.rv_cooking_step)
-    RecyclerView mRvCookingStep;
+    RecyclerView rv_cookingStep;
 
     Contract.Presenter mPresenter;
 
@@ -59,12 +59,16 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     NestedScrollView mVsv;
     @Bind(R.id.fab)
     FloatingActionButton mFab;
+    @Bind(R.id.rv_like)
+    RecyclerView rv_like;
 
+    boolean islike;//点赞 0 否 ，1 是
 
     /**
      * 菜谱id
      */
     String recipesBeanID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
     private void initView() {
-        mTvMoreButton.setVisibility(View.GONE);
+        mTvMoreButton.setVisibility(View.VISIBLE);
+
 
         mVsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -93,10 +98,11 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
 
+
     private void initData() {
 
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, mRvCookingStep);
+        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rv_like);
 
 
         recipesBeanID = getIntent().getStringExtra("_id");
@@ -111,7 +117,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter = Utils.checkNotNull(presenter);
     }
 
-    @OnClick({R.id.iv_return, R.id.fab})
+    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button})
     public void onClick(View v) {
         if (v.getId() == R.id.iv_return)
             finish();
@@ -121,6 +127,10 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             intent.putExtra("_id", recipesBeanID);
 
             startActivity(intent);
+        }
+        if (v.getId() == R.id.tv_more_button) {
+
+            mPresenter.like();
         }
 
     }

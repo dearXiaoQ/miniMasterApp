@@ -47,6 +47,16 @@ public class Recipes {
 
         List<CookingStep> cookingStep;
         Owner owner;
+        List<Like> likes;
+
+        public List<Like> getLikes() {
+            return likes;
+        }
+
+        public void setLikes(List<Like> likes) {
+            this.likes = likes;
+        }
+
         List<Food> foodList;
 
         public List<Food> getFoodList() {

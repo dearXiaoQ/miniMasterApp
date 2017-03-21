@@ -26,8 +26,10 @@ public class Contract {
 
         void initRV(PullLoadMoreRecyclerView rv);
 
-        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv);
+        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv);
 
+        void like();//点赞
+        boolean isLike();//是否like
     }
 
     interface MenuCreatePresenter extends BasePresenter {

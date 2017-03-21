@@ -34,6 +34,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

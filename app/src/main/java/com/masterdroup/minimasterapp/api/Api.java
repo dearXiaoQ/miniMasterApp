@@ -114,7 +114,7 @@ public interface Api {
      * @param id 菜谱id
      */
     @POST("miniMasterApp/recipes/addComment/{id}")
-    Observable<Base> addComment(@Path("id") int id);
+    Observable<Base> addComment(@Path("id") String id);
 
 
     /**

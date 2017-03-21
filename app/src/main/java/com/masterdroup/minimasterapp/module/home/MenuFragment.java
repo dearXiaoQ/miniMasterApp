@@ -93,15 +93,10 @@ public class MenuFragment extends Fragment {
         setHasOptionsMenu(true);//需要额外调用
         this.view = view;
 
-
+        initData();
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
-    }
 
     void initData() {
         mAdapter = new StaggeredMenuRVAdapter();
@@ -110,8 +105,6 @@ public class MenuFragment extends Fragment {
         //设置Item增加、移除动画
         mRvMenu.setItemAnimator(new DefaultItemAnimator());
         mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
-//        mRvMenu.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
 
         Observable o = Network.getMainApi().getRecipesList(0, 10);
         Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
@@ -135,17 +128,7 @@ public class MenuFragment extends Fragment {
 
         JxUtils.toSubscribe(o, s);
 
-//
-//        ButtonMenu bm1 = new ButtonMenu("名厨专区", "https://image.flaticon.com/icons/svg/199/199593.svg");
-//        ButtonMenu bm2 = new ButtonMenu("无肉不欢", "https://image.flaticon.com/icons/svg/199/199611.svg");
-//        ButtonMenu bm3 = new ButtonMenu("精致西点", "https://image.flaticon.com/icons/svg/199/199669.svg");
-//        ButtonMenu bm4 = new ButtonMenu("小聚简食", "https://image.flaticon.com/icons/svg/199/199614.svg");
-//        ButtonMenu bm5 = new ButtonMenu("快手家常", "https://image.flaticon.com/icons/svg/199/199620.svg");
-//        ButtonMenu bm6 = new ButtonMenu("美味早点", "https://image.flaticon.com/icons/svg/199/199585.svg");
-//        ButtonMenu bm7 = new ButtonMenu("官方推荐", "https://image.flaticon.com/icons/svg/199/199636.svg");
-//        ButtonMenu bm8 = new ButtonMenu("面包大师", "https://image.flaticon.com/icons/svg/199/199588.svg");
-
-        ButtonMenu bm1 = new ButtonMenu("名厨专区", R.drawable.ic_menu_button1);
+        ButtonMenu bm1 = new ButtonMenu("本周流行", R.drawable.ic_menu_button1);
         ButtonMenu bm2 = new ButtonMenu("无肉不欢", R.drawable.ic_menu_button2);
         ButtonMenu bm3 = new ButtonMenu("精致西点", R.drawable.ic_menu_button3);
         ButtonMenu bm4 = new ButtonMenu("小聚简食", R.drawable.ic_menu_button4);
