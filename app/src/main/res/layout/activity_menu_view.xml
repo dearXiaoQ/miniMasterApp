@@ -40,7 +40,7 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
             android:padding="10dp"
-            android:text="@string/submit"
+            android:text="@string/like"
             android:textColor="@color/white"
             android:textSize="15sp"
             />
@@ -144,7 +144,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_like"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:nestedScrollingEnabled="false"/>
 
             <View

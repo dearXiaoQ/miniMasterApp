@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.module.menu.MyMenuListActivity;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
@@ -100,6 +101,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
             case R.id.iv_settings:
 
                 startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+                startActivity(new Intent(this.getActivity(), DeviceListActivity.class));
                 break;
             case R.id.tv_out:
                 mHomePresenter.outLogin();

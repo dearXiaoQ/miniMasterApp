@@ -78,6 +78,7 @@ public class MenuPresenter implements Contract.Presenter {
 
     Recipes.RecipesBean recipesBean;
 
+
     @Override
     public void start() {
 
@@ -106,7 +107,7 @@ public class MenuPresenter implements Contract.Presenter {
 
 
     @Override
-    public void gettingData(String menuId) {
+    public void gettingData(final String menuId) {
         Observable o = Network.getMainApi().getRecipesDetail(menuId);
         Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
             @Override
@@ -114,6 +115,7 @@ public class MenuPresenter implements Contract.Presenter {
                 if (base.getErrorCode() == 0) {
                     menuAloneView.settingData(base.getRes());
                     recipesBean = base.getRes();
+                    recipesBean.set_id(menuId);
                     mFoods = base.getRes().getFoodList();
                     mSteps = base.getRes().getDescribeSteps();
                     mCookingSteps = base.getRes().getCookingStep();
@@ -124,6 +126,10 @@ public class MenuPresenter implements Contract.Presenter {
                     step_adapter.notifyDataSetChanged();
                     cooking_step_adapter.notifyDataSetChanged();
                     like_adapter.notifyDataSetChanged();
+
+                    menuAloneView.onIsOwner(isOwner());
+                    if (!isOwner())
+                        menuAloneView.onIsLike(isLike());
                 }
             }
         }, mContext);
@@ -198,25 +204,47 @@ public class MenuPresenter implements Contract.Presenter {
             return;
         }
         if (!isLike()) {
-
-            Observable o = Network.getMainApi().addComment(recipesBean.get_id());
+            Observable o = Network.getMainApi().addFollower(recipesBean.get_id());
             Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
                 @Override
                 public void onNext(Base o) {
-
+                    if (o.getErrorCode() == 0) {
+                        ToastUtils.showShortToast("点赞成功");
+                        menuAloneView.onIsLike(true);
+                    }
                 }
             }, mContext);
             JxUtils.toSubscribe(o, s);
-        }else {
-            
+        } else {
+            Observable o = Network.getMainApi().cancelFollower(recipesBean.get_id());
+            Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
+                @Override
+                public void onNext(Base o) {
+                    if (o.getErrorCode() == 0)
+                        menuAloneView.onIsLike(false);
+                }
+            }, mContext);
+            JxUtils.toSubscribe(o, s);
         }
     }
 
     @Override
     public boolean isLike() {
-        
-        //// TODO: 2017/3/21 判断是否登录 
-        
+
+        //// 判断是否 like
+        String name = App.spUtils.getString(App.mContext.getString(R.string.name));
+        for (Like like : recipesBean.getLikes()) {
+            if (name.equals(like.getName()))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isOwner() {
+        String name = App.spUtils.getString(App.mContext.getString(R.string.name));
+        if (recipesBean.getOwner().getOwnerUid().getName().equals(name))
+            return true;
         return false;
     }
 

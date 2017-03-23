@@ -47,14 +47,14 @@ public class Recipes {
 
         List<CookingStep> cookingStep;
         Owner owner;
-        List<Like> likes;
+        List<Like> like;
 
         public List<Like> getLikes() {
-            return likes;
+            return like;
         }
 
         public void setLikes(List<Like> likes) {
-            this.likes = likes;
+            this.like = likes;
         }
 
         List<Food> foodList;

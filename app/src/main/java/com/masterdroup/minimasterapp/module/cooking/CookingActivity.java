@@ -81,7 +81,7 @@ public class CookingActivity extends AppCompatActivity {
     /**
      * 设备当前温度
      */
-    private int device_info_temperature;
+    private String device_info_temperature;
 
     /**
      * 烹饪总时间
@@ -129,6 +129,7 @@ public class CookingActivity extends AppCompatActivity {
     public static final String TEMPERATURE = "temperature";
     public static final String INCREASE = "increase";//增大功率
     public static final String DECREASE = "decrease";//减少功率
+    public static final String POWER_LEVEL = "power_level";//电磁炉功率
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,20 +235,39 @@ public class CookingActivity extends AppCompatActivity {
     }
 
     void upDataPower() {
+        int i = 0;
         switch (current_cs.getPower()) {
             case 0:
-                int i = 400;
-                up1(i);
+                i = 400;
                 break;
             case 1:
-                int i1 = 1000;
-                up1(i1);
+                i = 1000;
                 break;
             case 2:
-                int i2 = 1800;
-                up1(i2);
+                i = 1800;
                 break;
         }
+
+        upDataDeviceInfoPower(i);
+    }
+
+
+    /**
+     * 直接设置功率
+     *
+     * @param power 功率
+     */
+    void upDataDeviceInfoPower(int power) {
+
+        //开关
+        ConcurrentHashMap<String, Object> command = new ConcurrentHashMap<String, Object>();
+
+        // map中key为云端创建数据点的标识名，value为需要传输的值
+        command.put(POWER_LEVEL, power);
+
+        // 调用write方法即可下发命令
+        device.write(command, sn);
+
     }
 
     int sn;
@@ -264,7 +284,7 @@ public class CookingActivity extends AppCompatActivity {
                     ConcurrentHashMap<String, Object> map = (ConcurrentHashMap<String, Object>) dataMap.get("data");
                     // 根据标识名，在回调的map中找到设备上报的值
                     if (map.get(TEMPERATURE) != null) {
-                        device_info_temperature = (int) (double) map.get(TEMPERATURE);
+                        device_info_temperature = map.get(TEMPERATURE).toString();
                     }
                     if (map.get(STATUS) != null) {
                         int switchs = (int) map.get(STATUS);
@@ -329,7 +349,7 @@ public class CookingActivity extends AppCompatActivity {
                         }
                         mTvDeviceInfo.setText("状态：" + info);
                         mTvPower.setText(device_info_power != 0 ? String.format("火力：%dW", device_info_power) : "火力:-");
-                        mTvTemperature.setText(String.format("锅温：%d℃", device_info_temperature));
+                        mTvTemperature.setText(String.format("锅温：%s℃", device_info_temperature));
                     }
                 }
             } else {
@@ -405,7 +425,7 @@ public class CookingActivity extends AppCompatActivity {
 
     private void upDataDeviceInfoSWITCH() {
 
-        //开关
+
         ConcurrentHashMap<String, Object> command = new ConcurrentHashMap<String, Object>();
         // map中key为云端创建数据点的标识名，value为需要传输的值
         command.put(SWITCH, true);
@@ -414,11 +434,11 @@ public class CookingActivity extends AppCompatActivity {
     }
 
     private void upDataDeviceInfoPower(String crease) {
-        //开关
+
         ConcurrentHashMap<String, Object> command = new ConcurrentHashMap<String, Object>();
 
         // map中key为云端创建数据点的标识名，value为需要传输的值
-        command.put(INCREASE, true);
+        command.put(crease, true);
 
         // 调用write方法即可下发命令
         device.write(command, sn);

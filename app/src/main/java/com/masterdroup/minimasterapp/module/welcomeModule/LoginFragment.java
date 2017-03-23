@@ -94,9 +94,12 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
      * 登录成功
      */
     @Override
-    public void onLoginSuccess(String token,String giz_uid, String giz_token) {
+    public void onLoginSuccess(String name, String token, String giz_uid, String giz_token) {
 
         App.spUtils.putString(App.mContext.getString(R.string.key_token), token);
+
+
+        App.spUtils.putString(App.mContext.getString(R.string.name), name);
 
         App.spUtils.putString(App.mContext.getString(R.string.giz_uid), giz_uid);
 

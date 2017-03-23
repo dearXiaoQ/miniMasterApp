@@ -105,7 +105,15 @@ public interface Api {
      * @param id 菜谱id
      */
     @POST("miniMasterApp/recipes/addFollower/{id}")
-    Observable<Base> addFollower(@Path("id") int id);
+    Observable<Base> addFollower(@Path("id") String id);
+
+    /**
+     * 菜谱取消点赞
+     *
+     * @param id 菜谱id
+     */
+    @POST("miniMasterApp/recipes/cancelFollower/{id}")
+    Observable<Base> cancelFollower(@Path("id") String id);
 
 
     /**

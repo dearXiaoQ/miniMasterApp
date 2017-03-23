@@ -29,7 +29,10 @@ public class Contract {
         void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv);
 
         void like();//点赞
+
         boolean isLike();//是否like
+
+        boolean isOwner();// 是否菜谱创建者
     }
 
     interface MenuCreatePresenter extends BasePresenter {
@@ -61,6 +64,9 @@ public class Contract {
 
         Context getContext();
 
+        void onIsOwner(boolean o);
+
+        void onIsLike(boolean o);
     }
 
 

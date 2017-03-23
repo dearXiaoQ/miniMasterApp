@@ -80,7 +80,7 @@ public class Utils {
                 .btnTextColor(Color.BLUE)
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5"))
-                // 标题
+                // 标题fffffffffffffff
                 .title("图片")
                 // 标题文字颜色
                 .titleColor(Color.WHITE)

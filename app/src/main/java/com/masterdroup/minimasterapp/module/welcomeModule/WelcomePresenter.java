@@ -87,7 +87,7 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
     @Override
-    public void login(String name, String pwd, final String giz_uid, final String giz_token) {
+    public void login(final String name, String pwd, final String giz_uid, final String giz_token) {
         DebugUtils.d("WelcomePresenter", "login()");
 
         if (name.isEmpty() || pwd.isEmpty()) {
@@ -106,7 +106,7 @@ public class WelcomePresenter implements Contract.Presenter {
                 @Override
                 public void onNext(Base<Token> o) {
                     if (o.getErrorCode() == 0)
-                        loginView.onLoginSuccess(o.getRes().getToken(), giz_uid, giz_token);
+                        loginView.onLoginSuccess(name,o.getRes().getToken(), giz_uid, giz_token);
                     else {
                         loginView.onLoginFailure(o.getMessage());
                     }

@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.api.GizWifiSSID;
+import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
@@ -20,6 +22,7 @@ import com.masterdroup.minimasterapp.view.SlideListView2;
 import com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -42,27 +45,27 @@ public class DeviceListActivity extends Activity {
         String paw = "Mk2925288";
 
 
-//        //SoftAP配置
+        //SoftAP配置    红灯长亮
 //        GizWifiSDK.sharedInstance().setListener(SoftAP_mListener);
-//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiSoftAP, "XPG-GAgent-DF4A", 60, null);
+//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, paw, GizWifiConfigureMode.GizWifiSoftAP, "XPG-GAgent-DF4A", 60, null);
 
-//        //在 Soft-AP 模式时，获得设备的 SSID 列表。SSID 列表通过异步回调方式返回
-//        GizWifiSDK.sharedInstance().setListener(getSSIDListListener);
-//        GizWifiSDK.sharedInstance().getSSIDList();
+        //在 Soft-AP 模式时，获得设备的 SSID 列表。SSID 列表通过异步回调方式返回
+        GizWifiSDK.sharedInstance().setListener(getSSIDListListener);
+        GizWifiSDK.sharedInstance().getSSIDList();
 
-//         //AirLink配置
+//         //AirLink配置   绿灯闪亮
 //        GizWifiSDK.sharedInstance().setListener(AirLink_mListener);
 //        List<GizWifiGAgentType> types = new ArrayList<>();
 //        types.add(GizWifiGAgentType.GizGAgentESP);
-//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, "Mk2925288", GizWifiConfigureMode.GizWifiAirLink, null, 60, types);
+//        GizWifiSDK.sharedInstance().setDeviceOnboarding(ssid, paw, GizWifiConfigureMode.GizWifiAirLink, null, 60, types);
+//
+//
+//        String giz_uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
+//        String giz_token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
 
-
-        String giz_uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
-        String giz_token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
-
-        GizWifiSDK.sharedInstance().setListener(getBoundDevices_mListener);
-        GizWifiSDK.sharedInstance().getBoundDevices(giz_uid,
-                giz_token, null);
+//        GizWifiSDK.sharedInstance().setListener(getBoundDevices_mListener);
+//        GizWifiSDK.sharedInstance().getBoundDevices(giz_uid,
+//                giz_token, null);
 
     }
 

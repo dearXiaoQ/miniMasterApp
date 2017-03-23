@@ -111,7 +111,6 @@ public class MenuFragment extends Fragment {
             @Override
             public void onNext(Base<RecipesList> o) {
                 if (o.getErrorCode() == 0) {
-
                     for (int i = 0; i < 4; i++) {
                         recipes_banner.add(o.getRes().getList().get(i));
                     }

@@ -62,7 +62,6 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.rv_like)
     RecyclerView rv_like;
 
-    boolean islike;//点赞 0 否 ，1 是
 
     /**
      * 菜谱id
@@ -95,9 +94,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 }
             }
         });
+
     }
-
-
 
     private void initData() {
 
@@ -108,8 +106,6 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         recipesBeanID = getIntent().getStringExtra("_id");
 
         mPresenter.gettingData(recipesBeanID);
-
-
     }
 
     @Override
@@ -139,7 +135,6 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     public void settingData(Recipes.RecipesBean recipesBean) {
         tvTitle.setText(recipesBean.getName());
         tvMenuName.setText(recipesBean.getName());
-//        tvMenuInfo.setText(String.format("%s综合评分 %s人收藏", recipesBean.getScore(), recipesBean.getScore()));
         tvUserName.setText(recipesBean.getOwner().getOwnerUid().getName());
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
@@ -149,6 +144,23 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onIsOwner(boolean o) {
+        //是否隐藏点赞按键
+        if (o)
+            mTvMoreButton.setVisibility(View.INVISIBLE);
+        else mTvMoreButton.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onIsLike(boolean o) {
+        //根据是否点赞去设置点赞按键样式
+        if (o)
+            mTvMoreButton.setText(getString(R.string.liking));
+        else mTvMoreButton.setText(getString(R.string.like));
     }
 
 }

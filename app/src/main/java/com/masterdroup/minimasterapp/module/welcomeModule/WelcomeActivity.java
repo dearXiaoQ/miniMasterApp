@@ -30,11 +30,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
     TextView tv_skip;
     int duration = 400;
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

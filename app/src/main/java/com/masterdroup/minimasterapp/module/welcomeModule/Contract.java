@@ -52,7 +52,7 @@ public class Contract {
     interface LoginView extends BaseView<Presenter> {
         Context onGetContext();
 
-        void onLoginSuccess(String token, String giz_uid, String giz_token);
+        void onLoginSuccess(String name,String token, String giz_uid, String giz_token);
 
         void onLoginFailure(@Nullable String info);
 
