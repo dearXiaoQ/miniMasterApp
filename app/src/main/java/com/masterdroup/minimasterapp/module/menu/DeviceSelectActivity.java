@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
@@ -84,6 +85,7 @@ public class DeviceSelectActivity extends AppCompatActivity {
                 String productKey = device.getProductKey();
                 //订阅设备
                 device.setSubscribe(productKey, true);
+
             }
         });
         String uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
@@ -102,7 +104,32 @@ public class DeviceSelectActivity extends AppCompatActivity {
             } else {
                 // 显示设备列表
                 LogUtils.d("GizWifiSDK", "discovered deviceList: " + list);
-                devices = list;
+
+
+//                List<GizWifiDevice> boundDevicesList = new ArrayList<GizWifiDevice>();
+//                List<GizWifiDevice> foundDevicesList = new ArrayList<GizWifiDevice>();
+//                List<GizWifiDevice> offlineDevicesList = new ArrayList<GizWifiDevice>();
+//
+//                for (GizWifiDevice gizWifiDevice : list) {
+//                    if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
+//                            || GizWifiDeviceNetStatus.GizDeviceControlled == gizWifiDevice.getNetStatus()) {
+//                        if (gizWifiDevice.isBind()) {
+//                            boundDevicesList.add(gizWifiDevice);
+//                        } else {
+//                            foundDevicesList.add(gizWifiDevice);
+//                        }
+//                    } else {
+//                        offlineDevicesList.add(gizWifiDevice);
+//                    }
+//                }
+                for (GizWifiDevice gizWifiDevice : list) {
+                    if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
+                            || GizWifiDeviceNetStatus.GizDeviceControlled == gizWifiDevice.getNetStatus()) {
+                        if (gizWifiDevice.isBind()) {
+                            devices.add(gizWifiDevice);
+                        }
+                    }
+                }
                 mRvDevice.setAdapter(new QuickAdapter());
             }
         }
@@ -124,6 +151,7 @@ public class DeviceSelectActivity extends AppCompatActivity {
                 bundle.putString("_id", recipesBeanID);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
+                finish();
 
             } else {
                 if (device.isBind()) {

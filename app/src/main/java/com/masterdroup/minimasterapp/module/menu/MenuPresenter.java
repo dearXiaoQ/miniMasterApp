@@ -78,6 +78,7 @@ public class MenuPresenter implements Contract.Presenter {
 
     Recipes.RecipesBean recipesBean;
 
+    boolean islike;
 
     @Override
     public void start() {
@@ -203,14 +204,15 @@ public class MenuPresenter implements Contract.Presenter {
             ToastUtils.showShortToast("点赞前请登录");
             return;
         }
-        if (!isLike()) {
+        if (!islike) {
             Observable o = Network.getMainApi().addFollower(recipesBean.get_id());
             Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
                         ToastUtils.showShortToast("点赞成功");
-                        menuAloneView.onIsLike(true);
+                        islike = true;
+                        menuAloneView.onIsLike(islike);
                     }
                 }
             }, mContext);
@@ -220,8 +222,11 @@ public class MenuPresenter implements Contract.Presenter {
             Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
                 @Override
                 public void onNext(Base o) {
-                    if (o.getErrorCode() == 0)
-                        menuAloneView.onIsLike(false);
+                    if (o.getErrorCode() == 0) {
+                        ToastUtils.showShortToast("取消点赞成功");
+                        islike = false;
+                        menuAloneView.onIsLike(islike);
+                    }
                 }
             }, mContext);
             JxUtils.toSubscribe(o, s);
@@ -230,14 +235,20 @@ public class MenuPresenter implements Contract.Presenter {
 
     @Override
     public boolean isLike() {
-
+        boolean l = false;
         //// 判断是否 like
         String name = App.spUtils.getString(App.mContext.getString(R.string.name));
-        for (Like like : recipesBean.getLikes()) {
-            if (name.equals(like.getName()))
-                return true;
+
+        if (recipesBean.getLikes().size() == 0)
+            l = false;
+        else {
+            for (Like like : recipesBean.getLikes()) {
+                if (name.equals(like.getName()))
+                    l = true;
+            }
+
         }
-        return false;
+        return l;
     }
 
     @Override

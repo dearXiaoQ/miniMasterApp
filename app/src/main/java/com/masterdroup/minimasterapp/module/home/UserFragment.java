@@ -40,7 +40,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
     @Bind(R.id.iv_settings)
     ImageView mIvSettings;
-    @Bind(R.id.tv_out)
+    @Bind(R.id.tv_out )
     TextView mTvOut;
     @Bind(R.id.rl_mymenu)
     RelativeLayout mRlMymenu;

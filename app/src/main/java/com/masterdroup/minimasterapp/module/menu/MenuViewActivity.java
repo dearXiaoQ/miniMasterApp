@@ -160,7 +160,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         //根据是否点赞去设置点赞按键样式
         if (o)
             mTvMoreButton.setText(getString(R.string.liking));
-        else mTvMoreButton.setText(getString(R.string.like));
+        else
+            mTvMoreButton.setText(getString(R.string.like));
     }
 
 }

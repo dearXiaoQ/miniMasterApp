@@ -124,7 +124,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
      */
     private SlideListView2 slvBoundDevices;
 
-    /**
+    /**s
      * The slv FoundDevices
      */
     private SlideListView2 slvFoundDevices;
@@ -543,11 +543,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                     break;
 
                 case TOCONTROL:
-                    Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, 1);
+//                    Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
+//                    intent.putExtras(bundle);
+//                    startActivityForResult(intent, 1);
                     break;
 
                 case TOAST:

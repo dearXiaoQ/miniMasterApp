@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 
 public class CookingActivity extends AppCompatActivity {
 
@@ -238,13 +239,13 @@ public class CookingActivity extends AppCompatActivity {
         int i = 0;
         switch (current_cs.getPower()) {
             case 0:
-                i = 400;
+                i = 0;
                 break;
             case 1:
-                i = 1000;
+                i = 4;
                 break;
             case 2:
-                i = 1800;
+                i = 8;
                 break;
         }
 
@@ -360,6 +361,8 @@ public class CookingActivity extends AppCompatActivity {
 
     long time;
 
+    Subscription subscription_cookingTiming, subscription_countDown;
+
     /**
      * 开始计时，烹饪总时间
      */
@@ -385,7 +388,7 @@ public class CookingActivity extends AppCompatActivity {
                 time = o;
             }
         };
-        JxUtils.toSubscribe(o_timing, s_timing);
+        subscription_cookingTiming = JxUtils.toSubscribeRe(o_timing, s_timing);
 
     }
 
@@ -418,7 +421,7 @@ public class CookingActivity extends AppCompatActivity {
                 mTvStepTime.setText(String.format("当前步骤:%d秒", countTime - o.intValue()));
             }
         };
-        JxUtils.toSubscribe(o_countDown, s_countDown);
+        subscription_countDown = JxUtils.toSubscribeRe(o_countDown, s_countDown);
 
     }
 
@@ -445,13 +448,29 @@ public class CookingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unSubscribe();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         // 退出控制页面，取消设备订阅
         if (device != null)
             device.setSubscribe(device.getProductKey(), false);
+
+
+    }
+
+    private void unSubscribe() {
+
+        if (null != subscription_cookingTiming)
+            subscription_cookingTiming.unsubscribe();
+        if (null != subscription_countDown)
+            subscription_countDown.unsubscribe();
     }
 
 
@@ -459,12 +478,10 @@ public class CookingActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_close_device:
-
+                unSubscribe();
                 finish();
                 break;
             case R.id.b_end_cooking:
-
-
                 if (device_run_status == 0)//如果设备处于关闭状态 就发送待机指令
                     upDataDeviceInfoSWITCH();
                 setStepInfo(step);//开始烹饪
