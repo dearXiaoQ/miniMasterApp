@@ -74,8 +74,36 @@
             android:layout_toRightOf="@id/iv_my_menu"
             android:text="我的菜谱"
             android:textColor="@color/app_text_color_dark"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_mycollect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_mymenu"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_my_collect"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/ic_collect" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@id/iv_my_collect"
+            android:text="我的收藏"
+            android:textColor="@color/app_text_color_dark"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

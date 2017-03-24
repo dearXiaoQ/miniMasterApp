@@ -33,6 +33,8 @@ public class Contract {
         boolean isLike();//是否like
 
         boolean isOwner();// 是否菜谱创建者
+
+        void reLike(final String menuId);
     }
 
     interface MenuCreatePresenter extends BasePresenter {

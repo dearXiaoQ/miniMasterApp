@@ -121,6 +121,8 @@ public class CookingActivity extends AppCompatActivity {
      */
     String recipesBeanID;
 
+    int cooking_model;//烹饪模式 默认自动
+
 
     /**
      * 在云端创建的数据点标识名
@@ -150,6 +152,7 @@ public class CookingActivity extends AppCompatActivity {
 
 
         recipesBeanID = getIntent().getStringExtra("_id");
+        cooking_model = getIntent().getIntExtra("cooking_model", -1);
     }
 
 

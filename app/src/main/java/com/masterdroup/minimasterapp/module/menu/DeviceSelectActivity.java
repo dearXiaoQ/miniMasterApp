@@ -3,16 +3,16 @@ package com.masterdroup.minimasterapp.module.menu;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -25,7 +25,6 @@ import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.module.cooking.CookingActivity;
-import com.masterdroup.minimasterapp.module.device.DeviceControlActivity;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -45,6 +44,10 @@ public class DeviceSelectActivity extends AppCompatActivity {
     @Bind(R.id.rv_device)
     RecyclerView mRvDevice;
 
+    @Bind(R.id.sch_model)
+    Switch schModel;
+
+
     List<GizWifiDevice> devices = new ArrayList<>();
 
     QuickAdapter adapter;
@@ -54,10 +57,17 @@ public class DeviceSelectActivity extends AppCompatActivity {
      */
     String recipesBeanID;
 
+    int cooking_model = 0;//烹饪模式 默认自动
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_device_select);
+
+
         ButterKnife.bind(this);
         initView();
         initData();
@@ -70,6 +80,28 @@ public class DeviceSelectActivity extends AppCompatActivity {
         mTvMoreButton.setVisibility(View.GONE);
         recipesBeanID = getIntent().getStringExtra("_id");
 
+        initSwitch();
+
+        schModel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                    cooking_model = 1;
+                else
+                    cooking_model = 0;
+                initSwitch();
+            }
+        });
+    }
+
+    void initSwitch() {
+        if (cooking_model == 0) {
+            schModel.setChecked(false);
+            schModel.setText(R.string.auto_model);
+        } else {
+            schModel.setText(R.string.manual_model);
+            schModel.setChecked(true);
+        }
     }
 
     private void initData() {
@@ -97,39 +129,23 @@ public class DeviceSelectActivity extends AppCompatActivity {
 
     private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
 
-        public void didDiscovered(GizWifiErrorCode result, java.util.List<GizWifiDevice> list) {
+        public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> list) {
             // 提示错误原因
             if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 LogUtils.e("GizWifiSDK", "result: " + result.name());
             } else {
                 // 显示设备列表
                 LogUtils.d("GizWifiSDK", "discovered deviceList: " + list);
-
-
-//                List<GizWifiDevice> boundDevicesList = new ArrayList<GizWifiDevice>();
-//                List<GizWifiDevice> foundDevicesList = new ArrayList<GizWifiDevice>();
-//                List<GizWifiDevice> offlineDevicesList = new ArrayList<GizWifiDevice>();
-//
-//                for (GizWifiDevice gizWifiDevice : list) {
-//                    if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
-//                            || GizWifiDeviceNetStatus.GizDeviceControlled == gizWifiDevice.getNetStatus()) {
-//                        if (gizWifiDevice.isBind()) {
-//                            boundDevicesList.add(gizWifiDevice);
-//                        } else {
-//                            foundDevicesList.add(gizWifiDevice);
-//                        }
-//                    } else {
-//                        offlineDevicesList.add(gizWifiDevice);
-//                    }
-//                }
+                List<GizWifiDevice> des = new ArrayList<>();
                 for (GizWifiDevice gizWifiDevice : list) {
                     if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
                             || GizWifiDeviceNetStatus.GizDeviceControlled == gizWifiDevice.getNetStatus()) {
                         if (gizWifiDevice.isBind()) {
-                            devices.add(gizWifiDevice);
+                            des.add(gizWifiDevice);
                         }
                     }
                 }
+                devices = des;
                 mRvDevice.setAdapter(new QuickAdapter());
             }
         }
@@ -141,17 +157,13 @@ public class DeviceSelectActivity extends AppCompatActivity {
     protected GizWifiDeviceListener gizWifiDeviceListener = new GizWifiDeviceListener() {
 
         @Override
-        public void didSetSubscribe(GizWifiErrorCode result, GizWifiDevice device, boolean isSubscribed) {
+        public void didSetSubscribe(GizWifiErrorCode result, final GizWifiDevice device, boolean isSubscribed) {
             progressDialogCancel();
 
             if (GizWifiErrorCode.GIZ_SDK_SUCCESS == result) {
-                Intent intent = new Intent(DeviceSelectActivity.this, CookingActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("GizWifiDevice", device);
-                bundle.putString("_id", recipesBeanID);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 1);
-                finish();
+
+                gotoCooking(device);
+
 
             } else {
                 if (device.isBind()) {
@@ -161,6 +173,20 @@ public class DeviceSelectActivity extends AppCompatActivity {
         }
 
     };
+
+
+    private void gotoCooking(GizWifiDevice device) {
+
+        Intent intent = new Intent(DeviceSelectActivity.this, CookingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("GizWifiDevice", device);
+        bundle.putString("_id", recipesBeanID);
+        bundle.putInt("cooking_model", cooking_model);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, 1);
+        finish();
+
+    }
 
 
     public class QuickAdapter extends BaseQuickAdapter<GizWifiDevice, BaseViewHolder> {

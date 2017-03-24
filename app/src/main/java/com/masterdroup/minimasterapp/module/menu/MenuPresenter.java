@@ -124,13 +124,33 @@ public class MenuPresenter implements Contract.Presenter {
 
 
                     food_adapter.notifyDataSetChanged();
+
                     step_adapter.notifyDataSetChanged();
                     cooking_step_adapter.notifyDataSetChanged();
-                    like_adapter.notifyDataSetChanged();
 
+//                    like_adapter.notifyDataSetChanged();
+                    like_adapter.setNewData(likes);
                     menuAloneView.onIsOwner(isOwner());
+                    islike = isLike();
                     if (!isOwner())
-                        menuAloneView.onIsLike(isLike());
+                        menuAloneView.onIsLike(islike);
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+    }
+
+    @Override
+    public void reLike(final String menuId) {
+        Observable o = Network.getMainApi().getRecipesDetail(menuId);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+            @Override
+            public void onNext(Base<Recipes.RecipesBean> base) {
+                if (base.getErrorCode() == 0) {
+                    likes = base.getRes().getLikes();
+                    like_adapter.setNewData(likes);
+
                 }
             }
         }, mContext);
@@ -193,6 +213,7 @@ public class MenuPresenter implements Contract.Presenter {
         cooking_step_rv.setNestedScrollingEnabled(false);
 
         like_rv.setAdapter(like_adapter);
+//        like_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
         like_rv.setLayoutManager(new LinearLayoutManager(mContext, HORIZONTAL, false));
 
     }
@@ -213,6 +234,7 @@ public class MenuPresenter implements Contract.Presenter {
                         ToastUtils.showShortToast("点赞成功");
                         islike = true;
                         menuAloneView.onIsLike(islike);
+
                     }
                 }
             }, mContext);
@@ -245,6 +267,7 @@ public class MenuPresenter implements Contract.Presenter {
             for (Like like : recipesBean.getLikes()) {
                 if (name.equals(like.getName()))
                     l = true;
+
             }
 
         }
@@ -305,7 +328,6 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         protected void convert(BaseViewHolder holder, Like o) {
-            Glide.with(mContext).load(Constant.BASEURL + o.getHeadUrl()).crossFade().into((ImageView) holder.getView(R.id.iv_head));
             ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + o.getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
 
         }

@@ -162,6 +162,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             mTvMoreButton.setText(getString(R.string.liking));
         else
             mTvMoreButton.setText(getString(R.string.like));
+        mPresenter.reLike(recipesBeanID);
     }
 
 }

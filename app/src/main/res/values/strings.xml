@@ -57,8 +57,19 @@
     <string name="start_cooking">开始烹饪</string>
     <string name="close_device">关闭设备</string>
 
+
+    <string name="select_model">模式选择</string>
+    <string name="cooking_model">烹饪模式</string>
+    <string name="auto_model">自动模式</string>
+    <string name="manual_model">手动模式</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <string-array name="model">
+        <item>自动模式</item>
+        <item>手动模式</item>
+    </string-array>
 </resources>
