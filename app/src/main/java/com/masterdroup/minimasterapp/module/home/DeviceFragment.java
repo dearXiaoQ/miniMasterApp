@@ -34,7 +34,6 @@ import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.module.device.DeviceControlActivity;
 import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.util.NetUtils;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -47,6 +46,7 @@ import com.yuyh.library.imgsel.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -124,7 +124,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
      */
     private SlideListView2 slvBoundDevices;
 
-    /**s
+    /**
+     * s
      * The slv FoundDevices
      */
     private SlideListView2 slvFoundDevices;
@@ -266,7 +267,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     void initView() {
-
+        mView.findViewById(R.id.iv_z).setVisibility(View.GONE);
         svListGroup = (ScrollView) mView.findViewById(R.id.svListGroup);
         llNoDevice = (ScrollView) mView.findViewById(R.id.llNoDevice);
         imgNoDevice = (ImageView) mView.findViewById(R.id.imgNoDevice);
@@ -370,7 +371,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
     private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
 
-        public void didDiscovered(GizWifiErrorCode result, java.util.List<GizWifiDevice> list) {
+        public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> list) {
             // 提示错误原因
             if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 LogUtils.e("GizWifiSDK", "result: " + result.name());
@@ -384,12 +385,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         }
 
         /** 用于设备解绑 */
-        public void didUnbindDevice(GizWifiErrorCode result, java.lang.String did) {
+        public void didUnbindDevice(GizWifiErrorCode result, String did) {
             progressDialogCancel();
         }
 
         /** 用于设备绑定 */
-        public void didBindDevice(GizWifiErrorCode result, java.lang.String did) {
+        public void didBindDevice(GizWifiErrorCode result, String did) {
             progressDialogCancel();
 
         }
@@ -517,7 +518,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         private AlertDialog myDialog;
         private TextView dialog_name;
 
-        public void handleMessage(android.os.Message msg) {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case GETLIST:

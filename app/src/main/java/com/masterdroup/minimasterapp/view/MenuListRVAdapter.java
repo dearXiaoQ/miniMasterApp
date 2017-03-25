@@ -45,23 +45,28 @@ public class MenuListRVAdapter extends RecyclerView.Adapter<MenuListRVAdapter.Me
     @Override
     public void onBindViewHolder(MenuListRVHolder holder, final int position) {
 
+        try {
+            if (null != MenuPresenter.list) {
 
-        if (null != MenuPresenter.list) {
+                holder.menu_name.setText(MenuPresenter.list.get(position).getName());
+                holder.user_name.setText(MenuPresenter.list.get(position).getOwner().getOwnerUid().getName());
+                ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + MenuPresenter.list.get(position).getDetail().getImgSrc(), holder.iv_cover, context, false);
+                ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + MenuPresenter.list.get(position).getOwner().getOwnerUid().getHeadUrl(), holder.iv_head, context, true);
+                holder.iv_cover.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, MenuViewActivity.class);
 
-            holder.menu_name.setText(MenuPresenter.list.get(position).getName());
-            holder.user_name.setText(MenuPresenter.list.get(position).getOwner().getOwnerUid().getName());
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + MenuPresenter.list.get(position).getDetail().getImgSrc(), holder.iv_cover, context, false);
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + MenuPresenter.list.get(position).getOwner().getOwnerUid().getHeadUrl(), holder.iv_head, context, true);
-            holder.iv_cover.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, MenuViewActivity.class);
-
-                    intent.putExtra("_id", MenuPresenter.list.get(position).get_id());
-                    context.startActivity(intent);
-                }
-            });
+                        intent.putExtra("_id", MenuPresenter.list.get(position).get_id());
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+
+
     }
 
     @Override

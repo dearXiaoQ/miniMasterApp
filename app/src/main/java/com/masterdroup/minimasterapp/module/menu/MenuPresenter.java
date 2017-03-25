@@ -89,7 +89,7 @@ public class MenuPresenter implements Contract.Presenter {
         step_adapter = new StepAdapter(mContext);
         cooking_step_adapter = new CookingStepAdapter(mContext);
         like_adapter = new LikeAdapter();
-
+        like_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
 
     }
 
@@ -130,6 +130,7 @@ public class MenuPresenter implements Contract.Presenter {
 
 //                    like_adapter.notifyDataSetChanged();
                     like_adapter.setNewData(likes);
+
                     menuAloneView.onIsOwner(isOwner());
                     islike = isLike();
                     if (!isOwner())

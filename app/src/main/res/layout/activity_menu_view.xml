@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             xmlns:fab="http://schemas.android.com/apk/res-auto"
-             android:orientation="vertical"
-             tools:context="com.masterdroup.minimasterapp.module.menu.MenuViewActivity">
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.masterdroup.minimasterapp.module.menu.MenuViewActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_return"/>
+            android:src="@drawable/ic_return" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -29,7 +29,7 @@
 
             android:text="本周最佳"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
 
         <TextView
@@ -42,8 +42,7 @@
             android:padding="10dp"
             android:text="@string/like"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -61,7 +60,7 @@
             <ImageView
                 android:id="@+id/iv_cover"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/menu_cover_h"/>
+                android:layout_height="@dimen/menu_cover_h" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -75,7 +74,7 @@
                     android:gravity="center"
                     android:text="烤面包"
                     android:textColor="@color/app_text_color_dark111"
-                    android:textSize="23sp"/>
+                    android:textSize="23sp" />
 
                 <TextView
                     android:id="@+id/tv_menu_info"
@@ -87,7 +86,7 @@
                     android:gravity="center"
                     android:text="9.9综合评分 324人收藏"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -99,7 +98,7 @@
                 <ImageView
                     android:id="@+id/iv_user_head"
                     android:layout_width="60dp"
-                    android:layout_height="60dp"/>
+                    android:layout_height="60dp" />
 
                 <TextView
                     android:id="@+id/tv_user_name"
@@ -110,7 +109,7 @@
                     android:layout_toRightOf="@id/iv_user_head"
                     android:text="第001用户"
                     android:textColor="@color/app_text_color_dark"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -122,14 +121,14 @@
                 android:layout_marginRight="20dp"
                 android:text="法式手撕面包是以高低粉、黄油等食材制成的一道美食。高粉150克、低粉100克、黄油15克、鸡蛋一个、水90克左右、盐5克、白糖25克、酵母3克。
 裹入用黄油140克"
-                android:textColor="@color/app_text_color_dark"/>
+                android:textColor="@color/app_text_color_dark" />
             jj
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_margin="20dp"
-                android:background="#ddd"/>
+                android:background="#ddd" />
 
 
             <TextView
@@ -139,20 +138,21 @@
                 android:layout_marginLeft="20dp"
                 android:text="点赞"
                 android:textColor="@color/app_text_color_dark111"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_like"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_40"
+                android:nestedScrollingEnabled="false" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_margin="20dp"
-                android:background="#ddd"/>
-
+                android:background="#ddd" />
 
 
             <TextView
@@ -162,27 +162,27 @@
                 android:layout_marginLeft="20dp"
                 android:text="用料"
                 android:textColor="@color/app_text_color_dark111"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_food"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false" />
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_step"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false" />
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_cooking_step"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -193,6 +193,5 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@drawable/ic_cook"
-        fab:fab_colorNormal="@color/colorPrimary"
-        />
+        fab:fab_colorNormal="@color/colorPrimary" />
 </FrameLayout>

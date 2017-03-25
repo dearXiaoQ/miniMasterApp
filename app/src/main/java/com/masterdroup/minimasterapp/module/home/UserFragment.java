@@ -101,7 +101,6 @@ public class UserFragment extends Fragment implements Contract.UserView {
             case R.id.iv_settings:
 
                 startActivity(new Intent(this.getActivity(), SettingsActivity.class));
-                startActivity(new Intent(this.getActivity(), DeviceListActivity.class));
                 break;
             case R.id.tv_out:
                 mHomePresenter.outLogin();

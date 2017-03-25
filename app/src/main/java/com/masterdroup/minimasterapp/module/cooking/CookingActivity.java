@@ -1,10 +1,16 @@
 package com.masterdroup.minimasterapp.module.cooking;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
@@ -30,7 +36,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class CookingActivity extends AppCompatActivity {
+public class CookingActivity extends AppCompatActivity implements OnCheckedChangeListener {
 
     @Bind(R.id.tv_menu_name)
     TextView mTvMenuName;
@@ -64,6 +70,20 @@ public class CookingActivity extends AppCompatActivity {
     LinearLayout mLlComplete;
     @Bind(R.id.tv_time)
     TextView mTvTime;
+    @Bind(R.id.rb_fire1)
+    RadioButton rbFire1;
+    @Bind(R.id.rb_fire2)
+    RadioButton rbFire2;
+    @Bind(R.id.rb_fire3)
+    RadioButton rbFire3;
+    @Bind(R.id.switch_power)
+    Switch switchPower;
+    @Bind(R.id.ll)
+    LinearLayout ll;
+    @Bind(R.id.bg_fire)
+    RadioGroup bgFire;
+    @Bind(R.id.b_next)
+    Button bNext;
     /**
      * 设备实体对像
      */
@@ -147,14 +167,47 @@ public class CookingActivity extends AppCompatActivity {
 
     private void init() {
         // mDevice是从设备列表中获取到的设备实体对象
-        device = (GizWifiDevice) getIntent().getParcelableExtra("GizWifiDevice");
+        device = getIntent().getParcelableExtra("GizWifiDevice");
         device.setListener(mListener);
-
 
         recipesBeanID = getIntent().getStringExtra("_id");
         cooking_model = getIntent().getIntExtra("cooking_model", -1);
+
+        bgFire.setOnCheckedChangeListener(this);
+
+
+        switchPower.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if (b && device_run_status == 0)
+                    upDataDeviceInfoSWITCH();
+                else if (!b && device_run_status == 1)
+                    upDataDeviceInfoSWITCH();
+
+            }
+        });
+
+
+        if (isAutoModel()) {
+            bNext.setVisibility(View.GONE);
+            ll.setVisibility(View.GONE);
+            mTvStepTime.setVisibility(View.VISIBLE);
+        } else {
+            ll.setVisibility(View.VISIBLE);
+            bNext.setVisibility(View.VISIBLE);
+            mTvStepTime.setVisibility(View.GONE);
+        }
+
     }
 
+
+    boolean isAutoModel() {
+        if (cooking_model == 0)
+            return true;
+        else
+            return false;
+    }
 
     private void getRecipesBean() {
         Observable o = Network.getMainApi().getRecipesDetail(recipesBeanID);
@@ -187,17 +240,26 @@ public class CookingActivity extends AppCompatActivity {
             mTvStepInfoCurrent.setText(current_cs.getDescribe());
             next_cs = cookingSteps.get(step + 1);
             mTvStepInfoNext.setText(next_cs.getDescribe());
-            startStepCountDown(current_cs.getDuration() * 10);
 
-            upDataPower();
+
+            if (isAutoModel()) {
+                startStepCountDown(current_cs.getDuration() * 10);
+                upDataPower(current_cs.getPower());
+            }
+
+
         } else if (step == cookingSteps.size() - 1) {
 
             current_cs = cookingSteps.get(step);
             mTvStepNo.setText(String.format("当前步骤:第%s步", step + 1));
             mTvStepInfoCurrent.setText(current_cs.getDescribe());
             mTvStepInfoNext.setText("无");
-            startStepCountDown(current_cs.getDuration() * 10);
-            upDataPower();
+
+            if (isAutoModel()) {
+                startStepCountDown(current_cs.getDuration() * 10);
+                upDataPower(current_cs.getPower());
+            }
+
         } else {
             mLlCooking.setVisibility(View.GONE);
             mLlComplete.setVisibility(View.VISIBLE);
@@ -216,31 +278,10 @@ public class CookingActivity extends AppCompatActivity {
 
     }
 
-    void up1(int i) {
-        int de = device_info_power;
-        if (de == 0)
-            de = 400;
 
-
-        if (de > i) {
-            int j = (de - i) / 100;
-            for (int t = 0; t < j; t++) {
-                upDataDeviceInfoPower(DECREASE);
-            }
-
-        }
-        if (de < i) {
-            int j = (i - de) / 100;
-            for (int t = 0; t < j; t++) {
-                upDataDeviceInfoPower(INCREASE);
-            }
-        }
-
-    }
-
-    void upDataPower() {
+    void upDataPower(int power) {
         int i = 0;
-        switch (current_cs.getPower()) {
+        switch (power) {
             case 0:
                 i = 0;
                 break;
@@ -351,6 +392,11 @@ public class CookingActivity extends AppCompatActivity {
                                 info = "工作";
                                 break;
                         }
+//                        if (device_run_status == 0)
+//                            switchPower.setChecked(false);
+//                        else
+//                            switchPower.setChecked(true);
+
                         mTvDeviceInfo.setText("状态：" + info);
                         mTvPower.setText(device_info_power != 0 ? String.format("火力：%dW", device_info_power) : "火力:-");
                         mTvTemperature.setText(String.format("锅温：%s℃", device_info_temperature));
@@ -365,6 +411,7 @@ public class CookingActivity extends AppCompatActivity {
     long time;
 
     Subscription subscription_cookingTiming, subscription_countDown;
+
 
     /**
      * 开始计时，烹饪总时间
@@ -409,7 +456,8 @@ public class CookingActivity extends AppCompatActivity {
 
                 step++;
 
-                setStepInfo(step);
+                if (isAutoModel())
+                    setStepInfo(step);
 
             }
 
@@ -421,7 +469,11 @@ public class CookingActivity extends AppCompatActivity {
             @Override
             public void onNext(Long o) {
                 LogUtils.d("CookingActivity", String.format("当前步骤倒计时:%d秒", countTime - o.intValue()));
-                mTvStepTime.setText(String.format("当前步骤:%d秒", countTime - o.intValue()));
+
+                if (countTime - o.intValue() == 0 && !isAutoModel())
+                    mTvStepTime.setText(String.format("当前步骤:完成"));
+                else
+                    mTvStepTime.setText(String.format("当前步骤:%d秒", countTime - o.intValue()));
             }
         };
         subscription_countDown = JxUtils.toSubscribeRe(o_countDown, s_countDown);
@@ -437,18 +489,6 @@ public class CookingActivity extends AppCompatActivity {
         command.put(SWITCH, true);
         // 调用write方法即可下发命令
         device.write(command, sn);
-    }
-
-    private void upDataDeviceInfoPower(String crease) {
-
-        ConcurrentHashMap<String, Object> command = new ConcurrentHashMap<String, Object>();
-
-        // map中key为云端创建数据点的标识名，value为需要传输的值
-        command.put(crease, true);
-
-        // 调用write方法即可下发命令
-        device.write(command, sn);
-
     }
 
     @Override
@@ -477,7 +517,7 @@ public class CookingActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.b_close_device, R.id.b_end_cooking, R.id.b_exit})
+    @OnClick({R.id.b_close_device, R.id.b_end_cooking, R.id.b_exit, R.id.b_next})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_close_device:
@@ -489,10 +529,29 @@ public class CookingActivity extends AppCompatActivity {
                     upDataDeviceInfoSWITCH();
                 setStepInfo(step);//开始烹饪
                 startCookingTiming();
+                mBEndCooking.setClickable(false);
                 break;
             case R.id.b_exit:
                 finish();
                 break;
+            case R.id.b_next:
+//                subscription_countDown.unsubscribe();//先停止上一步的计时
+                step++;
+                setStepInfo(step);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+
+        if (i == R.id.rb_fire1) {
+            upDataPower(0);
+        } else if (i == R.id.rb_fire2) {
+            upDataPower(1);
+        } else if (i == R.id.rb_fire3) {
+            upDataPower(2);
+        }
+
+
     }
 }

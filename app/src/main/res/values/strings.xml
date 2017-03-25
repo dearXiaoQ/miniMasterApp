@@ -53,6 +53,7 @@
     <string name="sorry">很抱歉，由于网络原因无法获取邀请信息</string>
     <string name="verysorry">很抱歉，无法获取到邀请信息，可能二维码信息有误</string>
 
+    <string name="cooking_next">下一步骤</string>
     <string name="end_cooking">结束烹饪</string>
     <string name="start_cooking">开始烹饪</string>
     <string name="close_device">关闭设备</string>
