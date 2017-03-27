@@ -67,6 +67,10 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
      * 菜谱id
      */
     String recipesBeanID;
+    @Bind(R.id.rv_menu_comment)
+    RecyclerView rvMenuComment;
+    @Bind(R.id.tv_comment_count)
+    TextView tvCommentCount;
 
 
     @Override
@@ -100,7 +104,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     private void initData() {
 
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rv_like);
+        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rv_like, rvMenuComment);
 
 
         recipesBeanID = getIntent().getStringExtra("_id");
@@ -113,7 +117,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter = Utils.checkNotNull(presenter);
     }
 
-    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button})
+    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count})
     public void onClick(View v) {
         if (v.getId() == R.id.iv_return)
             finish();
@@ -128,6 +132,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
             mPresenter.like();
         }
+        if (v.getId() == R.id.tv_comment_count)
+            ;//查看评论
 
     }
 
@@ -139,6 +145,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
+        tvCommentCount.setText(String.format("%s条评论", recipesBean.getComment().size()));
     }
 
     @Override

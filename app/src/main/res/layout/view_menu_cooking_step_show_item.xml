@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:text="烹饪步骤 "
         android:textColor="@color/app_text_color_dark111"
         android:textSize="17sp"
@@ -52,12 +52,13 @@
 
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:text="烹饪信息"
         android:textColor="@color/app_text_color_dark111"
-        android:textSize="17sp"/>
+        android:textSize="17sp" />
 
     <View
         android:layout_width="match_parent"

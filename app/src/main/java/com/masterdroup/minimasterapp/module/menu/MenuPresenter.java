@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ConstUtils;
 import com.blankj.utilcode.utils.SPUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,6 +24,7 @@ import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.Comment;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
 import com.masterdroup.minimasterapp.model.Food;
@@ -62,6 +65,7 @@ public class MenuPresenter implements Contract.Presenter {
     StepAdapter step_adapter;
     LikeAdapter like_adapter;
     CookingStepAdapter cooking_step_adapter;
+    CommentAdapter comment_adapter;
     public static List<Recipes.RecipesBean> list;
 
 
@@ -69,6 +73,7 @@ public class MenuPresenter implements Contract.Presenter {
     List<Food> mFoods = new ArrayList<>();
     List<CookingStep> mCookingSteps = new ArrayList<>();
     List<Like> likes = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
 
     int index = 0;//从第index个开始获取
     int count = 3;//页数
@@ -90,6 +95,7 @@ public class MenuPresenter implements Contract.Presenter {
         cooking_step_adapter = new CookingStepAdapter(mContext);
         like_adapter = new LikeAdapter();
         like_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        comment_adapter = new CommentAdapter();
 
     }
 
@@ -121,15 +127,16 @@ public class MenuPresenter implements Contract.Presenter {
                     mSteps = base.getRes().getDescribeSteps();
                     mCookingSteps = base.getRes().getCookingStep();
                     likes = base.getRes().getLikes();
-
+                    comments = base.getRes().getComment();
 
                     food_adapter.notifyDataSetChanged();
 
                     step_adapter.notifyDataSetChanged();
                     cooking_step_adapter.notifyDataSetChanged();
 
-//                    like_adapter.notifyDataSetChanged();
+
                     like_adapter.setNewData(likes);
+                    comment_adapter.setNewData(comments);
 
                     menuAloneView.onIsOwner(isOwner());
                     islike = isLike();
@@ -200,7 +207,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv) {
+    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv, RecyclerView comment_rv) {
 
         food_rv.setAdapter(food_adapter);
         food_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
@@ -216,6 +223,9 @@ public class MenuPresenter implements Contract.Presenter {
         like_rv.setAdapter(like_adapter);
 //        like_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
         like_rv.setLayoutManager(new LinearLayoutManager(mContext, HORIZONTAL, false));
+
+        comment_rv.setAdapter(comment_adapter);
+        comment_rv.setLayoutManager(new LinearLayoutManager(mContext));
 
     }
 
@@ -306,7 +316,6 @@ public class MenuPresenter implements Contract.Presenter {
             @Override
             public void onNext(Base<RecipesList> o) {
 
-
                 if (list.size() == o.getRes().getList().size()) {
                     Toast.makeText(mContext, "没有更多了", Toast.LENGTH_SHORT).show();
                 } else {
@@ -321,6 +330,30 @@ public class MenuPresenter implements Contract.Presenter {
 
     }
 
+
+    class CommentAdapter extends BaseQuickAdapter<Comment, BaseViewHolder> {
+        public CommentAdapter() {
+            super(R.layout.view_menu_comment_item, comments);
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2;//显示数量
+        }
+
+        @Override
+        protected void convert(BaseViewHolder holder, Comment comment) {
+            holder.setText(R.id.tv_comment, comment.getComment());
+            holder.setText(R.id.tv_user_name, comment.getUid().getName());
+
+            holder.setText(R.id.tv_date, TimeUtils.date2String(comment.getTime(), "yyyy-MM-dd"));
+
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + comment.getUid().getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
+
+
+        }
+    }
+
     class LikeAdapter extends BaseQuickAdapter<Like, BaseViewHolder> {
 
         public LikeAdapter() {
@@ -330,7 +363,6 @@ public class MenuPresenter implements Contract.Presenter {
         @Override
         protected void convert(BaseViewHolder holder, Like o) {
             ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + o.getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
-
         }
 
     }

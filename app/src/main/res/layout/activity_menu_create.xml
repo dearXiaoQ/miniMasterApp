@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/activity_menu_create2"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.masterdroup.minimasterapp.module.menu.MenuCreateActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_menu_create2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.masterdroup.minimasterapp.module.menu.MenuCreateActivity">
 
-    <include layout="@layout/view_top_bar"/>
+    <include layout="@layout/view_top_bar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -27,12 +27,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="+菜谱封面"/>
+                    android:text="+菜谱封面" />
 
                 <ImageView
                     android:id="@+id/iv_menu_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </FrameLayout>
 
 
@@ -45,7 +45,7 @@
                 android:background="@null"
                 android:gravity="center"
                 android:hint="菜谱名"
-                android:textSize="22sp"/>
+                android:textSize="22sp" />
 
 
             <EditText
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:hint="菜谱简介"
                 android:textColor="#aaa"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,12 +66,12 @@
                 android:layout_marginLeft="10dp"
                 android:text="用料"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_food"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="再增加一步"
                 android:textColor="@color/app_orange"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,12 +91,12 @@
                 android:layout_marginLeft="10dp"
                 android:text="准备步骤"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_menu_step"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tv_add_step"
@@ -106,7 +106,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="再增加一步"
                 android:textColor="@color/app_orange"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,12 +115,12 @@
                 android:layout_marginLeft="10dp"
                 android:text="烹饪步骤"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_menu_cooking_step"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tv_add_cooking_step"
@@ -130,9 +130,11 @@
                 android:layout_marginLeft="10dp"
                 android:text="再增加一步"
                 android:textColor="@color/app_orange"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
 
         </LinearLayout>
+
+
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

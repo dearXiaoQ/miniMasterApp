@@ -48,6 +48,16 @@ public class Recipes {
         List<CookingStep> cookingStep;
         Owner owner;
         List<Like> like;
+        List<Comment>  commentList;
+
+
+        public List<Comment> getComment() {
+            return commentList;
+        }
+
+        public void setComment(List<Comment> comment) {
+            this.commentList = comment;
+        }
 
         public List<Like> getLikes() {
             return like;
@@ -58,6 +68,8 @@ public class Recipes {
         }
 
         List<Food> foodList;
+
+
 
         public List<Food> getFoodList() {
             return foodList;

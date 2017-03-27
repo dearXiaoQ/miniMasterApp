@@ -164,6 +164,7 @@
                 android:textColor="@color/app_text_color_dark111"
                 android:textSize="18sp" />
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_food"
                 android:layout_width="match_parent"
@@ -180,6 +181,38 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_cooking_step"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户评论"
+                    android:textColor="@color/app_text_color_dark111"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_comment_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="14条评论"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_menu_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />

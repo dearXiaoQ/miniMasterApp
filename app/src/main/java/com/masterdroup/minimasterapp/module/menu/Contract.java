@@ -26,7 +26,7 @@ public class Contract {
 
         void initRV(PullLoadMoreRecyclerView rv);
 
-        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv);
+        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv, RecyclerView comment_rv);
 
         void like();//点赞
 

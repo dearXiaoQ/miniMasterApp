@@ -61,7 +61,6 @@ public class MenuCreateActivity extends Activity implements Contract.MenuCreateV
 
     private static final int menu_cover_requestCode = 0;//菜谱封面选择requestCode
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
