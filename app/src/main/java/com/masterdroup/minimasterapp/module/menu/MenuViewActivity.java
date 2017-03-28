@@ -8,6 +8,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
@@ -71,6 +72,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     RecyclerView rvMenuComment;
     @Bind(R.id.tv_comment_count)
     TextView tvCommentCount;
+    @Bind(R.id.ll_comment)
+    LinearLayout llComment;
 
 
     @Override
@@ -132,9 +135,14 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
             mPresenter.like();
         }
-        if (v.getId() == R.id.tv_comment_count)
-            ;//查看评论
+        if (v.getId() == R.id.tv_comment_count) {
 
+            Intent intent = new Intent(MenuViewActivity.this, CommentListActivity.class);
+            intent.putExtra("_id", recipesBeanID);
+            startActivity(intent);
+            ;//查看评论}
+
+        }
     }
 
     @Override
@@ -145,7 +153,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
-        tvCommentCount.setText(String.format("%s条评论", recipesBean.getComment().size()));
+
+
+        if (recipesBean.getComment().size() == 0) {
+            tvCommentCount.setText(String.format("评论"));
+        } else
+            tvCommentCount.setText(String.format("%s条评论", recipesBean.getComment().size()));
+
     }
 
     @Override

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/activity_user"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#eee">
+    android:id="@+id/activity_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_settings"/>
+            android:src="@drawable/ic_settings" />
 
         <TextView
             android:id="@+id/tv_out"
@@ -27,8 +27,7 @@
             android:layout_centerVertical="true"
             android:text="退出登录"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <ImageView
@@ -36,7 +35,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="100dp" />
 
 
     <TextView
@@ -46,7 +45,7 @@
         android:layout_below="@id/iv_user_head"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="第001用户"/>
+        android:text="第001用户" />
 
 
     <RelativeLayout
@@ -63,8 +62,7 @@
             android:id="@+id/iv_my_menu"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:src="@drawable/ic_menu_mymenu"
-            />
+            android:src="@drawable/ic_menu_mymenu" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,6 +100,35 @@
             android:layout_marginLeft="25dp"
             android:layout_toRightOf="@id/iv_my_collect"
             android:text="我的收藏"
+            android:textColor="@color/app_text_color_dark"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_mycollect"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_store"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_store" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="28dp"
+            android:layout_toRightOf="@id/iv_store"
+            android:text="商城"
             android:textColor="@color/app_text_color_dark"
             android:textSize="18sp" />
 

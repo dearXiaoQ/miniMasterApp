@@ -3,6 +3,7 @@ package com.masterdroup.minimasterapp.module.home;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,9 +16,9 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
-import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.module.menu.MyMenuListActivity;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
+import com.masterdroup.minimasterapp.module.settings.StoreActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 
@@ -40,10 +41,12 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
     @Bind(R.id.iv_settings)
     ImageView mIvSettings;
-    @Bind(R.id.tv_out )
+    @Bind(R.id.tv_out)
     TextView mTvOut;
     @Bind(R.id.rl_mymenu)
     RelativeLayout mRlMymenu;
+    @Bind(R.id.rl_store)
+    RelativeLayout rlStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
@@ -104,6 +107,13 @@ public class UserFragment extends Fragment implements Contract.UserView {
                 break;
             case R.id.tv_out:
                 mHomePresenter.outLogin();
+                break;
+            case R.id.rl_store:
+                Uri uri = Uri.parse("https://momscook.tmall.com/");
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+                startActivity(intent);
 
                 break;
 
