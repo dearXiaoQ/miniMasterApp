@@ -72,8 +72,6 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     public void submitNewMenu() {
 
         //// TODO: 2017/3/7 分别保存&提交封面图片,准备步骤,烹饪步骤的本地图片url
-
-
         //提交封面图片
         if (FileUtils.isFileExists(menuCreateView.getMenuCoverLocalUrl())) {
 
@@ -166,12 +164,11 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
 
     MenuPicture addBase3(Base<Url> o, Base<Url> o2, Base<Url> o3) {
-        MenuPicture mp = new MenuPicture();
 
+        MenuPicture mp = new MenuPicture();
         mp.setMenuCover(o.getRes().getUrl().get(0));
         mp.setSetpPicture(o2.getRes().getUrl());
         mp.setCookingSetpPicture(o3.getRes().getUrl());
-
         int i = (o.getErrorCode() == 0 && o2.getErrorCode() == 0 && o3.getErrorCode() == 0) ? 0 : 1;
         mp.setErrorCode(i);
 

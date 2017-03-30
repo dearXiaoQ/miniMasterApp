@@ -174,8 +174,6 @@ public class MenuPresenter implements Contract.Presenter {
                     list = o.getRes().getList();
                     adapter.notifyDataSetChanged();
                 }
-
-
             }
         }, mContext);
 
