@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.api;
 
 
 import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.Comment;
 import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.Null;
@@ -122,7 +123,7 @@ public interface Api {
      * @param id 菜谱id
      */
     @POST("miniMasterApp/recipes/addComment/{id}")
-    Observable<Base> addComment(@Path("id") String id);
+    Observable<Base> addComment(@Path("id") String id, @Body Comment body);
 
 
     /**

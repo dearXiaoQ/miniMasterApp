@@ -346,20 +346,20 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         slvBoundDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                progressDialog.show();
-                slvBoundDevices.setEnabled(false);
-                slvBoundDevices.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        slvBoundDevices.setEnabled(true);
-                    }
-                }, 3000);
-                GizWifiDevice device = boundDevicesList.get(position);
-                device.setListener(gizWifiDeviceListener);
-                String productKey = device.getProductKey();
-
-                //订阅设备
-                device.setSubscribe(productKey, true);
+//                progressDialog.show();
+//                slvBoundDevices.setEnabled(false);
+//                slvBoundDevices.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        slvBoundDevices.setEnabled(true);
+//                    }
+//                }, 3000);
+//                GizWifiDevice device = boundDevicesList.get(position);
+//                device.setListener(gizWifiDeviceListener);
+//                String productKey = device.getProductKey();
+//
+//                //订阅设备
+//                device.setSubscribe(productKey, true);
 
             }
         });

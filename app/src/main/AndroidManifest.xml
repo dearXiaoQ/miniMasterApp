@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.masterdroup.minimasterapp">
 
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -69,6 +70,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="icon,label,theme,name">
+
+        <meta-data
+            android:name="miniMasterApp"
+            android:value="58dcbbca1061d204db000636"></meta-data>
+
         <activity
             android:name=".module.welcomeModule.WelcomeActivity"
             android:screenOrientation="portrait">
@@ -97,7 +103,37 @@
         <activity android:name=".module.device.DeviceControlActivity" />
         <activity android:name=".module.menu.DeviceSelectActivity" />
         <activity android:name=".module.settings.StoreActivity" />
-        <activity android:name=".module.menu.CommentListActivity"></activity>
+        <activity android:name=".module.menu.CommentListActivity" />
+        <activity android:name=".module.menu.CommentWriteActivity"></activity>
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
     </application>
 
 </manifest>

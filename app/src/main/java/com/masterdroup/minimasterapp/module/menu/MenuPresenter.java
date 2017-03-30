@@ -72,7 +72,7 @@ public class MenuPresenter implements Contract.Presenter {
     List<Comment> comments = new ArrayList<>();
 
     int index = 0;//从第index个开始获取
-    int count = 3;//页数
+    int count = 5;//页数
 
     Observable o_recipesList;
     Subscriber s_recipesList;
@@ -306,7 +306,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     void loadMore(final PullLoadMoreRecyclerView rv) {
-        count = count + 1;
+        count = count + 5;
         o_recipesList = Network.getMainApi().getRecipesList(index, count);
         s_recipesList = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
             @Override

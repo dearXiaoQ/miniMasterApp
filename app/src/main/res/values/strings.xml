@@ -64,6 +64,8 @@
     <string name="auto_model">自动模式</string>
     <string name="manual_model">手动模式</string>
 
+    <string name="comment_hint">写下你的留言，建议和评论</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

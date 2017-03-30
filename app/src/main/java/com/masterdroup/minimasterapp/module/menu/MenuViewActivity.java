@@ -87,6 +87,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mPresenter.gettingData(recipesBeanID);
+    }
+
     private void initView() {
         mTvMoreButton.setVisibility(View.VISIBLE);
 
@@ -147,7 +154,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
     @Override
     public void settingData(Recipes.RecipesBean recipesBean) {
-        tvTitle.setText(recipesBean.getName());
+//        tvTitle.setText(recipesBean.getName());
         tvMenuName.setText(recipesBean.getName());
         tvUserName.setText(recipesBean.getOwner().getOwnerUid().getName());
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);

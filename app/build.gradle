@@ -15,7 +15,26 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+        }
+
+
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "adnroiddebugkey"
+            keyPassword "android"
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
@@ -51,4 +70,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.2'
     testCompile 'junit:junit:4.12'
+    compile files('src/main/libs/SocialSDK_QQ_Simplify.jar')
+    compile files('src/main/libs/SocialSDK_Sina_Simplify.jar')
+    compile files('src/main/libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('src/main/libs/umeng_social_api.jar')
+    compile files('src/main/libs/umeng_social_net.jar')
+    compile files('src/main/libs/umeng_social_tool.jar')
 }
