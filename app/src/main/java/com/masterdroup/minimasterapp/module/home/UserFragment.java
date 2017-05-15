@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.module.menu.MenuCreateActivity;
 import com.masterdroup.minimasterapp.module.menu.MyMenuListActivity;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
 import com.masterdroup.minimasterapp.module.settings.StoreActivity;
@@ -38,7 +40,8 @@ public class UserFragment extends Fragment implements Contract.UserView {
     ImageView ivUserHead;
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
-
+    @Bind(R.id.create_menu)
+    Button createNewMenu;
     @Bind(R.id.iv_settings)
     ImageView mIvSettings;
     @Bind(R.id.tv_out)
@@ -51,7 +54,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new HomePresenter(this);
+        new  HomePresenter(this);
 
     }
 
@@ -98,12 +101,13 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
 
-                startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+                    startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+
                 break;
             case R.id.tv_out:
                 mHomePresenter.outLogin();
@@ -115,6 +119,10 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
                 startActivity(intent);
 
+                break;
+
+            case R.id.create_menu:
+                startActivity(new Intent(getActivity(), MenuCreateActivity.class));
                 break;
 
         }

@@ -2,21 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <item
+<!--    <item
         android:id="@+id/ic_add"
         android:icon="@drawable/ic_add"
         android:orderInCategory="80"
         android:title="新增菜谱"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="always" />-->
 
 
     <!--搜索框-->
-    <!--<item android:id="@+id/action_search"-->
-          <!--android:icon="@drawable/ic_search_black_24dp"-->
-          <!--app:actionViewClass="android.support.v7.widget.SearchView"-->
-          <!--android:title="Search"-->
-          <!--android:inputType="textCapWords"-->
-          <!--android:imeOptions="actionSearch"-->
-          <!--android:orderInCategory="80"-->
-          <!--app:showAsAction="ifRoom|collapseActionView"/>-->
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/search"
+          app:actionViewClass="android.support.v7.widget.SearchView"
+          android:title="Search"
+          android:inputType="textCapWords"
+          android:imeOptions="actionSearch"
+          android:orderInCategory="80"
+          app:showAsAction="ifRoom|collapseActionView"/>
 </menu>

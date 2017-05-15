@@ -3,6 +3,7 @@
     android:id="@+id/activity_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#eee">
 
     <RelativeLayout
@@ -10,6 +11,7 @@
         android:layout_height="48dp"
         android:background="@color/colorPrimary"
         android:paddingLeft="10dp"
+        android:id="@+id/rl1"
         android:paddingRight="10dp">
 
         <ImageView
@@ -31,12 +33,100 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/iv_user_head"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+        android:layout_width="1080dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/user_bg"
+        android:scaleX="2"
+        android:layout_below="@+id/rl1"
+        android:layout_above="@+id/rl_mymenu"
+        android:layout_marginBottom="-50dp"
 
+        />
+
+    <ImageView
+        android:id="@+id/iv_user_head"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/rl1"
+        android:layout_toEndOf="@+id/tv_user_name"
+        android:layout_marginStart="51dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_above="@+id/rl_mymenu"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toEndOf="@+id/iv_user_head"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="关注"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="2"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+               />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="粉丝"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="6"
+                android:gravity="center_vertical"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="我的才气都在我的食谱里"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -45,6 +135,7 @@
         android:layout_below="@id/iv_user_head"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:text="第001用户" />
 
 
@@ -53,15 +144,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_user_name"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="65dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="10dp">
 
         <ImageView
             android:id="@+id/iv_my_menu"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_menu_mymenu" />
 
         <TextView
@@ -71,9 +163,18 @@
             android:layout_marginLeft="25dp"
             android:layout_toRightOf="@id/iv_my_menu"
             android:text="我的菜谱"
-            android:textColor="@color/app_text_color_dark"
-            android:textSize="18sp" />
-
+            android:textColor="@color/gray"
+             />
+        
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
+        
     </RelativeLayout>
 
     <RelativeLayout
@@ -89,8 +190,9 @@
 
         <ImageView
             android:id="@+id/iv_my_collect"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_collect" />
 
         <TextView
@@ -100,9 +202,16 @@
             android:layout_marginLeft="25dp"
             android:layout_toRightOf="@id/iv_my_collect"
             android:text="我的收藏"
-            android:textColor="@color/app_text_color_dark"
-            android:textSize="18sp" />
-
+            android:textColor="@color/gray"
+          />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -114,6 +223,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/white"
         android:gravity="center_vertical"
+        android:visibility="gone"
         android:padding="10dp">
 
         <ImageView
@@ -131,8 +241,98 @@
             android:text="商城"
             android:textColor="@color/app_text_color_dark"
             android:textSize="18sp" />
-
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_opinion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:layout_below="@+id/rl_mycollect"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/iv_opinion"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/opinion_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="28dp"
+            android:layout_toRightOf="@id/iv_opinion"
+            android:text="意见反馈"
+            android:textColor="@color/gray"
+             />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:layout_below="@+id/rl_opinion"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/iv_update"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/version_update" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="28dp"
+            android:layout_toRightOf="@id/iv_update"
+            android:text="更新"
+            android:textColor="@color/gray"
+            />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/create_menu"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/create_menu_selector"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        />
 
 </RelativeLayout>

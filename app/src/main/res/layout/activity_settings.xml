@@ -8,102 +8,149 @@
     android:orientation="vertical"
     tools:context="com.masterdroup.minimasterapp.module.settings.SettingsActivity">
 
-
     <include layout="@layout/view_top_bar"/>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
 
         <ImageView
-            android:id="@+id/iv_user_head"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"/>
+            android:id="@+id/iv_user"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/user_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_user_head"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
-            android:text="上传头像"
-            android:textSize="12sp"/>
-
-
+            android:layout_centerVertical="true"
+            android:text="用户资料"
+            android:layout_toRightOf="@+id/iv_user"
+            android:layout_marginLeft="10dp"
+            />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
     </RelativeLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_user1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/agreement_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="smartCook注册和使用协议"
+            android:layout_toRightOf="@+id/iv_user1"
+            android:layout_marginLeft="10dp"
+            />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_user2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/about_us_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="关于我们"
+            android:layout_toRightOf="@+id/iv_user2"
+            android:layout_marginLeft="10dp"
+            />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more_icon"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_user3"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/clean_memory_iocn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_user3"
+            android:text="自动清理缓存" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:thumb="@drawable/switch_thumb"
+            android:track="@drawable/switch_selector"
+
+            />
+    </RelativeLayout>
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#fff"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.6"
-                android:gravity="center"
-                android:text="年龄"
-                android:textSize="16sp"/>
-
-            <EditText
-                android:id="@+id/et_age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.6"
-                android:gravity="center"
-                android:hint=""/>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="男"/>
-
-                <RadioButton
-                    android:id="@+id/rb_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="女"/>
-
-            </RadioGroup>
-
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="电话"/>
-
-
-        <EditText
-            android:id="@+id/et_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="地址"/>
-
-
-    </LinearLayout>
+        android:layout_marginTop="30dp"
+        android:background="@drawable/exit_user_button"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:textColor="@color/colorPrimary"
+        android:text="退出账号"
+        />
 
 </LinearLayout>

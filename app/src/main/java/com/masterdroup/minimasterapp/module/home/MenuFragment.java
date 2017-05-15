@@ -2,13 +2,17 @@ package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,6 +57,8 @@ import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 /**
  * Created by 11473 on 2016/12/19.
  */
+
+/** 菜谱页面 */
 
 public class MenuFragment extends Fragment {
 
@@ -100,11 +106,15 @@ public class MenuFragment extends Fragment {
 
     void initData() {
         mAdapter = new StaggeredMenuRVAdapter();
+        mRvMenu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));   //RecyclerView 瀑布流布局
+        //   mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2)); //等宽布局
+        //设置item之间的间隔
         mRvMenu.setAdapter(mAdapter);
+        SpacesItemDecoration decoration=new SpacesItemDecoration(16);
+        mRvMenu.addItemDecoration(decoration);
         mRvMenu.setNestedScrollingEnabled(false);
         //设置Item增加、移除动画
         mRvMenu.setItemAnimator(new DefaultItemAnimator());
-        mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
 
         Observable o = Network.getMainApi().getRecipesList(0, 10);
         Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
@@ -196,6 +206,13 @@ public class MenuFragment extends Fragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
+            if(position == 0) {
+                LogUtils.d("menuFragment", "设置第一张图片高度");
+                ViewGroup.LayoutParams params = holder.mIvMenuCover.getLayoutParams();
+                params.height = 800;
+                holder.mIvMenuCover.setLayoutParams(params);
+            }
+
             final Recipes.RecipesBean r = recipes_list.get(position);
 
             holder.mIvMenuCover.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +273,11 @@ public class MenuFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu, menu);
+        /** 设置搜索输入框的颜色 */
+        final MenuItem item = menu.findItem(R.id.action_search);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        SearchView.SearchAutoComplete mEdit = (SearchView.SearchAutoComplete) mSearchView.findViewById(R.id.search_src_text);
+        mEdit.setTextColor(getActivity().getResources().getColor(R.color.white));
     }
 
 
@@ -263,8 +285,11 @@ public class MenuFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.ic_add:
+           /* case R.id.ic_add:
                 startActivity(new Intent(view.getContext(), MenuCreateActivity.class));
+                break;*/
+            case R.id.action_search:
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -320,4 +345,29 @@ public class MenuFragment extends Fragment {
             this.ic = ic;
         }
     }
+
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space=space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.left=space;
+            outRect.right=space;
+            outRect.bottom=space;
+            if(parent.getChildAdapterPosition(view)==0){
+                outRect.top=space;
+            }
+        }
+    }
+
+
+
+
+
 }

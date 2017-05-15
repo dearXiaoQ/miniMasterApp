@@ -44,6 +44,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, C
             init();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();

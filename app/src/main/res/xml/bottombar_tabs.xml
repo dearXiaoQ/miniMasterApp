@@ -1,14 +1,19 @@
 <tabs>
-    <tab
-        icon="@drawable/ic_food"
-        id="@+id/tab_food"
-        title="菜谱" />
-    <tab
-        icon="@drawable/ic_device"
-        id="@+id/tab_device"
-        title="设备" />
-    <tab
-        icon="@drawable/ic_user"
-        id="@+id/tab_user"
-        title="我的" />
+<tab
+    icon="@drawable/ic_food"
+    id="@+id/tab_food"
+    title="菜谱" />
+<tab
+    icon="@drawable/ic_device"
+    id="@+id/tab_device"
+    title="设备" />
+<tab
+    icon="@drawable/ic_shop"
+    id="@+id/tab_shop"
+    title="商城"
+    />
+<tab
+    icon="@drawable/ic_user"
+    id="@+id/tab_user"
+    title="我的" />
 </tabs>

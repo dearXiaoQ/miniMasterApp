@@ -48,11 +48,11 @@ public class MyMenuListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_menu_list);
         ButterKnife.bind(this);
-        ivitView();
-        ivitData();
+        initView();
+        initData();
     }
 
-    void ivitView() {
+    void initView() {
 //        adapter = new RecipesBeansAdapter(R.layout.view_menu_item, RecipesBeans);
         mTvTitle.setText("我的菜谱");
         mTvMoreButton.setVisibility(View.GONE);
@@ -66,7 +66,7 @@ public class MyMenuListActivity extends AppCompatActivity {
         });
     }
 
-    private void ivitData() {
+    private void initData() {
 
         Observable o = Network.getMainApi().listByOwner(0, 10);
         Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
