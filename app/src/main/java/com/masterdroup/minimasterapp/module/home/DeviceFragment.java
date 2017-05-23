@@ -34,6 +34,7 @@ import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.device.AddDevSettingWifiActivity;
 import com.masterdroup.minimasterapp.module.device.DeviceListActivity;
 import com.masterdroup.minimasterapp.util.NetUtils;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -46,7 +47,6 @@ import com.yuyh.library.imgsel.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -88,6 +88,10 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
      */
     private View icOfflineDevices;
 
+    /**
+     *  顶部菜单按钮
+     */
+    private Button moreBtn;
 
     /**
      * The tv BoundDevicesListTitle
@@ -272,6 +276,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         llNoDevice = (ScrollView) mView.findViewById(R.id.llNoDevice);
         imgNoDevice = (ImageView) mView.findViewById(R.id.imgNoDevice);
         btnNoDevice = (Button) mView.findViewById(R.id.btnNoDevice);
+        moreBtn = (Button) mView.findViewById(R.id.iv_more);
+        moreBtn.setOnClickListener(this);
 
 
         icBoundDevices = mView.findViewById(R.id.icBoundDevices);
@@ -666,6 +672,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                 }
                 Intent intent = new Intent(mView.getContext(), DeviceListActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.iv_more:
+                startActivity(new Intent(moreBtn.getContext(), AddDevSettingWifiActivity.class));
+
                 break;
 
             default:

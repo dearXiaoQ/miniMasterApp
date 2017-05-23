@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.larksmart7618.sdk.communication.tools.commen.ToastTools;
 import com.masterdroup.minimasterapp.App;
@@ -16,6 +20,7 @@ import com.masterdroup.minimasterapp.util.Utils;
 import com.masterdroup.minimasterapp.view.TipsDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
 import java.lang.reflect.Method;
 
@@ -36,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
 
     String menuFragment_tag = "tag1", deviceFragment_tag = "tag2", shopFragment_tag = "tag3", userFragment_tag = "tag4";
 
+    Toast exitToast;
+    View toastView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        toastView = LayoutInflater.from(this).inflate(R.layout.exit_view_item, null);
+        exitToast = new Toast(this);
+        exitToast.setView(toastView);
 
         menuFragment = new MenuFragment();
 
@@ -179,4 +190,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if( keyCode == KeyEvent.KEYCODE_BACK ) {
+            LogUtils.d("onKeyDown", "按下了退出按钮");
+            exitToast.setDuration(Toast.LENGTH_LONG);
+            exitToast.show();
+        }
+        return true;
+    }
 }

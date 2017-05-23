@@ -129,7 +129,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".module.settings.UserInfoActivity"></activity>
+        <activity android:name=".module.settings.UserInfoActivity" />
+        <activity android:name=".module.device.AddDevSettingWifiActivity" />
+        <activity android:name=".module.device.AddDevSetDevSataeActiivty"></activity>
     </application>
 
 </manifest>

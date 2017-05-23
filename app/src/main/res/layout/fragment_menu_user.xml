@@ -165,7 +165,7 @@
             android:text="我的菜谱"
             android:textColor="@color/gray"
              />
-        
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -174,7 +174,7 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/more_icon"
             />
-        
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -259,6 +259,7 @@
         android:gravity="center_vertical"
         android:visibility="visible"
         android:padding="10dp"
+        android:layout_marginTop="1dp"
         android:layout_below="@+id/rl_mycollect"
         android:layout_alignParentStart="true">
 
@@ -289,6 +290,7 @@
     </RelativeLayout>
 
 
+
     <RelativeLayout
         android:id="@+id/rl_update"
         android:layout_width="match_parent"
@@ -298,6 +300,7 @@
         android:visibility="visible"
         android:padding="10dp"
         android:layout_below="@+id/rl_opinion"
+        android:layout_marginTop="1dp"
         android:layout_alignParentStart="true">
 
         <ImageView
