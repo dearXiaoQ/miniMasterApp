@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- switch滑块的样式 -->
+    <size
+        android:width="20dp"
+        android:height="20dp"
+        ></size>
+    <solid
+        android:color="@android:color/white"
+        ></solid>
+
+    <corners
+        android:radius="9.5dp"
+        ></corners>
+
+    <stroke android:width="0.3dp"
+            android:color="@color/background_light_gray"
+        ></stroke>
+
+</shape>
+

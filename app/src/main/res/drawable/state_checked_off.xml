@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- switch_off底色 -->
+    <solid
+            android:color="@color/white"
+        ></solid>
+
+    <corners
+            android:radius="30dp"
+        ></corners>
+
+    <stroke
+            android:width="0.5dp"
+            android:color="@color/background_light_gray"
+        ></stroke>
+
+
+</shape>
