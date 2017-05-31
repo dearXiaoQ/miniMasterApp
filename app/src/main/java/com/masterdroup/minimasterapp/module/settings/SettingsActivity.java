@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
@@ -23,15 +25,36 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SettingsActivity extends Activity implements Contract.View {
 
+public class SettingsActivity extends AppCompatActivity implements Contract.View, View.OnClickListener{
+
+    @Bind(R.id.set_info_rl)
+    RelativeLayout userRl;
+
+    @Bind(R.id.tv_title)
+    TextView titleTv;
+
+    @Bind(R.id.iv_return)
+    ImageView backIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-        //init();
+        initView();
+        initEvent();
+    }
+
+    private void initView() {
+        titleTv.setText("设置");
+    }
+
+    private void initEvent() {
+
+        userRl.setOnClickListener(this);
+        backIV.setOnClickListener(this);
+
     }
 
     @Override
@@ -67,5 +90,25 @@ public class SettingsActivity extends Activity implements Contract.View {
     @Override
     public void setUserDate(User userDate) {
 
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.set_info_rl:
+                startActivity(new Intent(SettingsActivity.this, UserInfoActivity.class));
+                break;
+
+            case R.id.back_iv:
+                SettingsActivity.this.finish();
+                break;
+
+            default:
+
+                break;
+
+        }
     }
 }

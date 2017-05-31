@@ -99,6 +99,16 @@ public class NetUtils {
         }
         return ssid;
     }
+
+    /**
+     * 获取当前WIFI的SSID.
+     *
+     * @param context
+     *            上下文
+     * @return ssid
+     *
+     *         *
+
     /**
      * 用来获得手机扫描到的所有wifi的信息.
      *

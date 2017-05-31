@@ -21,10 +21,13 @@
 
     <color name="text_blue">#298eee</color>
     <color name="gifview_background">#E8E8E8</color>
-
+    <color name="yellow">#F8DC26</color>
 
     <color name="background_color">#f5f5f5</color>
     <color name="background_gray">#aaaaaa</color>
     <color name="background_light_gray">#eeeeee</color>
     <color name="text_gray">#333333</color>
+
+    <color name="alert_blue">#2db4e3</color>
+
 </resources>

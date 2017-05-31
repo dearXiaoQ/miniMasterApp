@@ -143,11 +143,12 @@
         android:id="@+id/rl_mymenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_user_name"
         android:layout_marginTop="65dp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_below="@+id/iv_user_head"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/iv_my_menu"

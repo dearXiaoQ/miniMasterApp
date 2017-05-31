@@ -60,7 +60,13 @@ public class UserInfoActivity extends Activity implements Contract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
+        initView();
         init();
+    }
+
+
+    private void initView() {
+        mTvTitle.setText("修改资料");
     }
 
     private void init() {
