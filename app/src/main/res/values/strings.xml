@@ -10,7 +10,7 @@
     <string name="like">点赞</string>
     <string name="liking">已点赞</string>
     <string name="pwd_forget">忘记密码</string>
-    <string name="et_in_access">请输入你的用户名</string>
+    <string name="et_in_access">用户名/手机号</string>
     <string name="et_in_phone">请输入你的手机号码(可选)</string>
     <string name="et_in_pwd">请输入你的密码</string>
     <string name="err_login_1">登录信息不正确！</string>
@@ -20,6 +20,8 @@
     <string name="giz_uid">giz_uid</string>
 
     <string name="settings_user_info">编辑个人资料</string>
+
+
 
     <string name="devicelist_titles">我的设备</string>
     <string name="loadingtext">处理中，请稍等...</string>
@@ -32,6 +34,8 @@
 
     <string name="finished">已完成上述操作</string>
 
+    <string name="about">关于我们</string>
+
     <string name="head_icon">头像</string>
     <string name="sex">性别：</string>
     <string name="old">年龄：</string>
@@ -39,7 +43,7 @@
     <string name="female">女</string>
     <string name="not_sex">不告诉你</string>>
     <string name="personalized_signature">我的才气都在我的食谱里</string>
-    
+
     <string name="setting_remarks">注：暂不支持5G频道的Wi-Fi网络</string>
 
 
@@ -56,6 +60,7 @@
 
     <string name="choose_mode_start">选择模组类型：</string>
 
+    <string name="my_setting">个人设置中心</string>
 
     <string name="cooking_next">下一步骤</string>
     <string name="end_cooking">结束烹饪</string>
@@ -75,6 +80,42 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="use_agreement">smartCook注册和使用协议</string>
+
+    <!-- registerFragment -->
+    <string name="nickname">昵称：</string>
+    <string name="limit_nickname">2~12个字</string>
+    <string name="account">账号：</string>>
+    <string name="please_input_phone_num">请输入手机号</string>
+    <string name="verification_code">验证码：</string>>
+    <string name="please_input_verification_code">请输入验证码</string>
+    <string name="get_verification_code">获取验证码</string>
+    <string name="password">密码：</string>
+    <string name="limit_password">6~12位</string>
+    <string name="again_password">重新输入密码：</string>
+    <string name="new_password">新密码：</string>
+    <string name="again_new_password">重新输入新密码：</string>
+
+    <string name="bind_phoneNum">注册号码：</string>
+    <string name="input_nickname">请输入昵称！</string>
+    <string name="nickname_not_enough">昵称长度不够！</string>
+    <string name="nickname_over_enough">昵称过长！</string>
+    <string name="nickname_right">昵称符合规定！</string>>
+    <string name="input_phone">请输入号码！</string>
+    <string name="phone_wrong_format">号码格式有误！</string>
+    <string name="input_verification">请输入验证码！</string>
+    <string name="verification_not_enough">验证码是6位数的！</string>
+    <string name="verification_right">验证码正确！</string>
+    <string name="input_pwd">请输入密码！</string>
+    <string name="pwd_not_enough">密码过短！</string>
+    <string name="pwd_over_enough">密码过长！</string>
+    <string name="pwd_right">密码长度正确</string>
+    <string name="pwd_again_error">两次输入密码不一致！</string>
+    <string name="again_pwd_not_null">再次输入密码不能为空！</string>
+    <string name="again_pwd_right">再次输入密码正确</string>
+
+    <!-- RetrievePwdFragment -->
+    <string name="retrieve_pwd_success">操作成功</string>
 
     <!-- AirlinkReadyActivity -->
     <string name="airlink_ready_title">确认设备处于待连接状态</string>
@@ -270,10 +311,15 @@
     <string name="doubleclick_logout">再次点击您将注销登录</string>
     <string name="doubleclick_back">再次点击可返回</string>
 
+    <!-- CollectionActivity -->
+    <string name="collection_menu">收藏的食谱</string>
+
+
     <string-array name="model">
         <item>自动模式</item>
         <item>手动模式</item>
     </string-array>
+    <string name="title_activity_collection_list">CollectionListActivity</string>
 
 
 </resources>

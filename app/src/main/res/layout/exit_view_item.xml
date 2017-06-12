@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/toast_tv"
         android:layout_margin="20dp"
         android:layout_gravity="center"
         android:text="@string/exit_app"

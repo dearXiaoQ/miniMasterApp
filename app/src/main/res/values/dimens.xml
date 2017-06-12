@@ -7,4 +7,5 @@
 
     <dimen name="menu_cover_h">200dp</dimen>
     <dimen name="menu_user_head_pic_h">45dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

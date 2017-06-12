@@ -9,14 +9,11 @@
     </style>
 
 
-    
-    
     <style name="AppButton">
 
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#fff</item>
     </style>
-
 
 
     <style name="MyToolbarStyle">
@@ -30,7 +27,6 @@
         <!-- Used to tint the back arrow, menu and spinner arrow -->
         <item name="colorControlNormal">#FFF</item>
     </style>
-
 
 
     <style name="Widget_GifView">
@@ -56,5 +52,9 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18dp</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

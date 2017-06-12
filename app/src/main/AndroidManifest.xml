@@ -133,7 +133,13 @@
         <activity android:name=".module.device.AddDevSettingWifiActivity" />
         <activity android:name=".module.device.AddDevSetDevStateActivity" />
         <activity android:name=".module.device.AddDevConfigCountdownActivity" />
-        <activity android:name=".module.device.GizModeListActivity"></activity>
+        <activity android:name=".module.device.GizModeListActivity" />
+        <activity android:name=".module.settings.AppRegisterAndAgreement" />
+        <activity android:name=".module.settings.AboutActivity" />
+        <activity
+            android:name=".module.menu.CollectionListActivity"
+            android:label="@string/title_activity_collection_list"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

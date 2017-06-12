@@ -3,9 +3,9 @@ package com.masterdroup.minimasterapp.api;
 
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Comment;
-import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.MenuID;
 import com.masterdroup.minimasterapp.model.Null;
+import com.masterdroup.minimasterapp.model.PhoneAndToken;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.model.Token;
@@ -37,10 +37,16 @@ public interface Api {
     Observable<Base<Null>> registered(@Body User body);
 
     /**
-     * 登录
+     * 登录  //机智云登录成功后，再登录smartCook服务器
      */
     @POST("miniMasterApp/user/signin")
     Observable<Base<Token>> login(@Body User body);
+
+    /**
+     * 登录  //先登录smartCook服务器，再登录机智云服务器
+     */
+    @POST("miniMasterApp/user/signin")
+    Observable<Base<PhoneAndToken>> signin(@Body User body);
 
     /**
      * 用户更新信息接口

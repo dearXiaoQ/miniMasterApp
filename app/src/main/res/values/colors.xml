@@ -3,7 +3,7 @@
     <color name="colorPrimary">#ff7043</color>
     <color name="colorPrimaryDark">#FF5722</color>
     <color name="colorAccent">#FF4081</color>
-    
+
     <color name="toastColor">#dd666666</color>
 
     <color name="app_orange">#ddff7043</color>
@@ -29,5 +29,8 @@
     <color name="text_gray">#333333</color>
 
     <color name="alert_blue">#2db4e3</color>
+    
 
+    <color name="DimGray">#696969</color>
+    <color name="Silver">#808080</color>
 </resources>

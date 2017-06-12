@@ -17,10 +17,10 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
+import com.masterdroup.minimasterapp.module.menu.CollectionListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuCreateActivity;
 import com.masterdroup.minimasterapp.module.menu.MyMenuListActivity;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
-import com.masterdroup.minimasterapp.module.settings.StoreActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 
@@ -38,18 +38,26 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
     @Bind(R.id.iv_user_head)
     ImageView ivUserHead;
+
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
+
     @Bind(R.id.create_menu)
     Button createNewMenu;
+
     @Bind(R.id.iv_settings)
     ImageView mIvSettings;
+
     @Bind(R.id.tv_out)
     TextView mTvOut;
+
     @Bind(R.id.rl_mymenu)
     RelativeLayout mRlMymenu;
+
     @Bind(R.id.rl_store)
     RelativeLayout rlStore;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +109,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
@@ -109,20 +117,31 @@ public class UserFragment extends Fragment implements Contract.UserView {
                     startActivity(new Intent(this.getActivity(), SettingsActivity.class));
 
                 break;
+
             case R.id.tv_out:
+
                 mHomePresenter.outLogin();
+
                 break;
+
             case R.id.rl_store:
+
                 Uri uri = Uri.parse("https://momscook.tmall.com/");
-
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
                 startActivity(intent);
 
                 break;
 
             case R.id.create_menu:
+
                 startActivity(new Intent(getActivity(), MenuCreateActivity.class));
+
+                break;
+
+            case R.id.rl_mycollect:
+
+                startActivity(new Intent(getActivity(), CollectionListActivity.class));
+
                 break;
 
         }
@@ -135,4 +154,5 @@ public class UserFragment extends Fragment implements Contract.UserView {
         startActivity(new Intent(getActivity(), MyMenuListActivity.class));
 
     }
+
 }

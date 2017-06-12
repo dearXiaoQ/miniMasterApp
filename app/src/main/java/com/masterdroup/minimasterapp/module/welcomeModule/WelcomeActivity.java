@@ -13,10 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.module.CommonModule.GIZBaseActivity;
 import com.masterdroup.minimasterapp.module.home.HomeActivity;
 import com.masterdroup.minimasterapp.util.Utils;
 
-public class WelcomeActivity extends Activity implements View.OnClickListener, Contract.MainView {
+public class WelcomeActivity extends GIZBaseActivity implements View.OnClickListener, Contract.MainView {
 
     Button btn_login, btn_registered;
     ImageView iv_return_view;

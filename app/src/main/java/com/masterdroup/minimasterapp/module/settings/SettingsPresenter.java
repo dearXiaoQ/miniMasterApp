@@ -3,6 +3,7 @@ package com.masterdroup.minimasterapp.module.settings;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -10,12 +11,14 @@ import android.widget.Toast;
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Null;
 import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
+import com.masterdroup.minimasterapp.module.welcomeModule.WelcomeActivity;
 import com.masterdroup.minimasterapp.util.JxUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImageLoader;
@@ -146,6 +149,14 @@ public class SettingsPresenter implements Contract.Presenter {
         }, mView.onGetContext());
 
         JxUtils.toSubscribe(o_userInfo, s_userInfo);
+    }
+
+    @Override
+    public void logout() {
+        App.spUtils.clear();
+        Activity activity = (Activity) mView.onGetContext();
+        activity.startActivity(new Intent(activity, WelcomeActivity.class));
+        activity.finish();
     }
 
 }

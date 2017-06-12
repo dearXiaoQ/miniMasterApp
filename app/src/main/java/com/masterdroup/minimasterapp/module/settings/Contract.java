@@ -21,6 +21,8 @@ public class Contract {
         //获取用户信息
         void getUserDate();
 
+        //退出登录
+        void logout();
     }
 
     interface View extends BaseView<Presenter> {

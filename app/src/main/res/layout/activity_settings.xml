@@ -46,6 +46,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/use_rl"
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -78,6 +79,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/about_rl"
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -110,6 +112,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/auto_clean_rl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
@@ -144,6 +147,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
