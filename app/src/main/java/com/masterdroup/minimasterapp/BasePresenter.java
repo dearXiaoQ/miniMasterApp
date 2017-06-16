@@ -7,4 +7,5 @@ package com.masterdroup.minimasterapp;
 public interface BasePresenter {
     void start();
 
+
 }

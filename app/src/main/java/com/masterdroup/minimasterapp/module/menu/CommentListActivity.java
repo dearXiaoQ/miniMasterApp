@@ -119,6 +119,7 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onNext(Base<Recipes.RecipesBean> base) {
                 if (base.getErrorCode() == 0) {
+
                     getComment();
 
                 }

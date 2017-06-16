@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 /** 找回密码 */
 public class RetrievePwdFragment extends Fragment implements Contract.RetrievePwdView {
-    Contract.Presenter mpresemter;
+    Contract.Presenter mPresenter;
 
     @Bind(R.id.phone_et)
     EditText phoneNumEt;
@@ -42,7 +42,7 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
     @Bind(R.id.new_password_et)
     EditText newPwdEt;
 
-    @Bind(R.id.again_password_et)
+    @Bind(R.id.again_new_password_et)
     EditText againNewPwdEt;
 
     @Bind(R.id.get_verification_tv)
@@ -86,7 +86,7 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
 
     @Override
     public void setPresenter(Contract.Presenter presenter) {
-        mpresemter = Utils.checkNotNull(presenter);
+        mPresenter = Utils.checkNotNull(presenter);
     }
 
     @Override
@@ -97,15 +97,30 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
     @Override
     public void onRetrievePwdViewSuccess() {
 
-        mpresemter.Retrieve(phoneNumEt.getText().toString().trim(), newPwdEt.getText().toString().trim());
-
+     //   mPresenter.Retrieve(phoneNumEt.getText().toString().trim(), newPwdEt.getText().toString().trim());
+        timeCount.start();
         ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, App.mContext.getString(R.string.retrieve_pwd_success));
 
     }
 
     @Override
     public void onRetrievePwdFailure(String info) {
+
         ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, info);
+    }
+
+    @Override
+    public void onGetVerSuccess() {
+
+        ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, App.mContext.getString(R.string.get_verification_success));
+
+    }
+
+    @Override
+    public void onGetVerFailure(String info) {
+
+        ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, info);
+
     }
 
 
@@ -115,7 +130,7 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
         switch (view.getId()) {
 
             case R.id.btn_registered:
-                mpresemter.CheckRetrievePwdPara(phoneNumEt.getText().toString().trim(),
+                mPresenter.CheckRetrievePwdPara(phoneNumEt.getText().toString().trim(),
                         verification.getText().toString().trim(),
                         newPwdEt.getText().toString().trim(),
                         againNewPwdEt.getText().toString().trim()
@@ -123,7 +138,7 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
                 break;
 
             case R.id.get_verification_tv:
-                mpresemter.sendPhoneSMSCode(phoneNumEt.getText().toString());
+                mPresenter.sendPhoneSMSCode(phoneNumEt.getText().toString());
                 break;
 
         }

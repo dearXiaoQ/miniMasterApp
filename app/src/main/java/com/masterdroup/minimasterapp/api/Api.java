@@ -13,13 +13,16 @@ import com.masterdroup.minimasterapp.model.Url;
 import com.masterdroup.minimasterapp.model.User;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -47,6 +50,14 @@ public interface Api {
      */
     @POST("miniMasterApp/user/signin")
     Observable<Base<PhoneAndToken>> signin(@Body User body);
+
+    @GET("miniMasterApp/user/getSmsCode/{phone}")
+    Observable<Base<Null>> getVerification(@Path("phone") String phone);
+
+    /** 忘记密码后，重置密码 */
+   // @Headers({"X-Gmri-Application-Auth:944d8514354c7778a83128bdf57c1cf7"})
+    @POST("miniMasterApp/user/resetPassword")
+    Observable<Base<Null>> resetPassword(@Body RequestBody body);
 
     /**
      * 用户更新信息接口

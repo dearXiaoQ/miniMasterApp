@@ -33,7 +33,6 @@ import com.masterdroup.minimasterapp.api.Network;
 import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
-import com.masterdroup.minimasterapp.module.menu.MenuCreateActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -120,7 +119,7 @@ public class MenuFragment extends Fragment {
         Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
             @Override
             public void onNext(Base<RecipesList> o) {
-                if (o.getErrorCode() == 0) {
+                if ((o.getErrorCode() == 0) && (o.getRes().getList().size() >= 4) ) {
                     for (int i = 0; i < 4; i++) {
                         recipes_banner.add(o.getRes().getList().get(i));
                     }

@@ -24,6 +24,7 @@ public class WelcomeActivity extends GIZBaseActivity implements View.OnClickList
     View view1;//注册与登录按钮
     LoginFragment loginFragment;
     RegisteredFragment registeredFragment;
+    RetrievePwdFragment retrievePwdFragment;
     Contract.Presenter mPresenter;
     FrameLayout frameLayout;
     FragmentManager fragmentManager;
@@ -77,6 +78,7 @@ public class WelcomeActivity extends GIZBaseActivity implements View.OnClickList
         fragmentManager = getFragmentManager();
         loginFragment = new LoginFragment();
         registeredFragment = new RegisteredFragment();
+        retrievePwdFragment = new RetrievePwdFragment();
     }
 
     @Override
@@ -131,6 +133,15 @@ public class WelcomeActivity extends GIZBaseActivity implements View.OnClickList
 
 
     }
+
+
+    public void onRetrieveView() {
+        hideMainViewAnimation();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_content, retrievePwdFragment)
+                .commit();
+    }
+
 
     private void showMainViewAnimation() {
 

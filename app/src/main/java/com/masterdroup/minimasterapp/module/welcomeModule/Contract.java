@@ -21,6 +21,8 @@ public class Contract {
 
         void showMainView();
 
+        void showRetrieveView();
+
         boolean isLogin();//是否有用户登录
 
         void login(String name, String pwd, String giz_uid, String giz_token);
@@ -56,6 +58,9 @@ public class Contract {
 
         /** 服务器端修改密码 */
         void Retrieve(String phoneNum, String newPwd);
+
+        /** 通过smartCookApp服务器获取验证码 */
+        void getVerification(String trim);
     }
 
     interface MainView extends BaseView<Presenter> {
@@ -78,9 +83,10 @@ public class Contract {
 
         void onLoginFailure(String info);
 
-        /** 登录smart服务器成功后，再登录我们的服务器 */
-        void onLoginSmartNetwork(String phone, String pwd, String smart_token);
-
+        /** 登录smartApp服务器成功后，再登录Gzi的服务器 */
+        void onLoginSmartNetwork(String userName, String phone, String pwd, String smart_token);
+        /** 找回密码界面 */
+        void onRetrieveView();
 
     }
 
@@ -100,6 +106,11 @@ public class Contract {
         void onRetrievePwdViewSuccess();
 
         void onRetrievePwdFailure(String info);
+        /** 获取验证码成功 */
+        void onGetVerSuccess();
+        /** 获取验证码失败 */
+        void onGetVerFailure(String info);
+
     }
 
 }

@@ -23,11 +23,13 @@ public class User {
     public class UserBean {
         String name;
         String password;
-        String phoneNum;
+        String phone;
         String headUrl;
         int age;
         String address;
         Meta meta;
+        /** 用于重置密码的验证码 */
+        String code;
 
         int role;
         int sex;
@@ -103,11 +105,11 @@ public class User {
         }
 
         public String getPhoneNum() {
-            return phoneNum;
+            return phone;
         }
 
-        public void setPhoneNum(String phoneNum) {
-            this.phoneNum = phoneNum;
+        public void setPhoneNum(String phone) {
+            this.phone = phone;
         }
 
         public String getHeadUrl() {
@@ -118,6 +120,12 @@ public class User {
             this.headUrl = headUrl;
         }
 
+        public String getCode() {return  code;}
+
+        public void setCode(String code) {this.code = code;}
+
+
+
         public Meta getMeta() {
             return meta;
         }
@@ -125,6 +133,7 @@ public class User {
         public void setMeta(Meta meta) {
             this.meta = meta;
         }
+
 
         class Meta {
 
@@ -161,7 +170,7 @@ public class User {
             return "UserBean{" +
                     "name='" + name + '\'' +
                     ", password='" + password + '\'' +
-                    ", phoneNum='" + phoneNum + '\'' +
+                    ", phoneNum='" + phone + '\'' +
                     ", headUrl='" + headUrl + '\'' +
                     ", meta=" + meta +
                     ", role=" + role +

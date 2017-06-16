@@ -1,7 +1,5 @@
 package com.masterdroup.minimasterapp.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 

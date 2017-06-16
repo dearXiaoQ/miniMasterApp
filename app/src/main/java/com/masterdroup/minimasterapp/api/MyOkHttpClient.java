@@ -45,6 +45,10 @@ public class MyOkHttpClient {
      */
     private final Interceptor mTokenInterceptor;
 
+    /**
+     * MD5拦截器
+     * */
+    private final Interceptor mMd5Interceptor;
 
     private MyOkHttpClient(final Context mContext) {
         this.mContext = mContext;
@@ -66,6 +70,7 @@ public class MyOkHttpClient {
                     return originalResponse.newBuilder()
                             .header("Cache-Control", cacheControl)
                             .removeHeader("Pragma")
+                            //.addHeader("X-Gmri-Application-Auth", "944d8514354c7778a83128bdf57c1cf7")
                             .build();
                 } else {
                     return originalResponse.newBuilder()
@@ -95,7 +100,7 @@ public class MyOkHttpClient {
                 Request originalRequest = chain.request();
 
                 String token = App.spUtils.getString(App.mContext.getString(R.string.key_token));
-
+                //    token = "abc123456";
                 if (token != null) {
                     LogUtils.d("mTokenInterceptor________token值", token);
                     Request authorised = originalRequest.newBuilder()
@@ -104,8 +109,24 @@ public class MyOkHttpClient {
                     return chain.proceed(authorised);
                 } else
                     return chain.proceed(originalRequest);
+            }
+        };
 
+        mMd5Interceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
 
+                String Md5 = "944d8514354c7778a83128bdf57c1cf7";
+                if(Md5 != null) {
+                    LogUtils.d("Md5___值 = ", Md5);
+                    Request mdScript = originalRequest.newBuilder()
+                            .header("X-Gmri-Application-Auth", Md5)
+                            .build();
+                    return chain.proceed(mdScript);
+                } else {
+                    return chain.proceed(originalRequest);
+                }
             }
         };
     }
@@ -131,6 +152,7 @@ public class MyOkHttpClient {
                 .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .addNetworkInterceptor(mTokenInterceptor)
+                .addNetworkInterceptor(mMd5Interceptor)
                 .cache(cache).build();
 
 

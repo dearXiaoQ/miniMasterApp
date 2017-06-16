@@ -10,6 +10,12 @@ public class PhoneAndToken {
 
     String token;
 
+    String name;
+
+    public String getUserName() {return name;}
+
+    public void setUserName(String name) {this.name = name;}
+
     public String getToken() {return  token;}
 
     public  void setToken(String token) {this.token = token;}
@@ -22,10 +28,12 @@ public class PhoneAndToken {
         this.phone = phone;
     }
 
+
+
     @Override
     public String toString() {
         return "PhoneAndToken{" +
-                "phone='" + phone + '\'' + "token='" + token + '\'' +
+                "phone='" + phone + '\'' + "token='" + token + '\'' + "name = " + name +
                 '}';
     }
 

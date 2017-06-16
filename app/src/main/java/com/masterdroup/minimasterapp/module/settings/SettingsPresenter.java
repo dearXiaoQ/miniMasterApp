@@ -75,6 +75,8 @@ public class SettingsPresenter implements Contract.Presenter {
                         mView.putUserHeadServerUrl(urlBase.getRes().getUrl().get(0));
                     } else {
                         Toast.makeText(mView.onGetContext(), "上传图片失败！", Toast.LENGTH_SHORT).show();
+                    }{
+                        Toast.makeText(mView.onGetContext(), "上传图片失败！", Toast.LENGTH_SHORT).show();
                     }
                 }
 

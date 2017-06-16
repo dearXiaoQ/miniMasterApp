@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
+import com.google.gson.Gson;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
@@ -23,6 +24,9 @@ import com.masterdroup.minimasterapp.util.ToastUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
+import java.util.HashMap;
+
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -83,6 +87,9 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
     @Override
+    public void showRetrieveView() { loginView.onRetrieveView();}
+
+    @Override
     public boolean isLogin() {
 
         //判读token值是否存在
@@ -136,40 +143,49 @@ public class WelcomePresenter implements Contract.Presenter {
 
     @Override
     public void gizLogin(String nameOrPhone, final String pwd) {
+
+        User user =  new User();
+        User.UserBean userBean = user.new UserBean();
+        userBean.setPassword(pwd);
+
+
+
         if(StringFormatCheckUtils.isPhoneLegal(nameOrPhone)) {
-            LoginFragment.PHONE_NUMBER_LOGIN = true;
-            GizWifiSDK.sharedInstance().userLogin(nameOrPhone, pwd);
+
+            userBean.setPhoneNum(nameOrPhone);
+
         } else {
-            LoginFragment.PHONE_NUMBER_LOGIN = false;
+
             int nicknameResult = StringFormatCheckUtils.isNickNameLegal(nameOrPhone);
             if(nicknameResult == R.string.nickname_right) {
-                // GizWifiSDK.sharedInstance().userLogin(nameOrPhone, pwd);
-                User user =  new User();
-                User.UserBean userBean = user.new UserBean();
+
                 userBean.setName(nameOrPhone);
-                userBean.setPassword(pwd);
-                user.setUser(userBean);
-
-                Observable observable = Network.getMainApi().signin(user);
-                Subscriber<Base<PhoneAndToken>> s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<PhoneAndToken>>(){
-
-                    @Override
-                    public void onNext(Base<PhoneAndToken> o) {
-                        if(o.getErrorCode() == 0) {
-                            loginView.onLoginSmartNetwork(o.getRes().getPhone(), pwd, o.getRes().getToken());
-                        } else {
-                            loginView.onLoginFailure(o.getMessage());
-                        }
-                    }
-                }, loginView.onGetContext()
-                );
-
-                JxUtils.toSubscribe(observable, s);
 
             } else {
+
                 ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_CENTER, App.mContext.getString(nicknameResult));
+                return;
             }
+
         }
+
+        user.setUser(userBean);
+
+        Observable observable = Network.getMainApi().signin(user);
+        Subscriber<Base<PhoneAndToken>> s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<PhoneAndToken>>(){
+
+            @Override
+            public void onNext(Base<PhoneAndToken> o) {
+                if(o.getErrorCode() == 0) {
+                    loginView.onLoginSmartNetwork(o.getRes().getUserName(), o.getRes().getPhone(), pwd, o.getRes().getToken());
+                } else {
+                    loginView.onLoginFailure(o.getMessage());
+                }
+            }
+        }, loginView.onGetContext()
+        );
+
+        JxUtils.toSubscribe(observable, s);
 
     }
 
@@ -249,7 +265,7 @@ public class WelcomePresenter implements Contract.Presenter {
     }
 
 
-    /** 获取验证码 */
+    /** 获取机智云验证码 */
     @Override
     public void sendPhoneSMSCode(String phone) {
 
@@ -263,7 +279,7 @@ public class WelcomePresenter implements Contract.Presenter {
         }
     }
 
-    /** 参数合法性检测和改机智云端用户密码 */
+    /** 参数合法性检测和修改smartCookApp服务端代码 */
     @Override
     public void CheckRetrievePwdPara(String phoneNum, String verification, String newPwd, String againNewPwd) {
         // 号码检查
@@ -294,10 +310,39 @@ public class WelcomePresenter implements Contract.Presenter {
         }
 
         LogUtils.d("gizRegistered", "注册参数检测通过");
-        GizWifiSDK.sharedInstance().resetPassword(phoneNum, verification, newPwd, GizUserAccountType.GizUserPhone);
+
+        Gson gson = new Gson();
+        HashMap<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("phone", phoneNum);
+        paramsMap.put("code", verification);
+        paramsMap.put("password", newPwd);
+
+        String strEntity = gson.toJson(paramsMap);
+
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+
+        Observable observable = Network.getMainApi().resetPassword(body);
+
+
+        Subscriber<Base<Null>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
+            @Override
+            public void onNext(Base<Null> o) {
+                if(o.getErrorCode() == 0) {
+                    retrievePwdView.onRetrievePwdViewSuccess();
+                } else {
+                    retrievePwdView.onGetVerFailure(o.getMessage());
+                }
+            }
+
+        }, retrievePwdView.onGetContext());
+
+
+        JxUtils.toSubscribe(observable, s);
+
     }
 
-    /** */
+    /** Giz服务器端密码重置成功后,再重置smartCookApp服务器代码 */
     @Override
     public void Retrieve(String phoneNum, String newPwd) {
 
@@ -319,30 +364,32 @@ public class WelcomePresenter implements Contract.Presenter {
 
 
         JxUtils.toSubscribe(observable, s);
-        /**
-         *  User user = new User();
-         User.UserBean userBean = user.new UserBean();
-         userBean.setName(nickName);
-         userBean.setPassword(password);
-         userBean.setPhoneNum(phoneNum);
-         userBean.setUid(uid);
-         user.setUser(userBean);
 
-         Observable observable = Network.getMainApi().registered(user);
-         Subscriber<Base<Null>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
-        @Override
-        public void onNext(Base<Null> o) {
-        if (o.getErrorCode() == 0)
-        registeredView.onRegisteredSuccess();
-        else {
-        registeredView.onRegisteredFailure(o.getMessage());
+    }
+
+
+
+    @Override
+    public void getVerification(String phoneNum) {
+        if(StringFormatCheckUtils.isPhoneLegal(phoneNum)) {
+
+            Observable observable = Network.getMainApi().getVerification(phoneNum);
+
+            Subscriber<Base<Null>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
+                @Override
+                public void onNext(Base<Null> o) {
+                    if(o.getErrorCode() == 0) {
+                        retrievePwdView.onGetVerSuccess();
+                    } else {
+                        retrievePwdView.onGetVerFailure(o.getMessage());
+                    }
+                }
+
+            }, loginView.onGetContext());
+
+            JxUtils.toSubscribe(observable, s);
+
         }
-        }
-
-        }, registeredView.onGetContext());
-
-         JxUtils.toSubscribe(observable, s);
-         * */
     }
 
 

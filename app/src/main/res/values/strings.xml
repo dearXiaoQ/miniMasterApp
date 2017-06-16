@@ -32,10 +32,12 @@
     <string name="devicedisconnected">设备已断开</string>
     <string name="sure">确定</string>
 
+
+
     <string name="finished">已完成上述操作</string>
 
     <string name="about">关于我们</string>
-
+    <!-- UserInfo -->
     <string name="head_icon">头像</string>
     <string name="sex">性别：</string>
     <string name="old">年龄：</string>
@@ -115,6 +117,7 @@
     <string name="again_pwd_right">再次输入密码正确</string>
 
     <!-- RetrievePwdFragment -->
+    <string name="get_verification_success">验证码已发送，请注意查收！</string>
     <string name="retrieve_pwd_success">操作成功</string>
 
     <!-- AirlinkReadyActivity -->

@@ -2,6 +2,8 @@ package com.masterdroup.minimasterapp;
 
 import android.net.wifi.ScanResult;
 
+import com.masterdroup.minimasterapp.util.Md5;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ public class Constant {
 
     public final static String APP_ID = "f0d68c68539243bc853b1298faf133ff";//机智云APPID
     public final static String APP_Secret = "42ebbf3d1f3b4ca6815a52066485d872";//机智云APP_Secret
+
+    public final static String Md5Str = Md5.getMd5(APP_ID + APP_Secret);
 
     public static List<ScanResult> ssidList = new ArrayList<ScanResult>();
 
