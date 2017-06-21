@@ -43,7 +43,11 @@
     <string name="old">年龄：</string>
     <string name="male">男</string>
     <string name="female">女</string>
-    <string name="not_sex">不告诉你</string>>
+    <string name="not_sex">不告诉你</string>
+    <string name="signature">个性签名</string>
+    <string name="input_signature">请输入个性签名</string>
+    <string name="input_age_not_legal">输入的年龄有误</string>
+    
     <string name="personalized_signature">我的才气都在我的食谱里</string>
 
     <string name="setting_remarks">注：暂不支持5G频道的Wi-Fi网络</string>
@@ -317,6 +321,9 @@
     <!-- CollectionActivity -->
     <string name="collection_menu">收藏的食谱</string>
 
+    <!-- MenuFragment -->
+    <string name="load_more">上拉加载更多</string>
+    <string name="not_more_data">没用更多数据加载</string>
 
     <string-array name="model">
         <item>自动模式</item>

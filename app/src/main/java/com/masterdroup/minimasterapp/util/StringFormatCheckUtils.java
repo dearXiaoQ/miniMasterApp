@@ -1,7 +1,6 @@
 package com.masterdroup.minimasterapp.util;
 
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.view.RoundProgressBar;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,6 +63,7 @@ public class StringFormatCheckUtils {
         return R.string.nickname_right;
     }
 
+
     /** 验证码合法性检测 */
     public static int isVerificationLegal(String verification) {
 
@@ -111,6 +111,17 @@ public class StringFormatCheckUtils {
         } else {
             return R.string.again_pwd_right;
         }
+
+    }
+
+
+    /** 年龄合法性检测 */
+    public static boolean isAgeLegal(String age) {
+        /** 0 - 120岁都合法 */
+        String reExp = "^(?:[1-9][0-9]?|1[01][0-9]|120)$";
+        Pattern p = Pattern.compile(reExp);
+        Matcher m = p.matcher(age);
+        return m.matches();
 
     }
 

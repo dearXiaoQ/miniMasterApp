@@ -30,8 +30,11 @@ public class User {
         Meta meta;
         /** 用于重置密码的验证码 */
         String code;
+        /** 个性签名 */
+        String signature;
 
         int role;
+        /** 1 male  2 female*/
         int sex;
         int __v;
         String uid;
@@ -71,6 +74,10 @@ public class User {
         public void setSex(int sex) {
             this.sex = sex;
         }
+
+        public String getSingnature() {return signature;}
+
+        public void setSignature(String signature) {this.signature = signature;}
 
         public int get__v() {
             return __v;

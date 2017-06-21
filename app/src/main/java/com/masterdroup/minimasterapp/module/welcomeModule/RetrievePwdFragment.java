@@ -138,7 +138,7 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
                 break;
 
             case R.id.get_verification_tv:
-                mPresenter.sendPhoneSMSCode(phoneNumEt.getText().toString());
+                mPresenter.getVerification(phoneNumEt.getText().toString());
                 break;
 
         }

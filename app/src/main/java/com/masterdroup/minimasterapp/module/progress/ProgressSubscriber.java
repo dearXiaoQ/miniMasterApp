@@ -1,11 +1,7 @@
 package com.masterdroup.minimasterapp.module.progress;
 
 import android.content.Context;
-
-import com.blankj.utilcode.utils.ActivityUtils;
 import com.blankj.utilcode.utils.LogUtils;
-import com.masterdroup.minimasterapp.App;
-
 import rx.Subscriber;
 
 /**
@@ -20,6 +16,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
         this.mSubscriberOnNextListener = mSubscriberOnNextListener;
         mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
+
 
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
@@ -82,3 +79,9 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
     }
 
 }
+
+
+
+
+
+

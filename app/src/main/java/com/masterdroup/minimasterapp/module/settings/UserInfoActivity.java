@@ -9,12 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
 import com.masterdroup.minimasterapp.util.ImageLoader;
+import com.masterdroup.minimasterapp.util.StringFormatCheckUtils;
+import com.masterdroup.minimasterapp.util.ToastUtils;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.ImgSelActivity;
 
@@ -25,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
+/** 用户个人信息修改 */
 public class UserInfoActivity extends Activity implements Contract.View {
 
     @Bind(R.id.iv_return)
@@ -54,6 +59,16 @@ public class UserInfoActivity extends Activity implements Contract.View {
     RadioButton mRbFemale;
     @Bind(R.id.et_address)
     EditText mEtAddress;
+    @Bind(R.id.signature_et)
+    EditText signatureEt;
+    @Bind(R.id.radioGroup)
+    RadioGroup sexRG;
+
+    @Bind(R.id.old_et)
+    EditText oldEt;
+
+    private static final int MALE   = 1;
+    private static final int FEMALE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +96,27 @@ public class UserInfoActivity extends Activity implements Contract.View {
                 //保存修改信息然后提交
                 User user = new User();
                 User.UserBean userBean = user.new UserBean();
-                userBean.setPhoneNum(mEtPhone.getText().toString());
-                userBean.setAddress(mEtAddress.getText().toString());
-                if (mEtAge.getText().length() != 0)
-                    userBean.setAge(Integer.valueOf(mEtAge.getText().toString()));
+                //userBean.setPhoneNum(mEtPhone.getText().toString());
+                String signatureStr = signatureEt.getText().toString().trim();
+                if(signatureStr.length() != 0)
+                    userBean.setSignature(signatureStr);
 
+                String addressStr = mEtAddress.getText().toString().trim();
+                if(addressStr.length() != 0)
+                    userBean.setAddress(mEtAddress.getText().toString());
+
+                String ageStr = oldEt.getText().toString().trim();
+                if( StringFormatCheckUtils.isAgeLegal(ageStr) )
+                    userBean.setAge(Integer.valueOf(ageStr));
+                else {
+                    ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_CENTER, App.mContext.getString(R.string.input_age_not_legal));
+                    return;
+                }
 
                 if (mRbMale.isChecked())
-                    userBean.setSex(1);
+                    userBean.setSex(MALE);
                 if (mRbFemale.isChecked())
-                    userBean.setSex(2);
+                    userBean.setSex(FEMALE);
 
                 user.setUser(userBean);
 
@@ -139,14 +165,24 @@ public class UserInfoActivity extends Activity implements Contract.View {
         User.UserBean userBean = user.getUser();
         mEtPhone.setText(userBean.getPhoneNum());
         mEtAge.setText(userBean.getAge() == 0 ? null : String.valueOf(userBean.getAge()));
-        if (userBean.getSex() == 1)
-            mRbMale.setChecked(true);
-        if (userBean.getSex() == 2)
-            mRbFemale.setChecked(true);
+        int rbId;
+        if (userBean.getSex() == MALE)
+            rbId = R.id.radio_1;
+        else
+            rbId = R.id.radio_2;
+
+        sexRG.check(rbId);
+
+        oldEt.setText(userBean.getAge() + "");
+
+        mRbFemale.setChecked(true);
         mEtAddress.setText(userBean.getAddress());
+
+        signatureEt.setText(userBean.getSingnature());
 
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), mIvUserHead, this, true);
         putUserHeadServerUrl(userBean.getHeadUrl());
+
     }
 
 

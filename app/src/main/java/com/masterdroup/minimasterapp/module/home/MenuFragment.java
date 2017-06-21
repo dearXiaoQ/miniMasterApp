@@ -1,6 +1,7 @@
 package com.masterdroup.minimasterapp.module.home;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,30 +15,32 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.api.Network;
-import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Recipes;
-import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.menu.MenuListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
-import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
 import com.masterdroup.minimasterapp.util.ImageLoader;
-import com.masterdroup.minimasterapp.util.JxUtils;
+import com.masterdroup.minimasterapp.util.ToastUtils;
+import com.masterdroup.minimasterapp.util.Utils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerClickListener;
 import com.yuyh.library.imgsel.utils.LogUtils;
@@ -48,8 +51,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
 
 import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 
@@ -59,19 +60,23 @@ import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 
 /** 菜谱页面 */
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements Contract.MenuView {
+
+    Contract.Presenter mPresenter;
 
     @Bind(R.id.banner)
     Banner banner;
-    //    @Bind(R.id.iv_center1)
-//    ImageView ivCenter1;
-//    @Bind(R.id.iv_center2)
-//    ImageView ivCenter2;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     View view;
     @Bind(R.id.rv_menu)
     RecyclerView mRvMenu;
+    @Bind(R.id.scrollView)
+    ScrollView  mScrollView;
+    @Bind(R.id.bottomTv)
+    TextView moreTv;
+    @Bind(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     List<Recipes.RecipesBean> recipes_banner = new ArrayList<>();
     List<Recipes.RecipesBean> recipes_list = new ArrayList<>();
@@ -82,13 +87,34 @@ public class MenuFragment extends Fragment {
     @Bind(R.id.rv_menu_b)
     RecyclerView mRvMenuB;
 
+    public static int  LOADER_RECIPES_COUNT = 5;
+
+    private StaggeredGridLayoutManager mStaggerGridLayoutManager;
+
+    /** 是否用可以加载了 */
+    public static boolean isLoading = false;
+
+    /** 是否用更多的数据加载 */
+    public static  boolean isCanLoading = true;
+
+    /**  Banner图片  */
+    private List<String> images = new ArrayList<>();
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new HomePresenter(this);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_menu_home, container, false);
         ButterKnife.bind(this, view);
 
-//
+
         if (isLogin())
             LogUtils.d("已登陆");
         else
@@ -113,28 +139,33 @@ public class MenuFragment extends Fragment {
         mRvMenu.addItemDecoration(decoration);
         mRvMenu.setNestedScrollingEnabled(false);
         //设置Item增加、移除动画
+        mStaggerGridLayoutManager = (StaggeredGridLayoutManager) mRvMenu.getLayoutManager();
         mRvMenu.setItemAnimator(new DefaultItemAnimator());
 
-        Observable o = Network.getMainApi().getRecipesList(0, 10);
-        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
+
+        mScrollView.setOnTouchListener(new View.OnTouchListener(){
             @Override
-            public void onNext(Base<RecipesList> o) {
-                if ((o.getErrorCode() == 0) && (o.getRes().getList().size() >= 4) ) {
-                    for (int i = 0; i < 4; i++) {
-                        recipes_banner.add(o.getRes().getList().get(i));
-                    }
-                    setBanner();
+            public boolean onTouch(View v, MotionEvent event) {
+                //判断 scrollView 当前滚动位置在顶部
+             /*   if(mScrollView.getScrollY() == 0) {
+                    LogUtils.d("mScrollView", "The scrollView is swipe  to top！");
+                }*/
 
-                    recipes_list = o.getRes().getList();
-                    mAdapter.notifyDataSetChanged();
+                if(isCanLoading)//用更多数据加载
+                    if(mScrollView.getChildAt(0).getHeight() - mScrollView.getHeight() == mScrollView.getScrollY() )  //滑动到底部
+                        if(event.getAction() == MotionEvent.ACTION_UP) {
+                            //抬起动作（释放刷新）
+                            mPresenter.getMoreRecipes(recipes_list.size(), LOADER_RECIPES_COUNT);
+                            mProgressBar.setVisibility(View.VISIBLE);
+                            moreTv.setVisibility(View.GONE);
+                        }
 
-                }
-
+                return false;
             }
-        }, view.getContext());
+        });
 
-
-        JxUtils.toSubscribe(o, s);
+        mPresenter.getBanner();
+        mPresenter.getRecipes(0, LOADER_RECIPES_COUNT);
 
         ButtonMenu bm1 = new ButtonMenu("本周流行", R.drawable.ic_menu_button1);
         ButtonMenu bm2 = new ButtonMenu("无肉不欢", R.drawable.ic_menu_button2);
@@ -164,14 +195,13 @@ public class MenuFragment extends Fragment {
         });
     }
 
+
+
     void setBanner() {
-
-        List<String> images = new ArrayList<>();
-
+       /* List<String> images = new ArrayList<>();
         for (Recipes.RecipesBean s : recipes_banner) {
             images.add(Constant.BASEURL + s.getDetail().getImgSrc());
-        }
-
+        }*/
 
         //设置图片加载器
         banner.setImageLoader(new ImageLoader());
@@ -186,6 +216,76 @@ public class MenuFragment extends Fragment {
         });
         //banner设置方法全部调用完毕时最后调用
         banner.start();
+    }
+
+
+
+    @Override
+    public void onGetRecipesSuccess(List<Recipes.RecipesBean> recipes_list) {
+   /*     for (int i = 0; i < 4; i++) {
+            recipes_banner.add(recipes_list.get(i));
+        }
+        setBanner();*/
+
+        this.recipes_list = recipes_list;
+        mAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onGetRecipesFailure(String info) {
+        ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, info);
+    }
+
+    @Override
+    public Context onGetContext() {
+        return getActivity();
+    }
+
+    @Override
+    public void onGetMoreRecipesSuccess(List<Recipes.RecipesBean> recipes_more_list) {
+        if(recipes_more_list.size() < 5) {
+            isCanLoading = false;
+            moreTv.setText(R.string.not_more_data);
+        }
+
+        mProgressBar.setVisibility(View.GONE);
+        moreTv.setVisibility(View.VISIBLE);
+
+        for (Recipes.RecipesBean recipes : recipes_more_list)
+            this.recipes_list.add(recipes);
+
+
+        mAdapter.notifyDataSetChanged();
+
+        isLoading = false;
+    }
+
+    @Override
+    public void onGetMoreRecipesFailure(String info) {
+        isLoading = false;
+        mProgressBar.setVisibility(View.GONE);
+        moreTv.setVisibility(View.VISIBLE);
+        ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, info);
+    }
+
+    @Override
+    public void onGetBannerSuccess(List<Recipes.RecipesBean> banner_list) {
+        this.recipes_banner = banner_list;
+        for (Recipes.RecipesBean s : recipes_banner) {
+            images.add(Constant.BASEURL + s.getDetail().getImgSrc());
+        }
+        setBanner();
+    }
+
+    @Override
+    public void onGetBannerFailure(String info) {
+        Log.d("banner", " info = " + info);
+    }
+
+    @Override
+    public void setPresenter(Contract.Presenter presenter) {
+        mPresenter = Utils.checkNotNull(presenter);
     }
 
 

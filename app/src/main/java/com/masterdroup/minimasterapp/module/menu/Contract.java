@@ -2,12 +2,11 @@ package com.masterdroup.minimasterapp.module.menu;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
-import com.masterdroup.minimasterapp.model.Base;
-import com.masterdroup.minimasterapp.model.Menu;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
@@ -26,15 +25,19 @@ public class Contract {
 
         void initRV(PullLoadMoreRecyclerView rv);
 
-        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv, RecyclerView comment_rv);
+        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv);
 
         void like();//点赞
 
         boolean isLike();//是否like
 
+        boolean isFavorite();//是否收藏
+
         boolean isOwner();// 是否菜谱创建者
 
         void reLike(final String menuId);
+
+        void favorite(); //收藏
     }
 
     interface MenuCreatePresenter extends BasePresenter {

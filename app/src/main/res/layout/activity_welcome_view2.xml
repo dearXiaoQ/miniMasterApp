@@ -26,7 +26,7 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/et_in_access"
-            android:text="jun123"
+            android:text=""
             android:textSize="14sp"/>
 
         <View
@@ -48,7 +48,7 @@
             android:gravity="center_vertical"
             android:hint="@string/et_in_pwd"
             android:inputType="textPassword"
-            android:text="123"
+            android:text=""
             android:textSize="14sp"/>
 
 

@@ -1,6 +1,5 @@
 package com.masterdroup.minimasterapp.module.welcomeModule;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;

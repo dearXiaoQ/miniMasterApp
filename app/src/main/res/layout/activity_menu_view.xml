@@ -69,14 +69,14 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true" />
         </LinearLayout>
-        
-        
-       <View
-           android:layout_width="match_parent"
-           android:layout_height="0.5dp"
-           android:background="@color/background_gray"
-           android:layout_alignParentBottom="true"
-           ></View>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/background_gray"
+            android:layout_alignParentBottom="true"
+            ></View>
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -86,6 +86,7 @@
         android:layout_marginTop="50dp">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -95,38 +96,76 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/menu_cover_h" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3人点赞"
+
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_marginRight="-20dp"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#ddd" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/like_iv"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/love_it_icon"
+                        />
+
+                    <GridView
+                        android:id="@+id/like_gv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/like_iv"
+                        android:layout_toStartOf="@+id/more_iv"
+                        android:numColumns="6"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        >
+
+
+                    </GridView>
+                    <ImageView
+                        android:id="@+id/more_iv"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/recipes_more_icon"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_marginRight="-20dp"
+                    android:layout_marginLeft="-20dp"
+                    android:background="#ddd" />
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp">
-
-                <TextView
-                    android:id="@+id/tv_menu_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="烤面包"
-                    android:textColor="@color/app_text_color_dark111"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:id="@+id/tv_menu_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_menu_name"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:text="9.9综合评分 324人收藏"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:padding="10dp">
 
                 <ImageView
                     android:id="@+id/iv_user_head"
@@ -155,7 +194,7 @@
                 android:text="法式手撕面包是以高低粉、黄油等食材制成的一道美食。高粉150克、低粉100克、黄油15克、鸡蛋一个、水90克左右、盐5克、白糖25克、酵母3克。
 裹入用黄油140克"
                 android:textColor="@color/app_text_color_dark" />
-            jj
+
 
             <View
                 android:layout_width="match_parent"
@@ -165,6 +204,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -175,6 +215,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_like"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/dp_40"
@@ -184,6 +225,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
+                android:visibility="gone"
                 android:layout_margin="20dp"
                 android:background="#ddd" />
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,14 +30,16 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     TextView tvTitle;
     @Bind(R.id.iv_cover)
     ImageView ivCover;
-    @Bind(R.id.tv_menu_name)
-    TextView tvMenuName;
-    @Bind(R.id.tv_menu_info)
-    TextView tvMenuInfo;
+    /*    @Bind(R.id.tv_menu_name)
+        TextView tvMenuName;*/
+   /* @Bind(R.id.tv_menu_info)
+    TextView tvMenuInfo;*/
     @Bind(R.id.iv_user_head)
     ImageView ivUserHead;
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
+    @Bind(R.id.like_gv)
+    GridView gridView;
 
 
     @Bind(R.id.tv_menu_note)
@@ -62,18 +65,23 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     FloatingActionButton mFab;
     @Bind(R.id.rv_like)
     RecyclerView rv_like;
-
+    @Bind(R.id.favorite)
+    ImageView favoriteIv;
 
     /**
      * 菜谱id
      */
     String recipesBeanID;
+    String userHeadUrl;
+
     @Bind(R.id.rv_menu_comment)
     RecyclerView rvMenuComment;
     @Bind(R.id.tv_comment_count)
     TextView tvCommentCount;
     @Bind(R.id.ll_comment)
     LinearLayout llComment;
+    @Bind(R.id.like_iv)
+    ImageView likeIv;
 
 
     @Override
@@ -87,16 +95,15 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         initData();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-
         mPresenter.gettingData(recipesBeanID);
     }
 
     private void initView() {
         mTvMoreButton.setVisibility(View.VISIBLE);
-
 
         mVsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -108,13 +115,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 }
             }
         });
-
     }
 
     private void initData() {
 
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rv_like, rvMenuComment);
+
+        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep , rvMenuComment, gridView, likeIv, favoriteIv);
 
 
         recipesBeanID = getIntent().getStringExtra("_id");
@@ -122,21 +129,23 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.gettingData(recipesBeanID);
     }
 
+
     @Override
     public void setPresenter(Contract.Presenter presenter) {
         mPresenter = Utils.checkNotNull(presenter);
     }
 
-    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count})
+
+    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count, R.id.like_iv})
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_return)
+  /*      if (v.getId() == R.id.iv_return)
             finish();
         if (v.getId() == R.id.fab) {
 
             Intent intent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
             intent.putExtra("_id", recipesBeanID);
-
             startActivity(intent);
+
         }
         if (v.getId() == R.id.tv_more_button) {
 
@@ -147,17 +156,53 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             Intent intent = new Intent(MenuViewActivity.this, CommentListActivity.class);
             intent.putExtra("_id", recipesBeanID);
             startActivity(intent);
-            ;//查看评论}
+            //查看评论}
+
+        }*/
+
+
+        switch (v.getId()) {
+            case R.id.iv_return:
+                finish();
+                break;
+
+            case  R.id.fab:
+                Intent fabIntent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
+                fabIntent.putExtra("_id", recipesBeanID);
+                startActivity(fabIntent);
+                break;
+
+            case R.id.tv_more_button:
+
+                break;
+
+            case R.id.like_iv:
+                mPresenter.like();
+                break;
+
+            case R.id.tv_comment_count:
+                Intent intent = new Intent(MenuViewActivity.this, CommentListActivity.class);
+                intent.putExtra("_id", recipesBeanID);
+                startActivity(intent);
+                break;
+
+            case R.id.favorite:
+                mPresenter.favorite();
+                break;
+
+
 
         }
+
     }
 
     @Override
     public void settingData(Recipes.RecipesBean recipesBean) {
 //        tvTitle.setText(recipesBean.getName());
-        tvMenuName.setText(recipesBean.getName());
+        //      tvMenuName.setText(recipesBean.getName());
         tvUserName.setText(recipesBean.getOwner().getOwnerUid().getName());
-        ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), ivCover, this, false);
+        userHeadUrl = recipesBean.getDetail().getImgSrc();
+        ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userHeadUrl, ivCover, this, false);
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
 
@@ -193,4 +238,19 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.reLike(recipesBeanID);
     }
 
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Comment;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.Favorites;
 import com.masterdroup.minimasterapp.model.Food;
 import com.masterdroup.minimasterapp.model.Like;
 import com.masterdroup.minimasterapp.model.Recipes;
@@ -62,6 +65,7 @@ public class MenuPresenter implements Contract.Presenter {
     LikeAdapter like_adapter;
     CookingStepAdapter cooking_step_adapter;
     CommentAdapter comment_adapter;
+    LikeGVAdapter likeGVAdapter;
     public static List<Recipes.RecipesBean> list;
 
 
@@ -69,6 +73,7 @@ public class MenuPresenter implements Contract.Presenter {
     List<Food> mFoods = new ArrayList<>();
     List<CookingStep> mCookingSteps = new ArrayList<>();
     List<Like> likes = new ArrayList<>();
+    List<Favorites> favorites = new ArrayList<>();
     List<Comment> comments = new ArrayList<>();
 
     int index = 0;//从第index个开始获取
@@ -77,9 +82,17 @@ public class MenuPresenter implements Contract.Presenter {
     Observable o_recipesList;
     Subscriber s_recipesList;
 
-    Recipes.RecipesBean recipesBean;
+    ImageView likeIv;  //点赞图标
+    ImageView favoriteIv; //收藏图标
 
+    Recipes.RecipesBean recipesBean;
+    /** 当前用户是已否点赞 */
     boolean islike;
+    /** 当前用户是否已收藏 */
+    boolean isfavorite;
+
+    String userHeadUrl ;
+    String userName;
 
     @Override
     public void start() {
@@ -89,9 +102,8 @@ public class MenuPresenter implements Contract.Presenter {
         food_adapter = new FoodsAdapter(mContext);
         step_adapter = new StepAdapter(mContext);
         cooking_step_adapter = new CookingStepAdapter(mContext);
-        like_adapter = new LikeAdapter();
-        like_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         comment_adapter = new CommentAdapter();
+        likeGVAdapter = new LikeGVAdapter();
 
     }
 
@@ -123,6 +135,7 @@ public class MenuPresenter implements Contract.Presenter {
                     mSteps = base.getRes().getDescribeSteps();
                     mCookingSteps = base.getRes().getCookingStep();
                     likes = base.getRes().getLikes();
+                    favorites = base.getRes().getFavorite();
                     comments = base.getRes().getComment();
 
                     food_adapter.notifyDataSetChanged();
@@ -134,8 +147,18 @@ public class MenuPresenter implements Contract.Presenter {
                     like_adapter.setNewData(likes);
                     comment_adapter.setNewData(comments);
 
+                    likeGVAdapter.notifyDataSetChanged();
                     menuAloneView.onIsOwner(isOwner());
+                    userName = recipesBean.getOwner().getOwnerUid().getName();
+                    isfavorite = isFavorite();
+                    if(isfavorite) {
+                        favoriteIv.setImageResource(R.drawable.like_it_dark);
+                    }
                     islike = isLike();
+                    if(islike) {
+                        likeIv.setImageResource(R.drawable.love_it_dark);
+                    }
+                    userHeadUrl = recipesBean.getOwner().getOwnerUid().getHeadUrl();
                     if (!isOwner())
                         menuAloneView.onIsLike(islike);
                 }
@@ -201,7 +224,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView like_rv, RecyclerView comment_rv) {
+    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv) {
 
         food_rv.setAdapter(food_adapter);
         food_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
@@ -214,13 +237,51 @@ public class MenuPresenter implements Contract.Presenter {
         cooking_step_rv.setLayoutManager(new LinearLayoutManager(mContext));
         cooking_step_rv.setNestedScrollingEnabled(false);
 
-        like_rv.setAdapter(like_adapter);
-//        like_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
-        like_rv.setLayoutManager(new LinearLayoutManager(mContext, HORIZONTAL, false));
 
         comment_rv.setAdapter(comment_adapter);
         comment_rv.setLayoutManager(new LinearLayoutManager(mContext));
 
+        this.likeIv = likeIv;
+        this.favoriteIv = favoriteIv;
+
+        likeGView.setAdapter(likeGVAdapter);
+    }
+
+
+    @Override
+    public void favorite() {
+        if (!isLogin()) {
+            ToastUtils.showShortToast("点赞前请登录");
+            return;
+        }
+
+        if (!isfavorite) {
+            Observable o = Network.getMainApi().addFollower(recipesBean.get_id());
+            Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
+                @Override
+                public void onNext(Base o) {
+                    if (o.getErrorCode() == 0) {
+                        ToastUtils.showShortToast("点赞成功");
+                        isfavorite = true;
+                        favoriteIv.setImageResource(R.drawable.like_it_dark);
+                    }
+                }
+            }, mContext);
+            JxUtils.toSubscribe(o, s);
+        } else {
+            Observable o = Network.getMainApi().cancelFollower(recipesBean.get_id());
+            Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
+                @Override
+                public void onNext(Base o) {
+                    if (o.getErrorCode() == 0) {
+                        ToastUtils.showShortToast("取消点赞成功");
+                        isfavorite = false;
+                        favoriteIv.setImageResource(R.drawable.like_it);
+                    }
+                }
+            }, mContext);
+            JxUtils.toSubscribe(o, s);
+        }
     }
 
     @Override
@@ -238,8 +299,10 @@ public class MenuPresenter implements Contract.Presenter {
                     if (o.getErrorCode() == 0) {
                         ToastUtils.showShortToast("点赞成功");
                         islike = true;
-                        menuAloneView.onIsLike(islike);
-
+                        //menuAloneView.onIsLike(islike);
+                        refreshLikeData();
+                        likeGVAdapter.notifyDataSetChanged();
+                        likeIv.setImageResource(R.drawable.love_it_dark);
                     }
                 }
             }, mContext);
@@ -252,7 +315,10 @@ public class MenuPresenter implements Contract.Presenter {
                     if (o.getErrorCode() == 0) {
                         ToastUtils.showShortToast("取消点赞成功");
                         islike = false;
-                        menuAloneView.onIsLike(islike);
+                        //menuAloneView.onIsLike(islike);
+                        refreshLikeData();
+                        likeGVAdapter.notifyDataSetChanged();
+                        likeIv.setImageResource(R.drawable.love_it_icon);
                     }
                 }
             }, mContext);
@@ -260,17 +326,58 @@ public class MenuPresenter implements Contract.Presenter {
         }
     }
 
+    private void refreshLikeData() {
+        int likesSize = likes.size();
+        String name = App.spUtils.getString(App.mContext.getString(R.string.name));
+        if(likesSize > 0 && (islike == false)) {
+
+            for (int i = 0; i < likesSize; i ++) {
+                if(name.equals(likes.get(i).getName())) {
+                    likes.remove(i);
+                    return;
+                }
+            }
+
+        } else if(islike == true) {
+           // String headUrl =
+            if(userHeadUrl != null) {
+                Like like = new Like();
+                like.setName(name);
+                like.setHeadUrl(userHeadUrl);
+                likes.add(0, like);
+            }
+        }
+    }
+
+
+    @Override
+    public boolean isFavorite() {
+        boolean l = false;
+        //// 判断是否favorite
+        int favoritesSize = favorites.size();
+        if(favoritesSize == 0) {
+            l = false;
+        } else {
+            for(Favorites favorite : favorites) {
+                if(userName.equals(favorite.getName())) {
+                    l = true;
+                }
+            }
+        }
+
+        return l;
+    }
+
     @Override
     public boolean isLike() {
         boolean l = false;
         //// 判断是否 like
-        String name = App.spUtils.getString(App.mContext.getString(R.string.name));
 
         if (recipesBean.getLikes().size() == 0)
             l = false;
         else {
             for (Like like : recipesBean.getLikes()) {
-                if (name.equals(like.getName()))
+                if (userName.equals(like.getName()))
                     l = true;
 
             }
@@ -325,6 +432,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
 
+
     class CommentAdapter extends BaseQuickAdapter<Comment, BaseViewHolder> {
         public CommentAdapter() {
             super(R.layout.view_menu_comment_item, comments);
@@ -347,6 +455,35 @@ public class MenuPresenter implements Contract.Presenter {
 
         }
     }
+
+    class LikeGVAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return likes.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.menuview_gridview_item, null);
+            ImageView userHeadIv = (ImageView) convertView.findViewById(R.id.lite_head_iv);
+            //String url, ImageView imageView, Context context, boolean isCircle
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + likes.get(position).getHeadUrl(), userHeadIv, mContext, true);
+
+            return convertView;
+        }
+    }
+
 
     class LikeAdapter extends BaseQuickAdapter<Like, BaseViewHolder> {
 

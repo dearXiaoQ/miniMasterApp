@@ -19,17 +19,22 @@ public class Contract {
 
         /***
          *  获取菜谱列表
-         * @param index 菜谱其实
-         * @param count
+         * @param index  页码
+         * @param count  数量
          */
-        void getRecuoes(int index, int count);
+        void getRecipes(int index, int count);
 
-
+        /**
+         * 加载更多菜谱
+         * @param currentIndex  当前菜谱下标
+         * @param count         数量
+         */
+        void getMoreRecipes(int currentIndex, int count );
 
         void getUserInfo();
         void outLogin();
-
-
+        /** 获取轮播图片接口 */
+        void getBanner();
     }
 
     interface UserView extends BaseView<Presenter> {
@@ -46,7 +51,20 @@ public class Contract {
         /** 获取菜谱失败 */
         void onGetRecipesFailure(String info);
 
+        Context onGetContext();
 
+
+        /** 加载更多菜谱成功 */
+        void onGetMoreRecipesSuccess(List<Recipes.RecipesBean> recipes_list);
+
+        /** 加载更多菜谱失败 */
+        void onGetMoreRecipesFailure(String info);
+
+        /** 获取Banner列表成功 */
+        void onGetBannerSuccess(List<Recipes.RecipesBean> banner_list);
+
+        /** 获取Banner列表失败 */
+        void onGetBannerFailure(String info);
     }
 
 }

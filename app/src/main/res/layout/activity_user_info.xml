@@ -33,19 +33,17 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/white"
-        >
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/head_icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            />
+            android:text="@string/head_icon" />
 
         <ImageView
             android:id="@+id/iv_user_head"
@@ -53,8 +51,7 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            />
+            android:layout_marginRight="10dp" />
 
     </RelativeLayout>
 
@@ -90,12 +87,16 @@
             android:text="@string/old" />
 
         <EditText
+            android:id="@+id/old_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/old_tv"
+            android:textColor="@color/app_text_color_dark333"
             android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="请输入年龄" />
 
 
@@ -151,6 +152,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="15dp"
                 android:layout_toEndOf="@+id/radioGroup"
+                android:textColor="@color/app_text_color_dark333"
                 android:text="@string/male" />
 
 
@@ -161,17 +163,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="30dp"
                 android:layout_toEndOf="@+id/radio_1"
+                android:textColor="@color/app_text_color_dark333"
                 android:text="@string/female" />
 
 
-            <RadioButton
-                android:id="@+id/radio_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="30dp"
-                android:layout_toEndOf="@+id/radio_2"
-                android:text="@string/not_sex" />
         </RadioGroup>
 
     </RelativeLayout>
@@ -209,17 +204,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/old" />
+            android:text="@string/signature" />
 
-        <TextView
+        <EditText
+            android:id="@+id/signature_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@null"
-            android:text="@string/personalized_signature"
+            android:hint="@string/personalized_signature"
             android:layout_alignTop="@+id/introduce_tv"
-            android:textColor="@color/black"
-            android:layout_toEndOf="@+id/introduce_tv" />
+            android:textColor="@color/app_text_color_dark333"
+            android:layout_toEndOf="@+id/introduce_tv"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
 
 
     </RelativeLayout>

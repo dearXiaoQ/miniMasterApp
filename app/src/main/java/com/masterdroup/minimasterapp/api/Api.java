@@ -81,12 +81,17 @@ public interface Api {
 
     /**
      * 获取菜谱列表
-     *
      * @param index 页码
      * @param count 每页数量
      */
     @GET("miniMasterApp/recipes/getRecipesList/{index}/{count}")
     Observable<Base<RecipesList>> getRecipesList(@Path("index") int index, @Path("count") int count);
+
+    /**
+     * 获取轮播菜谱
+     */
+    @GET("miniMasterApp/recipes/getCarouselList")
+    Observable<Base<RecipesList>> getBannerRecipesList();
 
     /**
      * 获取用户自身菜谱列表
@@ -131,6 +136,7 @@ public interface Api {
      */
     @POST("miniMasterApp/recipes/cancelFollower/{id}")
     Observable<Base> cancelFollower(@Path("id") String id);
+
 
 
     /**
