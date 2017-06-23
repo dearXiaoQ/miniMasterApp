@@ -46,7 +46,6 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 
-import static android.widget.LinearLayout.HORIZONTAL;
 import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 
 /**
@@ -144,20 +143,21 @@ public class MenuPresenter implements Contract.Presenter {
                     cooking_step_adapter.notifyDataSetChanged();
 
 
-                    like_adapter.setNewData(likes);
+                //    like_adapter.setNewData(likes);
                     comment_adapter.setNewData(comments);
 
                     likeGVAdapter.notifyDataSetChanged();
                     menuAloneView.onIsOwner(isOwner());
                     userName = recipesBean.getOwner().getOwnerUid().getName();
                     isfavorite = isFavorite();
-                    if(isfavorite) {
-                        favoriteIv.setImageResource(R.drawable.like_it_dark);
+                    if(!isfavorite) {
+                        favoriteIv.setImageResource(R.drawable.like_it);
                     }
                     islike = isLike();
                     if(islike) {
                         likeIv.setImageResource(R.drawable.love_it_dark);
                     }
+                    menuAloneView.setLikeList(likes);
                     userHeadUrl = recipesBean.getOwner().getOwnerUid().getHeadUrl();
                     if (!isOwner())
                         menuAloneView.onIsLike(islike);
@@ -251,17 +251,17 @@ public class MenuPresenter implements Contract.Presenter {
     @Override
     public void favorite() {
         if (!isLogin()) {
-            ToastUtils.showShortToast("点赞前请登录");
+            ToastUtils.showShortToast(App.mContext.getString(R.string.favorites_please_login));
             return;
         }
 
         if (!isfavorite) {
-            Observable o = Network.getMainApi().addFollower(recipesBean.get_id());
+            Observable o = Network.getMainApi().addFavorites(recipesBean.get_id());
             Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
-                        ToastUtils.showShortToast("点赞成功");
+                        ToastUtils.showShortToast(App.mContext.getString(R.string.favorites_success));
                         isfavorite = true;
                         favoriteIv.setImageResource(R.drawable.like_it_dark);
                     }
@@ -269,12 +269,12 @@ public class MenuPresenter implements Contract.Presenter {
             }, mContext);
             JxUtils.toSubscribe(o, s);
         } else {
-            Observable o = Network.getMainApi().cancelFollower(recipesBean.get_id());
+            Observable o = Network.getMainApi().cancelFavorites(recipesBean.get_id());
             Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base>() {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
-                        ToastUtils.showShortToast("取消点赞成功");
+                        ToastUtils.showShortToast(App.mContext.getString(R.string.favorites_failure));
                         isfavorite = false;
                         favoriteIv.setImageResource(R.drawable.like_it);
                     }
@@ -288,7 +288,7 @@ public class MenuPresenter implements Contract.Presenter {
     public void like() {
 
         if (!isLogin()) {
-            ToastUtils.showShortToast("点赞前请登录");
+            ToastUtils.showShortToast(App.mContext.getString(R.string.addFollower_please_login));
             return;
         }
         if (!islike) {
@@ -297,7 +297,7 @@ public class MenuPresenter implements Contract.Presenter {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
-                        ToastUtils.showShortToast("点赞成功");
+                        ToastUtils.showShortToast(App.mContext.getString(R.string.favorites_success));
                         islike = true;
                         //menuAloneView.onIsLike(islike);
                         refreshLikeData();
@@ -334,6 +334,7 @@ public class MenuPresenter implements Contract.Presenter {
             for (int i = 0; i < likesSize; i ++) {
                 if(name.equals(likes.get(i).getName())) {
                     likes.remove(i);
+                    menuAloneView.setLikeList(likes);
                     return;
                 }
             }
@@ -345,6 +346,7 @@ public class MenuPresenter implements Contract.Presenter {
                 like.setName(name);
                 like.setHeadUrl(userHeadUrl);
                 likes.add(0, like);
+                menuAloneView.setLikeList(likes);
             }
         }
     }

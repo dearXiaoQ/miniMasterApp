@@ -8,6 +8,7 @@ public class Favorites {
     String name;
     String headUrl;
     String id;
+    String date;
 
     public void setName(String name){this.name = name;}
 
@@ -21,5 +22,7 @@ public class Favorites {
 
     public String getId() {return id;}
 
+    public void setDate(String date) {this.date = date;}
 
+    public String getDate() {return date;}
 }

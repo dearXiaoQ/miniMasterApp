@@ -59,11 +59,13 @@ public interface Api {
     @POST("miniMasterApp/user/resetPassword")
     Observable<Base<Null>> resetPassword(@Body RequestBody body);
 
+
     /**
      * 用户更新信息接口
      */
     @POST("miniMasterApp/user/infoUpdate")
     Observable<Base> userInfoUpDate(@Body User body);
+
 
     /**
      * 获取用户信息接口
@@ -87,11 +89,13 @@ public interface Api {
     @GET("miniMasterApp/recipes/getRecipesList/{index}/{count}")
     Observable<Base<RecipesList>> getRecipesList(@Path("index") int index, @Path("count") int count);
 
+
     /**
      * 获取轮播菜谱
      */
     @GET("miniMasterApp/recipes/getCarouselList")
     Observable<Base<RecipesList>> getBannerRecipesList();
+
 
     /**
      * 获取用户自身菜谱列表
@@ -137,6 +141,20 @@ public interface Api {
     @POST("miniMasterApp/recipes/cancelFollower/{id}")
     Observable<Base> cancelFollower(@Path("id") String id);
 
+
+    /**
+     * 收藏菜谱
+     * @param id 菜谱id
+     */
+    @POST("miniMasterApp/recipes/addFavorites/{id}")
+    Observable<Base> addFavorites(@Path("id") String id);
+
+    /**
+     * 取消收藏菜谱
+     * @param id
+     */
+    @POST("miniMasterApp/recipes/cancelFavorites/{id}")
+    Observable<Base> cancelFavorites(@Path("id") String id);
 
 
     /**

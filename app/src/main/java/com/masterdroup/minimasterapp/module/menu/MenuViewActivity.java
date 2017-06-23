@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,10 +16,14 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.model.Like;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
+
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,8 +36,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     TextView tvTitle;
     @Bind(R.id.iv_cover)
     ImageView ivCover;
-    /*    @Bind(R.id.tv_menu_name)
-        TextView tvMenuName;*/
+    /*@Bind(R.id.tv_menu_name)
+    TextView tvMenuName;* /
    /* @Bind(R.id.tv_menu_info)
     TextView tvMenuInfo;*/
     @Bind(R.id.iv_user_head)
@@ -68,6 +74,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.favorite)
     ImageView favoriteIv;
 
+
     /**
      * 菜谱id
      */
@@ -83,6 +90,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     @Bind(R.id.like_iv)
     ImageView likeIv;
 
+    /** 点赞列表 */
+    List<Like> likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +124,37 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 }
             }
         });
+
+        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Intent likeIntent = new Intent(MenuViewActivity.this, LikeListActivity.class);
+                likeIntent.putExtra("likes", (Serializable) likes);
+                startActivity(likeIntent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        gridView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent likeIntent = new Intent(MenuViewActivity.this, LikeListActivity.class);
+                likeIntent.putExtra("likes", (Serializable) likes);
+                startActivity(likeIntent);
+                return false;
+            }
+        });
+
     }
 
     private void initData() {
 
-
-
         mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep , rvMenuComment, gridView, likeIv, favoriteIv);
-
 
         recipesBeanID = getIntent().getStringExtra("_id");
 
@@ -136,30 +168,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
 
-    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count, R.id.like_iv})
+    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count, R.id.like_iv, R.id.favorite})
     public void onClick(View v) {
-  /*      if (v.getId() == R.id.iv_return)
-            finish();
-        if (v.getId() == R.id.fab) {
-
-            Intent intent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
-            intent.putExtra("_id", recipesBeanID);
-            startActivity(intent);
-
-        }
-        if (v.getId() == R.id.tv_more_button) {
-
-            mPresenter.like();
-        }
-        if (v.getId() == R.id.tv_comment_count) {
-
-            Intent intent = new Intent(MenuViewActivity.this, CommentListActivity.class);
-            intent.putExtra("_id", recipesBeanID);
-            startActivity(intent);
-            //查看评论}
-
-        }*/
-
 
         switch (v.getId()) {
             case R.id.iv_return:
@@ -189,6 +199,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             case R.id.favorite:
                 mPresenter.favorite();
                 break;
+
 
 
 
@@ -238,19 +249,11 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.reLike(recipesBeanID);
     }
 
+    @Override
+    public void setLikeList(List<Like> likeList) {
+        likes = likeList;
+    }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

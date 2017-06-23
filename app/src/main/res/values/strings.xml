@@ -22,7 +22,6 @@
     <string name="settings_user_info">编辑个人资料</string>
 
 
-
     <string name="devicelist_titles">我的设备</string>
     <string name="loadingtext">处理中，请稍等...</string>
     <string name="add_device">添加</string>
@@ -31,7 +30,6 @@
     <string name="next">下一步</string>
     <string name="devicedisconnected">设备已断开</string>
     <string name="sure">确定</string>
-
 
 
     <string name="finished">已完成上述操作</string>
@@ -47,7 +45,7 @@
     <string name="signature">个性签名</string>
     <string name="input_signature">请输入个性签名</string>
     <string name="input_age_not_legal">输入的年龄有误</string>
-    
+
     <string name="personalized_signature">我的才气都在我的食谱里</string>
 
     <string name="setting_remarks">注：暂不支持5G频道的Wi-Fi网络</string>
@@ -297,6 +295,19 @@
     <string name="softssid_error">设备热点故障，请返回</string>
 
 
+    <!-- MenuViewActivity -->
+    <string name="addFollower_please_login">点赞前请登录</string>
+    <string name="addFollower_success">点赞成功</string>
+    <string name="addFollower_failure">点赞失败</string>
+    <string name="favorites_please_login">收藏前请登录</string>
+    <string name="favorites_success">收藏成功</string>
+    <string name="favorites_failure">收藏失败</string>
+
+
+    <!-- LikeListActivity -->
+    <string name="addFollower">点赞</string>
+    
+
     <!-- DeviceListActivity -->
     <string name="devicelist_title">我的设备</string>
     <string name="offline_devices">离线设备</string>
@@ -323,7 +334,7 @@
 
     <!-- MenuFragment -->
     <string name="load_more">上拉加载更多</string>
-    <string name="not_more_data">没用更多数据加载</string>
+    <string name="not_more_data">已经到底啦</string>
 
     <string-array name="model">
         <item>自动模式</item>

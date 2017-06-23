@@ -92,10 +92,10 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
     private StaggeredGridLayoutManager mStaggerGridLayoutManager;
 
     /** 是否用可以加载了 */
-    public static boolean isLoading = false;
+    private boolean isLoading = false;
 
     /** 是否用更多的数据加载 */
-    public static  boolean isCanLoading = true;
+    private  boolean isCanLoading = true;
 
     /**  Banner图片  */
     private List<String> images = new ArrayList<>();
@@ -164,8 +164,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
             }
         });
 
-        mPresenter.getBanner();
         mPresenter.getRecipes(0, LOADER_RECIPES_COUNT);
+        mPresenter.getBanner();
 
         ButtonMenu bm1 = new ButtonMenu("本周流行", R.drawable.ic_menu_button1);
         ButtonMenu bm2 = new ButtonMenu("无肉不欢", R.drawable.ic_menu_button2);
