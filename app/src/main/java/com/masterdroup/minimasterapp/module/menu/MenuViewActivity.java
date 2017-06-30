@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,13 +14,13 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
+import com.masterdroup.minimasterapp.model.DetailRecipes;
 import com.masterdroup.minimasterapp.model.Like;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;
@@ -89,6 +87,9 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     LinearLayout llComment;
     @Bind(R.id.like_iv)
     ImageView likeIv;
+    @Bind(R.id.like_num_tv)
+    TextView likeNumTv;
+
 
     /** 点赞列表 */
     List<Like> likes;
@@ -125,36 +126,11 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             }
         });
 
-        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Intent likeIntent = new Intent(MenuViewActivity.this, LikeListActivity.class);
-                likeIntent.putExtra("likes", (Serializable) likes);
-                startActivity(likeIntent);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        gridView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Intent likeIntent = new Intent(MenuViewActivity.this, LikeListActivity.class);
-                likeIntent.putExtra("likes", (Serializable) likes);
-                startActivity(likeIntent);
-                return false;
-            }
-        });
-
     }
 
     private void initData() {
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep , rvMenuComment, gridView, likeIv, favoriteIv);
+        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep , rvMenuComment, gridView, likeIv, favoriteIv, likeNumTv);
 
         recipesBeanID = getIntent().getStringExtra("_id");
 
@@ -208,7 +184,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
     @Override
-    public void settingData(Recipes.RecipesBean recipesBean) {
+    public void settingData(DetailRecipes.RecipesBean recipesBean) {
 //        tvTitle.setText(recipesBean.getName());
         //      tvMenuName.setText(recipesBean.getName());
         tvUserName.setText(recipesBean.getOwner().getOwnerUid().getName());
@@ -249,10 +225,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.reLike(recipesBeanID);
     }
 
-    @Override
-    public void setLikeList(List<Like> likeList) {
-        likes = likeList;
-    }
+
 
 
 }

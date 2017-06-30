@@ -49,7 +49,23 @@ public class LikeListActivity extends Activity {
     private void initData() {
         Intent intent = getIntent();
         likes = (List<Like>) intent.getSerializableExtra("likes");
+        rv.setLinearLayout();
+        adapter = new LikeRvAdapter();
         rv.setAdapter(adapter);
+        rv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener(){
+
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                rv.setPullLoadMoreCompleted();
+            }
+
+            @Override
+            public void onLoadMore() {
+                adapter.notifyDataSetChanged();
+                rv.setPullLoadMoreCompleted();
+            }
+        });
     }
 
 
@@ -57,6 +73,9 @@ public class LikeListActivity extends Activity {
 
         LayoutInflater layoutInflater;
 
+        private LikeRvAdapter() {
+            layoutInflater = LayoutInflater.from(mContext);
+        }
 
         @Override
         public LikeListRvHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,7 +85,7 @@ public class LikeListActivity extends Activity {
         @Override
         public void onBindViewHolder(LikeListRvHolder holder, int position) {
             try{
-                Like like = likes.get(position);
+                Like.LikeUser like = likes.get(position).getUser();
                 ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + like.getHeadUrl(), holder.userHeadIv, mContext, false);
                 //holder.timeTv.setText();
                 holder.userNameTv.setText(like.getName());

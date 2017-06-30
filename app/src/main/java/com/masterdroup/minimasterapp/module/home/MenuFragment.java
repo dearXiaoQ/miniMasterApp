@@ -128,6 +128,11 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //initData();
+    }
 
     void initData() {
         mAdapter = new StaggeredMenuRVAdapter();
@@ -323,6 +328,11 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
 
             ImageLoader.getInstance().displayImage(view.getContext(), Constant.BASEURL + r.getDetail().getImgSrc(), holder.mIvMenuCover);
             holder.mTvMenuName.setText(r.getName());
+            int favoriteSize =r.getFavorite().size();
+            holder.favoriteTv.setText(favoriteSize + "");
+            if(favoriteSize == 0) {
+                holder.favoriteIv.setImageResource(R.drawable.like_it);
+            }
 
             if (null != r.getOwner().getOwnerUid())
                 holder.mTvUserName.setText(r.getOwner().getOwnerUid().getName());
@@ -343,6 +353,10 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
             TextView mTvMenuName;
             @Bind(R.id.tv_user_name)
             TextView mTvUserName;
+            @Bind(R.id.favorite_tv)
+            TextView favoriteTv;
+            @Bind(R.id.favorite_iv)
+            ImageView favoriteIv;
 
             ViewHolder(View view) {
                 super(view);

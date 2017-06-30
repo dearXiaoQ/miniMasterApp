@@ -1,7 +1,6 @@
 package com.masterdroup.minimasterapp.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by jun on 2017/3/21.
@@ -9,37 +8,42 @@ import java.util.List;
 
 public class Like implements Serializable{
 
-    List<User> users;
+    LikeUser user;
     String date;
 
-/*
-    public String getName() {
-        return name;
+
+
+    public LikeUser getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHeadUrl() {
-        return headUrl;
-    }
-
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
-    }
-*/
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(LikeUser user) {
+        this.user = user;
     }
 
     public String getDate() {return date; }
 
     public void setDate(String date) {this.date = date;}
+
+    public class LikeUser implements Serializable{
+        String name;
+        String headUrl;
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getHeadUrl() {
+            return headUrl;
+        }
+
+        public void setHeadUrl(String userHeadUrl) {
+            this.headUrl = userHeadUrl;
+        }
+    }
 
 }

@@ -109,7 +109,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect, R.id.rl_mymenu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
@@ -144,15 +144,16 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
                 break;
 
+            case R.id.rl_mymenu:
+
+                startActivity(new Intent(getActivity(), MyMenuListActivity.class));
+
+                break;
+
         }
 
     }
 
 
-    @OnClick(R.id.rl_mymenu)
-    public void onClick() {
-        startActivity(new Intent(getActivity(), MyMenuListActivity.class));
-
-    }
 
 }

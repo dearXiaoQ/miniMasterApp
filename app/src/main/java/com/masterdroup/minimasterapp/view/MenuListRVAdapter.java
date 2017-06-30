@@ -11,12 +11,10 @@ import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.module.menu.MenuPresenter;
 import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

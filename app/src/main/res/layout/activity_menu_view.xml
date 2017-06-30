@@ -104,9 +104,10 @@
                 >
 
                 <TextView
+                    android:id="@+id/like_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3人点赞"
+                    android:text="0人点赞"
 
                     />
                 <View

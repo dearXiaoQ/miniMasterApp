@@ -2,6 +2,7 @@ package com.masterdroup.minimasterapp.module.menu;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,9 +27,11 @@ import com.masterdroup.minimasterapp.model.Base;
 import com.masterdroup.minimasterapp.model.Comment;
 import com.masterdroup.minimasterapp.model.CookingStep;
 import com.masterdroup.minimasterapp.model.DescribeStep;
+import com.masterdroup.minimasterapp.model.DetailRecipes;
 import com.masterdroup.minimasterapp.model.Favorites;
 import com.masterdroup.minimasterapp.model.Food;
 import com.masterdroup.minimasterapp.model.Like;
+import com.masterdroup.minimasterapp.model.MyCollectionRecipes;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.model.RecipesList;
 import com.masterdroup.minimasterapp.module.progress.ProgressSubscriber;
@@ -38,6 +41,7 @@ import com.masterdroup.minimasterapp.util.Utils;
 import com.masterdroup.minimasterapp.view.MenuListRVAdapter;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +59,8 @@ import static com.masterdroup.minimasterapp.util.Utils.isLogin;
 public class MenuPresenter implements Contract.Presenter {
     Contract.MenuAloneView menuAloneView;
     Contract.MenuListView menuListView;
-
+    Contract.MyMenuListView myMenuListView;
+    Contract.CollectionListView collectionListView;
 
     Context mContext;
     MenuListRVAdapter adapter;
@@ -83,8 +88,9 @@ public class MenuPresenter implements Contract.Presenter {
 
     ImageView likeIv;  //点赞图标
     ImageView favoriteIv; //收藏图标
+    TextView likeNumTv;    //点赞数量
 
-    Recipes.RecipesBean recipesBean;
+    DetailRecipes.RecipesBean recipesBean;
     /** 当前用户是已否点赞 */
     boolean islike;
     /** 当前用户是否已收藏 */
@@ -119,13 +125,18 @@ public class MenuPresenter implements Contract.Presenter {
         mContext = menuListView.getContext();
     }
 
+    public MenuPresenter(Contract.MyMenuListView View) {
+        myMenuListView = Utils.checkNotNull(View, "mView cannot be null!");
+        myMenuListView.setPresenter(this);
+        mContext = myMenuListView.getContext();
+    }
 
     @Override
     public void gettingData(final String menuId) {
         Observable o = Network.getMainApi().getRecipesDetail(menuId);
-        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<DetailRecipes.RecipesBean>>() {
             @Override
-            public void onNext(Base<Recipes.RecipesBean> base) {
+            public void onNext(Base<DetailRecipes.RecipesBean> base) {
                 if (base.getErrorCode() == 0) {
                     menuAloneView.settingData(base.getRes());
                     recipesBean = base.getRes();
@@ -143,12 +154,12 @@ public class MenuPresenter implements Contract.Presenter {
                     cooking_step_adapter.notifyDataSetChanged();
 
 
-                //    like_adapter.setNewData(likes);
+                    //    like_adapter.setNewData(likes);
                     comment_adapter.setNewData(comments);
 
                     likeGVAdapter.notifyDataSetChanged();
                     menuAloneView.onIsOwner(isOwner());
-                    userName = recipesBean.getOwner().getOwnerUid().getName();
+                    userName = App.spUtils.getString(App.mContext.getString(R.string.username));
                     isfavorite = isFavorite();
                     if(!isfavorite) {
                         favoriteIv.setImageResource(R.drawable.like_it);
@@ -157,8 +168,7 @@ public class MenuPresenter implements Contract.Presenter {
                     if(islike) {
                         likeIv.setImageResource(R.drawable.love_it_dark);
                     }
-                    menuAloneView.setLikeList(likes);
-                    userHeadUrl = recipesBean.getOwner().getOwnerUid().getHeadUrl();
+                    userHeadUrl = App.spUtils.getString(App.mContext.getString(R.string.user_headurl));
                     if (!isOwner())
                         menuAloneView.onIsLike(islike);
                 }
@@ -171,12 +181,12 @@ public class MenuPresenter implements Contract.Presenter {
     @Override
     public void reLike(final String menuId) {
         Observable o = Network.getMainApi().getRecipesDetail(menuId);
-        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<DetailRecipes.RecipesBean>>() {
             @Override
-            public void onNext(Base<Recipes.RecipesBean> base) {
+            public void onNext(Base<DetailRecipes.RecipesBean> base) {
                 if (base.getErrorCode() == 0) {
                     likes = base.getRes().getLikes();
-                    like_adapter.setNewData(likes);
+                    // like_adapter.setNewData(likes);
 
                 }
             }
@@ -224,7 +234,7 @@ public class MenuPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv) {
+    public void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv, TextView likeNumIv) {
 
         food_rv.setAdapter(food_adapter);
         food_rv.setLayoutManager(new GridLayoutManager(mContext, 2));
@@ -241,6 +251,7 @@ public class MenuPresenter implements Contract.Presenter {
         comment_rv.setAdapter(comment_adapter);
         comment_rv.setLayoutManager(new LinearLayoutManager(mContext));
 
+        this.likeNumTv = likeNumIv;
         this.likeIv = likeIv;
         this.favoriteIv = favoriteIv;
 
@@ -297,7 +308,7 @@ public class MenuPresenter implements Contract.Presenter {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
-                        ToastUtils.showShortToast(App.mContext.getString(R.string.favorites_success));
+                        ToastUtils.showShortToast(App.mContext.getString(R.string.addFollower_success));
                         islike = true;
                         //menuAloneView.onIsLike(islike);
                         refreshLikeData();
@@ -313,7 +324,7 @@ public class MenuPresenter implements Contract.Presenter {
                 @Override
                 public void onNext(Base o) {
                     if (o.getErrorCode() == 0) {
-                        ToastUtils.showShortToast("取消点赞成功");
+                        ToastUtils.showShortToast(App.mContext.getString(R.string.addFollower_failure));
                         islike = false;
                         //menuAloneView.onIsLike(islike);
                         refreshLikeData();
@@ -328,25 +339,31 @@ public class MenuPresenter implements Contract.Presenter {
 
     private void refreshLikeData() {
         int likesSize = likes.size();
-        String name = App.spUtils.getString(App.mContext.getString(R.string.name));
         if(likesSize > 0 && (islike == false)) {
 
             for (int i = 0; i < likesSize; i ++) {
-                if(name.equals(likes.get(i).getName())) {
+                if(userName.equals(likes.get(i).getUser().getName())) {
                     likes.remove(i);
-                    menuAloneView.setLikeList(likes);
+                    likesSize--;
+                    likeNumTv.setText(likesSize + App.mContext.getString(R.string.like_num));
                     return;
                 }
             }
-
         } else if(islike == true) {
-           // String headUrl =
+            // String headUrl
+
             if(userHeadUrl != null) {
+            /*    like.setName(name);
+                like.setHeadUrl(userHeadUrl);*/
                 Like like = new Like();
-                like.setName(name);
-                like.setHeadUrl(userHeadUrl);
+                Like.LikeUser likeUser = like.new LikeUser();
+                likeUser.setName(userName);
+                likeUser.setHeadUrl(userHeadUrl);
+                like.setDate("5201314");
+                like.setUser(likeUser);
                 likes.add(0, like);
-                menuAloneView.setLikeList(likes);
+                likesSize++ ;
+                likeNumTv.setText(likesSize + App.mContext.getString(R.string.like_num));
             }
         }
     }
@@ -361,30 +378,54 @@ public class MenuPresenter implements Contract.Presenter {
             l = false;
         } else {
             for(Favorites favorite : favorites) {
-                if(userName.equals(favorite.getName())) {
-                    l = true;
-                }
+                if (favorite.getUser() != null)
+                    if (userName.equals(favorite.getUser().getName()))
+                        l = true;
             }
         }
 
         return l;
     }
 
+
+
+    @Override
+    public void getMyMenu(int path, int index) {
+        Observable o = Network.getMainApi().listByOwner(path, index);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<MyCollectionRecipes>>() {
+            @Override
+            public void onNext(Base<MyCollectionRecipes> o) {
+                if (o.getErrorCode() == 0) {
+                    //RecipesBeans = o.getRes().sgetList();
+                    myMenuListView.onGetMyCollectionSuccess(o.getRes().getList());
+                }
+
+
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+    }
+
+
+
     @Override
     public boolean isLike() {
         boolean l = false;
         //// 判断是否 like
-
-        if (recipesBean.getLikes().size() == 0)
+        int likeSize = recipesBean.getLikes().size();
+        if (recipesBean.getLikes().size() == 0) {
             l = false;
-        else {
-            for (Like like : recipesBean.getLikes()) {
-                if (userName.equals(like.getName()))
-                    l = true;
 
+        } else {
+            for (Like like : recipesBean.getLikes()) {
+                if(like.getUser().getName() != null)
+                    if (userName.equals(like.getUser().getName()))
+                        l = true;
             }
 
         }
+        likeNumTv.setText(likeSize + App.mContext.getString(R.string.like_num));
         return l;
     }
 
@@ -478,10 +519,22 @@ public class MenuPresenter implements Contract.Presenter {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.menuview_gridview_item, null);
-            ImageView userHeadIv = (ImageView) convertView.findViewById(R.id.lite_head_iv);
-            //String url, ImageView imageView, Context context, boolean isCircle
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + likes.get(position).getHeadUrl(), userHeadIv, mContext, true);
+            try {
+                ImageView userHeadIv = (ImageView) convertView.findViewById(R.id.lite_head_iv);
+                //String url, ImageView imageView, Context context, boolean isCircle
 
+                ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + likes.get(position).getUser().getHeadUrl(), userHeadIv, mContext, true);
+                userHeadIv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent likeIntent = new Intent(mContext, LikeListActivity.class);
+                        likeIntent.putExtra("likes", (Serializable) likes);
+                        mContext.startActivity(likeIntent);
+                    }
+                });
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             return convertView;
         }
     }
@@ -495,7 +548,7 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         protected void convert(BaseViewHolder holder, Like o) {
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + o.getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + o.getUser().getHeadUrl(), (ImageView) holder.getView(R.id.iv_head), mContext, true);
         }
 
     }

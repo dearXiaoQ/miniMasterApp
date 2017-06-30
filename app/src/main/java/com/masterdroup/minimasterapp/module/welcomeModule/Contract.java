@@ -61,6 +61,7 @@ public class Contract {
 
         /** 通过smartCookApp服务器获取验证码 */
         void getVerification(String trim);
+
     }
 
     interface MainView extends BaseView<Presenter> {
@@ -83,8 +84,11 @@ public class Contract {
 
         void onLoginFailure(String info);
 
+        void onGetUserInfoSuccess();
+
+
         /** 登录smartApp服务器成功后，再登录Gzi的服务器 */
-        void onLoginSmartNetwork(String userName, String phone, String pwd, String smart_token);
+        void onLoginSmartNetwork(String userName, String phone, String pwd, String smart_token, String headUrl);
         /** 找回密码界面 */
         void onRetrieveView();
 

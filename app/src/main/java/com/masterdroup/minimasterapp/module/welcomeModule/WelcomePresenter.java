@@ -3,6 +3,7 @@ package com.masterdroup.minimasterapp.module.welcomeModule;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
@@ -66,6 +67,7 @@ public class WelcomePresenter implements Contract.Presenter {
         retrievePwdView = Utils.checkNotNull(mView, "mView cannot be null!");
         retrievePwdView.setPresenter(this);
     }
+
 
     @Override
     public void start() {
@@ -146,6 +148,19 @@ public class WelcomePresenter implements Contract.Presenter {
 
         User user =  new User();
         User.UserBean userBean = user.new UserBean();
+
+        if(pwd.length() == 0) {
+            Toast.makeText(App.mContext, App.mContext.getString(R.string.pwd_not_null), Toast.LENGTH_SHORT).show();
+            return ;
+        }
+        else if(pwd.length() < 6) {
+            Toast.makeText(App.mContext, App.mContext.getString(R.string.pwd_not_enough), Toast.LENGTH_SHORT).show();
+            return ;
+        } else if(pwd.length() > 12){
+            Toast.makeText(App.mContext, App.mContext.getString(R.string.pwd_over_enough), Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
         userBean.setPassword(pwd);
 
 
@@ -177,7 +192,7 @@ public class WelcomePresenter implements Contract.Presenter {
             @Override
             public void onNext(Base<PhoneAndToken> o) {
                 if(o.getErrorCode() == 0) {
-                    loginView.onLoginSmartNetwork(o.getRes().getUserName(), o.getRes().getPhone(), pwd, o.getRes().getToken());
+                    loginView.onLoginSmartNetwork(o.getRes().getUserName(), o.getRes().getPhone(), pwd, o.getRes().getToken(), o.getRes().getHeadUrl());
                 } else {
                     loginView.onLoginFailure(o.getMessage());
                 }
@@ -391,6 +406,7 @@ public class WelcomePresenter implements Contract.Presenter {
 
         }
     }
+
 
 
     private void showRegisterToast(String info) {

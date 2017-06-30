@@ -4,9 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.masterdroup.minimasterapp.BasePresenter;
 import com.masterdroup.minimasterapp.BaseView;
+import com.masterdroup.minimasterapp.model.Base;
+import com.masterdroup.minimasterapp.model.CollectionRecipes;
+import com.masterdroup.minimasterapp.model.DetailRecipes;
 import com.masterdroup.minimasterapp.model.Like;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
@@ -28,7 +32,7 @@ public class Contract {
 
         void initRV(PullLoadMoreRecyclerView rv);
 
-        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv);
+        void initMenuViewRV(RecyclerView food_rv, RecyclerView step_rv, RecyclerView cooking_step_rv, RecyclerView comment_rv, GridView likeGView, ImageView likeIv, ImageView favoriteIv, TextView likeNumTv);
 
         void like();//点赞
 
@@ -41,6 +45,10 @@ public class Contract {
         void favorite(); //收藏
 
         boolean isFavorite();//是否收藏
+
+        /** 获取用户本人的菜谱 */
+        void getMyMenu(int path, int index);
+
     }
 
     interface MenuCreatePresenter extends BasePresenter {
@@ -68,7 +76,7 @@ public class Contract {
     }
 
     interface MenuAloneView extends BaseView<Presenter> {
-        void settingData(Recipes.RecipesBean b);
+        void settingData(DetailRecipes.RecipesBean b);
 
         Context getContext();
 
@@ -76,7 +84,6 @@ public class Contract {
 
         void onIsLike(boolean o);
 
-        void setLikeList(List<Like> likeList);
     }
 
 
@@ -84,6 +91,22 @@ public class Contract {
         Context getContext();
 
 
+    }
+
+
+    interface MyMenuListView extends BaseView<Presenter> {
+        Context getContext();
+
+        void onGetMyMenuSuccess(List<CollectionRecipes.RecipesBean> recipesBeanList);
+
+
+
+    }
+
+    interface CollectionListView extends BaseView<Presenter> {
+        Context getContext();
+
+        void onGetMyCollectionSuccess(List<CollectionRecipes.RecipesBean> recipesBeanList);
     }
 
     interface MenuCreateView extends BaseView<MenuCreatePresenter> {
@@ -104,6 +127,8 @@ public class Contract {
         String getMenuDescribe();
 
     }
+
+
 
 
 }

@@ -12,6 +12,8 @@ public class PhoneAndToken {
 
     String name;
 
+    String headUrl;
+
     public String getUserName() {return name;}
 
     public void setUserName(String name) {this.name = name;}
@@ -28,7 +30,13 @@ public class PhoneAndToken {
         this.phone = phone;
     }
 
+    public String getHeadUrl() {
+        return headUrl;
+    }
 
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
+    }
 
     @Override
     public String toString() {

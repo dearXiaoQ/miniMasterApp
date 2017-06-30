@@ -75,8 +75,8 @@ public class ShopFragment extends Fragment {
             } else {
 
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
+                   /* Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

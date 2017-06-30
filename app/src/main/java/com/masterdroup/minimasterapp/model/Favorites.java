@@ -5,24 +5,55 @@ package com.masterdroup.minimasterapp.model;
  */
 
 public class Favorites {
-    String name;
-    String headUrl;
-    String id;
     String date;
 
-    public void setName(String name){this.name = name;}
+    FavoritesUser user;
 
-    public String getName() {return name;}
+    public FavoritesUser getUser() {
+        return user;
+    }
 
-    public void setHeadUrl(String headUrl) {this.headUrl = headUrl;}
+    public void setUser(FavoritesUser user) {
+        this.user = user;
+    }
 
-    public String getHeadUrl() {return headUrl;}
+    public String getDate() {
+        return date;
+    }
 
-    public void setId(String id) {this.id = id;}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-    public String getId() {return id;}
+    public class FavoritesUser{
+        String name;
+        String headUrl;
+        String _id;
 
-    public void setDate(String date) {this.date = date;}
+        public String get_id() {
+            return _id;
+        }
 
-    public String getDate() {return date;}
+        public void set_id(String _id) {
+            this._id = _id;
+        }
+
+        public String getHeadUrl() {
+            return headUrl;
+        }
+
+        public void setHeadUrl(String headUrl) {
+            this.headUrl = headUrl;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+    }
+
 }

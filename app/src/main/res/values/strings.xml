@@ -16,8 +16,11 @@
     <string name="err_login_1">登录信息不正确！</string>
     <string name="key_token">token</string>
     <string name="name">name</string>
+    <string name="phone">phone</string>
+    <string name="username">username</string>
     <string name="giz_token">giz_token</string>
     <string name="giz_uid">giz_uid</string>
+    <string name="user_headurl">user_headurl</string>
 
     <string name="settings_user_info">编辑个人资料</string>
 
@@ -110,6 +113,7 @@
     <string name="input_verification">请输入验证码！</string>
     <string name="verification_not_enough">验证码是6位数的！</string>
     <string name="verification_right">验证码正确！</string>
+    <string name="pwd_not_null">请输入密码！</string>
     <string name="input_pwd">请输入密码！</string>
     <string name="pwd_not_enough">密码过短！</string>
     <string name="pwd_over_enough">密码过长！</string>
@@ -298,15 +302,15 @@
     <!-- MenuViewActivity -->
     <string name="addFollower_please_login">点赞前请登录</string>
     <string name="addFollower_success">点赞成功</string>
-    <string name="addFollower_failure">点赞失败</string>
+    <string name="addFollower_failure">取消点赞成功</string>
     <string name="favorites_please_login">收藏前请登录</string>
     <string name="favorites_success">收藏成功</string>
-    <string name="favorites_failure">收藏失败</string>
-
+    <string name="favorites_failure">取消收藏成功</string>
+    <string name="like_num">人点赞</string>
 
     <!-- LikeListActivity -->
     <string name="addFollower">点赞</string>
-    
+
 
     <!-- DeviceListActivity -->
     <string name="devicelist_title">我的设备</string>

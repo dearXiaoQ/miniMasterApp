@@ -3,28 +3,17 @@ package com.masterdroup.minimasterapp.model;
 import java.util.List;
 
 /**
- * 食谱
- * Created by 11473 on 2017/2/13.
+ * Created by xiaoQ on 2017/6/26.
  */
-
-public class Recipes {
-
-    public RecipesBean recipes;
-
-    public RecipesBean getRecipesBean() {
-        return recipes;
-    }
-
-    public void setRecipesBean(RecipesBean recipes) {
-        this.recipes = recipes;
-    }
+/** 菜谱详情页实体类 */
+public class DetailRecipes {
 
 
     public class RecipesBean {
 
-        public RecipesBean() {
+  /*      public RecipesBean() {
 
-        }
+        }*/
 
         String _id;
 
@@ -41,14 +30,14 @@ public class Recipes {
         List<String> powerProductKey;//加热设备产品号
         List<String> temperatureSensorProductKey;//温度反馈设备产品号
 
-        Detail detail;//菜谱主要简介及封面图 必填字段
+        Recipes.RecipesBean.Detail detail;//菜谱主要简介及封面图 必填字段
 
         List<DescribeStep> describeStep;//烹饪前步骤准备
 
         List<CookingStep> cookingStep;
-        Owner owner;
-        List<LikeHomePager> like;
-        List<FavoritesHomePager> favorites;
+        Recipes.RecipesBean.Owner owner;
+        List<Like> like;
+        List<Favorites> favorites;
         List<Comment>  commentList;
 
 
@@ -60,15 +49,15 @@ public class Recipes {
             this.commentList = comment;
         }
 
-        public List<FavoritesHomePager> getFavorite() {return favorites;}
+        public List<Favorites> getFavorite() {return favorites;}
 
-        public void setFavorite(List<FavoritesHomePager> favorites) {this.favorites = favorites;}
+        public void setFavorite(List<Favorites> favorites) {this.favorites = favorites;}
 
-        public List<LikeHomePager> getLikes() {
+        public List<Like> getLikes() {
             return like;
         }
 
-        public void setLikes(List<LikeHomePager> likes) {
+        public void setLikes(List<Like> likes) {
             this.like = likes;
         }
 
@@ -109,7 +98,7 @@ public class Recipes {
 
             int ownerType;
 
-            OwnerUid ownerUid;
+            Recipes.RecipesBean.Owner.OwnerUid ownerUid;
 
             public class OwnerUid {
 
@@ -151,22 +140,22 @@ public class Recipes {
                 this.ownerType = ownerType;
             }
 
-            public OwnerUid getOwnerUid() {
+            public Recipes.RecipesBean.Owner.OwnerUid getOwnerUid() {
                 return ownerUid;
             }
 
-            public void setOwnerUid(OwnerUid ownerUid) {
+            public void setOwnerUid(Recipes.RecipesBean.Owner.OwnerUid ownerUid) {
                 this.ownerUid = ownerUid;
             }
         }
 
 
 
-        public Owner getOwner() {
+        public Recipes.RecipesBean.Owner getOwner() {
             return owner;
         }
 
-        public void setOwner(Owner owner) {
+        public void setOwner(Recipes.RecipesBean.Owner owner) {
             this.owner = owner;
         }
 
@@ -194,11 +183,11 @@ public class Recipes {
             this.temperatureSensorProductKey = temperatureSensorProductKey;
         }
 
-        public Detail getDetail() {
+        public Recipes.RecipesBean.Detail getDetail() {
             return detail;
         }
 
-        public void setDetail(Detail detail) {
+        public void setDetail(Recipes.RecipesBean.Detail detail) {
             this.detail = detail;
         }
 
@@ -219,10 +208,4 @@ public class Recipes {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Recipes{" +
-                "recipes=" + recipes +
-                '}';
-    }
 }

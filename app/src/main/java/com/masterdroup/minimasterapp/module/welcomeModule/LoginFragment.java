@@ -46,6 +46,9 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
 
     private String smart_token;
 
+    String headUrl;
+    String username;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
             LogUtils.d("GizWifiSDK", "机智云登录==>   uid = " + uid + "     result = " + result.toString() + "      token = " + giz_token);
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 LogUtils.d("GizWifiSDK", "机智云登录==>成功");
-                mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString(), uid, giz_token);
+              //  mPresenter.login(mEtPhone.getText().toString(), mEtPwd.getText().toString(), uid, giz_token);
                 onLoginSuccess(mEtPhone.getText().toString().trim(), smart_token, uid, giz_token);
 
             } else {
@@ -98,20 +101,25 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
      * 登录成功
      */
     @Override
-    public void onLoginSuccess(String name, String token, String giz_uid, String giz_token) {
+    public void onLoginSuccess(String phone, String token, String giz_uid, String giz_token) {
 
         App.spUtils.putString(App.mContext.getString(R.string.key_token), token);
 
-        App.spUtils.putString(App.mContext.getString(R.string.name), name);
+        App.spUtils.putString(App.mContext.getString(R.string.name), phone);
+
+        App.spUtils.putString(App.mContext.getString(R.string.username), username);
 
         App.spUtils.putString(App.mContext.getString(R.string.giz_uid), giz_uid);
 
         App.spUtils.putString(App.mContext.getString(R.string.giz_token), giz_token);
 
+        App.spUtils.putString(App.mContext.getString(R.string.user_headurl), headUrl);
+
         startActivity(new Intent(this.getActivity(), HomeActivity.class));
         this.getActivity().finish();
 
     }
+
 
     /**
      * 登录失败
@@ -121,10 +129,18 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
         Toast.makeText(ActivityUtils.getTopActivity(), "登录失败", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onGetUserInfoSuccess() {
+        startActivity(new Intent(this.getActivity(), HomeActivity.class));
+        this.getActivity().finish();
+    }
+
     /** 登录机智云 */
     @Override
-    public void onLoginSmartNetwork(String userName, String phone, String pwd, String smart_token) {
+    public void onLoginSmartNetwork(String userName, String phone, String pwd, String smart_token, String headUrl) {
         this.smart_token = smart_token;
+        this.username = userName;
+        this.headUrl = headUrl;
         GizWifiSDK.sharedInstance().userLogin(phone, pwd);
     }
 
@@ -148,7 +164,6 @@ public class LoginFragment extends Fragment implements Contract.LoginView {
             case R.id.tv_pwd_forget:
                 mPresenter.showRetrieveView();
                 break;
-
 
         }
 
