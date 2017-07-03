@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 
 import com.masterdroup.minimasterapp.R;
-import com.masterdroup.minimasterapp.util.Utils;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
 import butterknife.Bind;

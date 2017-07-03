@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.masterdroup.minimasterapp.App;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
@@ -79,8 +80,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
     TextView moreTv;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
-
-
+    @Bind(R.id.ptr_fl)
+    PtrClassicFrameLayout ptrCFL;
 
     List<Recipes.RecipesBean> recipes_banner = new ArrayList<>();
     List<Recipes.RecipesBean> recipes_list = new ArrayList<>();
@@ -139,6 +140,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
     }
 
     void initData() {
+
+        ptrCFL.setEnabled(false);
         mAdapter = new StaggeredMenuRVAdapter();
         mRvMenu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));   //RecyclerView 瀑布流布局
         //   mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2)); //等宽布局
@@ -156,10 +159,12 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 //判断 scrollView 当前滚动位置在顶部
-             /*   if(mScrollView.getScrollY() == 0) {
+                if(mScrollView.getScrollY() == 0) {
                     LogUtils.d("mScrollView", "The scrollView is swipe  to top！");
-                }*/
-
+                    ptrCFL.setEnabled(true);
+                    return false;
+                }
+                ptrCFL.setEnabled(false);
                 if(isCanLoading)//用更多数据加载
                     if(mScrollView.getChildAt(0).getHeight() - mScrollView.getHeight() == mScrollView.getScrollY() )  //滑动到底部
                         if(event.getAction() == MotionEvent.ACTION_UP) {
