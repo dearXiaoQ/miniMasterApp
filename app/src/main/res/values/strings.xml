@@ -89,6 +89,16 @@
 
     <string name="use_agreement">smartCook注册和使用协议</string>
 
+    <!-- FeedBackActivity -->
+    <string name="feedback_hint">请写下您的宝贵意见.</string>
+    <string name="phone_number">手机号:</string>
+    <string name="phone_hint">以便客服人员及时联系你</string>
+    <string name="feedback">意见反馈</string>
+
+    <!-- FavoriteListActivity -->
+    <string name="my_favorite_list">收藏的菜谱</string>
+
+
     <!-- registerFragment -->
     <string name="nickname">昵称：</string>
     <string name="limit_nickname">2~12个字</string>
@@ -339,6 +349,8 @@
     <!-- MenuFragment -->
     <string name="load_more">上拉加载更多</string>
     <string name="not_more_data">已经到底啦</string>
+    <string name="search_text">搜索菜谱、达人</string>
+
 
     <string-array name="model">
         <item>自动模式</item>

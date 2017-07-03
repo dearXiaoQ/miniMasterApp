@@ -99,8 +99,13 @@ public class Contract {
 
         void onGetMyMenuSuccess(List<CollectionRecipes.RecipesBean> recipesBeanList);
 
+    }
 
 
+    interface FavoriteListView extends BaseView<Presenter> {
+        Context getContext();
+
+        void  onGetMyFavoriteListSuccess(List<CollectionRecipes.RecipesBean> recipesBeenList);
     }
 
     interface CollectionListView extends BaseView<Presenter> {

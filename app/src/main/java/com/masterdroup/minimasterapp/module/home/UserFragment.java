@@ -17,9 +17,10 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.User;
-import com.masterdroup.minimasterapp.module.menu.CollectionListActivity;
+import com.masterdroup.minimasterapp.module.menu.FavoriteListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuCreateActivity;
 import com.masterdroup.minimasterapp.module.menu.MyMenuListActivity;
+import com.masterdroup.minimasterapp.module.settings.FeedBackActivity;
 import com.masterdroup.minimasterapp.module.settings.SettingsActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -109,7 +110,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect, R.id.rl_mymenu})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect, R.id.rl_mymenu, R.id.rl_opinion})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
@@ -140,13 +141,19 @@ public class UserFragment extends Fragment implements Contract.UserView {
 
             case R.id.rl_mycollect:
 
-                startActivity(new Intent(getActivity(), CollectionListActivity.class));
+                startActivity(new Intent(getActivity(), FavoriteListActivity.class));
 
                 break;
 
             case R.id.rl_mymenu:
 
                 startActivity(new Intent(getActivity(), MyMenuListActivity.class));
+
+                break;
+
+            case R.id.rl_opinion:
+
+                startActivity(new Intent(getActivity(), FeedBackActivity.class));
 
                 break;
 

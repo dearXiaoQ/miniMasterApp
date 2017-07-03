@@ -136,12 +136,10 @@
         <activity android:name=".module.device.GizModeListActivity" />
         <activity android:name=".module.settings.AppRegisterAndAgreement" />
         <activity android:name=".module.settings.AboutActivity" />
-        <activity
-            android:name=".module.menu.CollectionListActivity"
-            android:label="@string/title_activity_collection_list"
-            android:theme="@style/AppTheme" />
         <activity android:name=".module.menu.LikeListActivity" />
-        <activity android:name=".module.settings.FeedBackActivity"></activity>
+        <activity android:name=".module.settings.FeedBackActivity" />
+        <activity android:name=".module.menu.FavoriteListActivity" />
+        <activity android:name=".module.menu.SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -15,6 +15,8 @@ public class CollectionRecipes {
 
         String name;
 
+        String date; //用户收藏的时间
+
         Recipes.RecipesBean.Detail detail;
 
         List<Like> like;
@@ -62,7 +64,13 @@ public class CollectionRecipes {
             this._id = _id;
         }
 
+        public String getDate() {
+            return date;
+        }
 
+        public void setDate(String date) {
+            this.date = date;
+        }
     }
 
     /** 收藏列表-收藏实体类 */

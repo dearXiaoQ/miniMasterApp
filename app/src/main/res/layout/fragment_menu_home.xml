@@ -4,9 +4,51 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/my_toolbar"
-        android:visibility="visible" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        >
+        <RelativeLayout
+            android:id="@+id/search_rl"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/menu_search"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/message_iv">
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:src="@drawable/search_gray_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/imageView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_text"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/gray_999"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/message_icon"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:id="@+id/message_iv" />
+
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView"

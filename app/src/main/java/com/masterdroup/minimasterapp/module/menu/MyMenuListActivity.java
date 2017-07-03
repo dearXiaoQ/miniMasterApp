@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.masterdroup.minimasterapp.Constant;
 import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.CollectionRecipes;
-import com.masterdroup.minimasterapp.model.MyCollectionRecipes;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.Utils;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;

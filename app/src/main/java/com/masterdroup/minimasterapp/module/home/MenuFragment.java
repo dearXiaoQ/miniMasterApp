@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import com.masterdroup.minimasterapp.R;
 import com.masterdroup.minimasterapp.model.Recipes;
 import com.masterdroup.minimasterapp.module.menu.MenuListActivity;
 import com.masterdroup.minimasterapp.module.menu.MenuViewActivity;
+import com.masterdroup.minimasterapp.module.menu.SearchActivity;
 import com.masterdroup.minimasterapp.util.ImageLoader;
 import com.masterdroup.minimasterapp.util.ToastUtils;
 import com.masterdroup.minimasterapp.util.Utils;
@@ -66,8 +68,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
 
     @Bind(R.id.banner)
     Banner banner;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+    /*  @Bind(R.id.toolbar)
+      Toolbar mToolbar;*/
     View view;
     @Bind(R.id.rv_menu)
     RecyclerView mRvMenu;
@@ -77,6 +79,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
     TextView moreTv;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
+
+
 
     List<Recipes.RecipesBean> recipes_banner = new ArrayList<>();
     List<Recipes.RecipesBean> recipes_list = new ArrayList<>();
@@ -120,7 +124,7 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
         else
             LogUtils.d("未登陆");
         //设置ActionBar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        //   ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);//需要额外调用
         this.view = view;
 
@@ -203,10 +207,6 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
 
 
     void setBanner() {
-       /* List<String> images = new ArrayList<>();
-        for (Recipes.RecipesBean s : recipes_banner) {
-            images.add(Constant.BASEURL + s.getDetail().getImgSrc());
-        }*/
 
         //设置图片加载器
         banner.setImageLoader(new ImageLoader());
@@ -227,11 +227,6 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
 
     @Override
     public void onGetRecipesSuccess(List<Recipes.RecipesBean> recipes_list) {
-   /*     for (int i = 0; i < 4; i++) {
-            recipes_banner.add(recipes_list.get(i));
-        }
-        setBanner();*/
-
         this.recipes_list = recipes_list;
         mAdapter.notifyDataSetChanged();
 
@@ -382,25 +377,33 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
     }
 
 
-    @Override
+ /*   @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu, menu);
-        /** 设置搜索输入框的颜色 */
+        *//** 设置搜索输入框的颜色 *//*
         final MenuItem item = menu.findItem(R.id.action_search);
         SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
         SearchView.SearchAutoComplete mEdit = (SearchView.SearchAutoComplete) mSearchView.findViewById(R.id.search_src_text);
         mEdit.setTextColor(getActivity().getResources().getColor(R.color.white));
-    }
+    }*/
 
+    @OnClick(R.id.search_rl)
+    public void OnClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.search_rl:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                break;
+
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-           /* case R.id.ic_add:
-                startActivity(new Intent(view.getContext(), MenuCreateActivity.class));
-                break;*/
+
             case R.id.action_search:
 
                 break;
@@ -428,9 +431,9 @@ public class MenuFragment extends Fragment implements Contract.MenuView {
         banner.stopAutoPlay();
     }
 
-    @OnClick(R.id.toolbar)
+   /* @OnClick(R.id.toolbar)
     public void onClick() {
-    }
+    }*/
 
     class ButtonMenu {
         String title;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.masterdroup.minimasterapp.module.menu.SearchActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        >
+        <RelativeLayout
+            android:id="@+id/search_rl"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/menu_search"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toEndOf="@+id/iv_return">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/search_gray_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/imageView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_text"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/gray_999"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/return_origin_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/iv_return" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

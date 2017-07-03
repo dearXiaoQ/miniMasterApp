@@ -28,6 +28,10 @@
 
     <color name="background_color">#f5f5f5</color>
     <color name="background_gray">#aaaaaa</color>
+    <color name="gray_bbb">#bbb</color>
+    <color name="gray_aaa">#aaa</color>
+    <color name="gray_999">#999</color>
+
     <color name="background_light_gray">#eeeeee</color>
     <color name="text_gray">#333333</color>
 

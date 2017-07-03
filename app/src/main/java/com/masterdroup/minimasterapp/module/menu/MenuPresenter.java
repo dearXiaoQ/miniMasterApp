@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.bumptech.glide.util.Util;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.masterdroup.minimasterapp.App;
@@ -60,7 +61,7 @@ public class MenuPresenter implements Contract.Presenter {
     Contract.MenuAloneView menuAloneView;
     Contract.MenuListView menuListView;
     Contract.MyMenuListView myMenuListView;
-    Contract.CollectionListView collectionListView;
+    Contract.FavoriteListView favoriteListView;
 
     Context mContext;
     MenuListRVAdapter adapter;
@@ -129,6 +130,12 @@ public class MenuPresenter implements Contract.Presenter {
         myMenuListView = Utils.checkNotNull(View, "mView cannot be null!");
         myMenuListView.setPresenter(this);
         mContext = myMenuListView.getContext();
+    }
+
+    public MenuPresenter(Contract.FavoriteListView View) {
+        favoriteListView = Utils.checkNotNull(View, "mView cannot be null!");
+        favoriteListView.setPresenter(this);
+        mContext = favoriteListView.getContext();
     }
 
     @Override
@@ -397,7 +404,7 @@ public class MenuPresenter implements Contract.Presenter {
             public void onNext(Base<MyCollectionRecipes> o) {
                 if (o.getErrorCode() == 0) {
                     //RecipesBeans = o.getRes().sgetList();
-                    myMenuListView.onGetMyCollectionSuccess(o.getRes().getList());
+                    myMenuListView.onGetMyMenuSuccess(o.getRes().getList());
                 }
 
 
