@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#eee"
     android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.settings.SettingsActivity">
+    tools:context="com.mastergroup.smartcook.module.settings.SettingsActivity">
 
     <include layout="@layout/view_top_bar"/>
 

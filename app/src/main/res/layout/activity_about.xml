@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.masterdroup.minimasterapp.module.settings.AboutActivity">
+    tools:context="com.mastergroup.smartcook.module.settings.AboutActivity">
     <include layout="@layout/view_top_bar"/>
 </android.support.constraint.ConstraintLayout>

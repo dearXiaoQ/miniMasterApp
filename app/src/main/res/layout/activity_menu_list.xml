@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context="com.masterdroup.minimasterapp.module.menu.MenuListActivity">
+              tools:context="com.mastergroup.smartcook.module.menu.MenuListActivity">
 
     <include layout="@layout/view_top_bar"/>
 

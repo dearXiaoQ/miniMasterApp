@@ -40,7 +40,7 @@
         android:paddingRight="80dp"
         android:paddingTop="80dp">
 
-        <com.masterdroup.minimasterapp.view.RoundProgressBar
+        <com.mastergroup.smartcook.view.RoundProgressBar
             android:id="@+id/rpbConfig"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

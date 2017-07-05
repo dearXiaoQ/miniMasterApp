@@ -78,4 +78,11 @@
 	<string name="ssdk_share_to_mingdao">Share To Mingdao</string>
 	<string name="ssdk_share_to_qzone_default">Shared from %s</string>
 	<string name="ssdk_use_login_button">use login button instead</string>
+
+	<string name="ssdk_share_to_youtube">分享到Youtube</string>
+
+
+	<string name="ssdk_gender_male">男</string>
+	<string name="ssdk_gender_female">女</string>
+	<string name="ssdk_symbol_ellipsis">...</string>
 </resources>

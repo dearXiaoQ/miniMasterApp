@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.masterdroup.minimasterapp.module.menu.CollectionListActivity"
+    tools:context="com.mastergroup.smartcook.module.menu.CollectionListActivity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.menu.SearchActivity">
+    tools:context="com.mastergroup.smartcook.module.menu.SearchActivity"
+    android:background="@drawable/menu_search"
+    >
 
 
     <RelativeLayout
@@ -31,12 +33,13 @@
                 android:layout_marginLeft="50dp"
                 android:id="@+id/imageView" />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/search_text"
+                android:hint="@string/search_text"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/gray_999"
+                android:background="@null"
                 android:textSize="14sp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/imageView" />
@@ -52,8 +55,16 @@
             android:id="@+id/iv_return" />
 
 
-
     </RelativeLayout>
+
+    
+    <ListView
+        android:id="@+id/search_history_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    </ListView>
 
 
 

@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="10dp"
-    tools:context="com.masterdroup.minimasterapp.module.cooking.CookingActivity">
+    tools:context="com.mastergroup.smartcook.module.cooking.CookingActivity">
 
     <TextView
         android:id="@+id/tv_menu_name"

@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.masterdroup.minimasterapp.module.menu.CommentWriteActivity">
+    tools:context="com.mastergroup.smartcook.module.menu.CommentWriteActivity">
 
 </android.support.constraint.ConstraintLayout>

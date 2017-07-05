@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.masterdroup.minimasterapp.module.device.DeviceListActivity">
+    tools:context="com.mastergroup.smartcook.module.device.DeviceListActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     </RelativeLayout>
 
-    <com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout
+    <com.mastergroup.smartcook.view.VerticalSwipeRefreshLayout
         android:id="@+id/id_swipe_ly"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </ScrollView>
-    </com.masterdroup.minimasterapp.view.VerticalSwipeRefreshLayout>
+    </com.mastergroup.smartcook.view.VerticalSwipeRefreshLayout>
 
 
 </LinearLayout>
