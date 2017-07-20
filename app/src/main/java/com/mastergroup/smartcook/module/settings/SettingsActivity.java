@@ -126,7 +126,7 @@ public class SettingsActivity extends AppCompatActivity implements Contract.View
                 startActivity(new Intent(SettingsActivity.this, UserInfoActivity.class));
                 break;
 
-            case R.id.back_iv:
+            case R.id.iv_return:
                 SettingsActivity.this.finish();
                 break;
 

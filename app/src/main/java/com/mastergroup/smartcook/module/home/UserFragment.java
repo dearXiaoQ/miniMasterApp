@@ -25,6 +25,8 @@ import com.mastergroup.smartcook.module.settings.SettingsActivity;
 import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.Utils;
 
+import org.w3c.dom.Text;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,7 +60,8 @@ public class UserFragment extends Fragment implements Contract.UserView {
     @Bind(R.id.rl_store)
     RelativeLayout rlStore;
 
-
+    @Bind(R.id.signature_tv)
+    TextView signature_tv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,15 @@ public class UserFragment extends Fragment implements Contract.UserView {
     public void onShowUserInfo(User user) {
         User.UserBean userBean = user.getUser();
         tvUserName.setText(userBean.getName());
-        ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), ivUserHead, tvUserName.getContext(), true);
+
+        if(!(userBean.getHeadUrl().equals(""))) {
+            signature_tv.setText(user.getUser().getSingnature());
+        }
+
+        if( !(userBean.getHeadUrl().equals("")) ) {
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), ivUserHead, tvUserName.getContext(), true);
+        }
+
     }
 
     @Override

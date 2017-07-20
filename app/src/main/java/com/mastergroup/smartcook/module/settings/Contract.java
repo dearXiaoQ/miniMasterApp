@@ -23,6 +23,9 @@ public class Contract {
 
         //退出登录
         void logout();
+
+        //意见反馈接口
+        void feedBack(String msg, String type);
     }
 
     interface View extends BaseView<Presenter> {
@@ -38,4 +41,11 @@ public class Contract {
 
         void setUserDate(User userDate);
     }
+
+    interface FeedBackView extends BaseView<Presenter> {
+        Context onGetContext();
+
+        void onFeedBackInfo(String info);
+    }
+
 }

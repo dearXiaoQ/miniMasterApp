@@ -1,7 +1,6 @@
 package com.mastergroup.smartcook;
 
 import android.net.wifi.ScanResult;
-
 import com.mastergroup.smartcook.util.Md5;
 
 import java.util.ArrayList;
@@ -13,7 +12,12 @@ import java.util.List;
 
 public class Constant {
 
-    public final static String BASEURL = "http://gmri.mastergroup.com.cn/";
+    public final static String BASEURL = "http://gmri.mastergroup.com.cn:3001/";
+
+    public final static String SHARE_BASEURL = "http://gmri.mastergroup.com.cn:3001";
+
+    public final static String BITMAP_FILE_NAME = "/cover/";
+
 
     public final static String APP_ID = "f0d68c68539243bc853b1298faf133ff";//机智云APPID
     public final static String APP_Secret = "42ebbf3d1f3b4ca6815a52066485d872";//机智云APP_Secret

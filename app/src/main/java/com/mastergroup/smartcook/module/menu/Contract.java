@@ -1,6 +1,7 @@
 package com.mastergroup.smartcook.module.menu;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -10,7 +11,10 @@ import com.mastergroup.smartcook.BasePresenter;
 import com.mastergroup.smartcook.BaseView;
 import com.mastergroup.smartcook.model.CollectionRecipes;
 import com.mastergroup.smartcook.model.DetailRecipes;
+import com.mastergroup.smartcook.model.Recipes;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -43,10 +47,24 @@ public class Contract {
 
         boolean isFavorite();//是否收藏
 
-        /** 获取用户本人的菜谱 */
+        /** 获取用户自身创建的菜谱 */
         void getMyMenu(int path, int index);
 
+        /** 获取用户自身 */
+        void getFavoriteRecipes();
+
         void share(); //分享
+
+        void search(String searchStr, int index, int count);  //搜索
+
+        /** 新增评论 */
+        void sendComment(String commentStr, String menuId);
+
+        /** 获取评论 */
+        void getComment(String menuId, TextView commentCountTv);
+
+        /** 跳转到界面 */
+        void jumpLikeView();
     }
 
     interface MenuCreatePresenter extends BasePresenter {
@@ -81,6 +99,8 @@ public class Contract {
         void onIsOwner(boolean o);
 
         void onIsLike(boolean o);
+        /** 分享缩略图 */
+        Bitmap getCoverBitmap();
 
     }
 
@@ -104,6 +124,8 @@ public class Contract {
         Context getContext();
 
         void  onGetMyFavoriteListSuccess(List<CollectionRecipes.RecipesBean> recipesBeenList);
+
+        void  onGetMyFavoriteListFailure(String info);
     }
 
     interface CollectionListView extends BaseView<Presenter> {
@@ -131,7 +153,17 @@ public class Contract {
 
     }
 
+    interface SearchView extends BaseView<Presenter> {
 
+        Context getContext();
+
+        /** 获取菜谱成功 */
+        void onGetRecipesSuccess(List<Recipes.RecipesBean> recipesList);
+
+        /** 获取菜谱失败 */
+        void onGetRecipesFailure(String info);
+
+    }
 
 
 }

@@ -3,6 +3,8 @@ package com.mastergroup.smartcook.module.menu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ImageUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,9 +43,14 @@ import com.mastergroup.smartcook.util.JxUtils;
 import com.mastergroup.smartcook.util.Utils;
 import com.mastergroup.smartcook.view.MenuListRVAdapter;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+import com.yuyh.library.imgsel.utils.LogUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -62,6 +70,7 @@ public class MenuPresenter implements Contract.Presenter {
     Contract.MenuListView menuListView;
     Contract.MyMenuListView myMenuListView;
     Contract.FavoriteListView favoriteListView;
+    Contract.SearchView searchView;
 
     Context mContext;
     MenuListRVAdapter adapter;
@@ -91,6 +100,7 @@ public class MenuPresenter implements Contract.Presenter {
     ImageView favoriteIv; //收藏图标
     TextView likeNumTv;    //点赞数量
 
+
     DetailRecipes.RecipesBean recipesBean;
     /** 当前用户是已否点赞 */
     boolean islike;
@@ -102,6 +112,8 @@ public class MenuPresenter implements Contract.Presenter {
     String shareUrl;
     String recipesName;
     String author;
+
+    RecyclerView rvMenuComment;
 
     @Override
     public void start() {
@@ -139,6 +151,13 @@ public class MenuPresenter implements Contract.Presenter {
         favoriteListView = Utils.checkNotNull(View, "mView cannot be null!");
         favoriteListView.setPresenter(this);
         mContext = favoriteListView.getContext();
+    }
+
+
+    public MenuPresenter(Contract.SearchView View) {
+        searchView = Utils.checkNotNull(View, "mView cannot be null");
+        searchView.setPresenter(this);
+        mContext = searchView.getContext();
     }
 
     @Override
@@ -260,6 +279,8 @@ public class MenuPresenter implements Contract.Presenter {
 
         comment_rv.setAdapter(comment_adapter);
         comment_rv.setLayoutManager(new LinearLayoutManager(mContext));
+
+        rvMenuComment = comment_rv;
 
         this.likeNumTv = likeNumIv;
         this.likeIv = likeIv;
@@ -417,9 +438,98 @@ public class MenuPresenter implements Contract.Presenter {
         JxUtils.toSubscribe(o, s);
     }
 
+
+    @Override
+    public void getFavoriteRecipes() {
+        Observable o = Network.getMainApi().getFavoritesList();
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<MyCollectionRecipes>>() {
+            @Override
+            public void onNext(Base<MyCollectionRecipes> o) {
+                if (o.getErrorCode() == 0) {
+                    favoriteListView.onGetMyFavoriteListSuccess(o.getRes().getList());
+                } else {
+                    favoriteListView.onGetMyFavoriteListFailure(o.getMessage());
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+    }
+
+
     @Override
     public void share() {
         showShare();
+    }
+
+    @Override
+    public void search(String searchStr, int index, int count) {
+        Observable o = Network.getMainApi().searchRecipesList(searchStr, index, count);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<RecipesList>>() {
+            @Override
+            public void onNext(Base<RecipesList> o) {
+                if (o.getErrorCode() == 0) {
+                    //RecipesBeans = o.getRes().sgetList();
+                    searchView.onGetRecipesSuccess(o.getRes().getList());
+                } else {
+                    searchView.onGetRecipesFailure(o.getMessage());
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+
+    }
+
+
+    @Override
+    public void sendComment(String commentStr, final String menuId) {
+        Comment comment = new Comment();
+        comment.setComment(commentStr);
+
+
+        Observable o = Network.getMainApi().addComment(menuId, comment);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+            @Override
+            public void onNext(Base<Recipes.RecipesBean> base) {
+                if (base.getErrorCode() == 0) {
+
+                   // getComment(menuId);
+
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+
+    }
+
+
+    @Override
+    public void getComment(String menuId, final TextView commentCountTv) {
+        Observable o = Network.getMainApi().getRecipesDetail(menuId);
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<DetailRecipes.RecipesBean>>() {
+            @Override
+            public void onNext(Base<DetailRecipes.RecipesBean> base) {
+                if (base.getErrorCode() == 0) {
+
+                    comments = base.getRes().getComment();
+                    comment_adapter = new CommentAdapter();
+                    rvMenuComment.setLayoutManager(new LinearLayoutManager(mContext));
+                    rvMenuComment.setAdapter(comment_adapter);
+                    commentCountTv.setText(String.format("%s条评论", comments.size()));
+                }
+            }
+        }, mContext);
+
+        JxUtils.toSubscribe(o, s);
+    }
+
+    @Override
+    public void jumpLikeView() {
+        Intent likeIntent = new Intent(mContext, LikeListActivity.class);
+        likeIntent.putExtra("likes", (Serializable) likes);
+        mContext.startActivity(likeIntent);
     }
 
 
@@ -497,6 +607,7 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         public int getItemCount() {
+            Collections.reverse(comments);
             return 2;//显示数量
         }
 
@@ -733,10 +844,16 @@ public class MenuPresenter implements Contract.Presenter {
         oks.setTitleUrl("http://sharesdk.cn");
         // text是分享文本，所有平台都需要这个字段
         oks.setText("smartCook上这个食谱不错哦，你也试试吧！");
+        /** 封面图片写到本地 */
+
+      String savePath = saveBitmap(mContext, menuAloneView.getCoverBitmap());
+
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImagePath(savePath);//确保SDcard下面存在此张图片
+
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(Constant.BASEURL + shareUrl);
+        oks.setUrl(Constant.SHARE_BASEURL + shareUrl);
+
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         oks.setComment("我是测试评论文本");
         // site是分享此内容的网站名称，仅在QQ空间使用
@@ -746,6 +863,46 @@ public class MenuPresenter implements Contract.Presenter {
 
         // 启动分享GUI
         oks.show(mContext);
+    }
+
+    private static final String SD_PATH = "/sdcard/dskqxt/pic/";
+    private static final String IN_PATH = "/dskqxt/pic/";
+
+    /**
+     * 保存bitmap到本地
+     *
+     * @param context
+     * @param mBitmap
+     * @return
+     */
+    public  String saveBitmap(Context context, Bitmap mBitmap) {
+        String savePath;
+        File filePic;
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            savePath = SD_PATH;
+        } else {
+            savePath = context.getApplicationContext().getFilesDir()
+                    .getAbsolutePath()
+                    + IN_PATH;
+        }
+        try {
+            filePic = new File(savePath + recipesName + ".jpg");
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+
+        return filePic.getAbsolutePath();
     }
 
 }

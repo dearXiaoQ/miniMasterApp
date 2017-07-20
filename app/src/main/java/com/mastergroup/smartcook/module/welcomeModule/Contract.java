@@ -34,7 +34,7 @@ public class Contract {
          */
         void gizLogin(String nameOrPhone, String pwd);//机智云登录
 
-        void registered(String nickName, String password, @Nullable String phoneNum, String uid);
+        void registered(String nickName, String password, String againPwd, @Nullable String phoneNum, String uid);
 
 
         /**

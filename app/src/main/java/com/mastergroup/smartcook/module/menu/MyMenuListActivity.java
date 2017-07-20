@@ -43,6 +43,7 @@ public class MyMenuListActivity extends Activity implements Contract.MyMenuListV
     PullLoadMoreRecyclerView mRv;
     List<CollectionRecipes.RecipesBean> recipesBeans = new ArrayList<>();
 
+
     Contract.Presenter mPresenter;
     Context mContext;
     MyMenuListRvAdapter adapter;
@@ -129,7 +130,7 @@ public class MyMenuListActivity extends Activity implements Contract.MyMenuListV
 
           //  holder.menuIv
             final CollectionRecipes.RecipesBean  recipesBean = recipesBeans.get(position);
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL +recipesBean.getDetail().getImgSrc(), holder.menuIv, mContext, false);
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), holder.menuIv, mContext, false);
             holder.titleTv.setText(recipesBean.getName());
             //holder.timeTv;
             holder.favoriteNumTv.setText(recipesBean.getFavorites().size() + "");

@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /** 菜谱点赞列表 */
 public class LikeListActivity extends Activity {
@@ -102,7 +103,15 @@ public class LikeListActivity extends Activity {
 
 
 
+    @OnClick({R.id.iv_return})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_return :
 
+                this.finish();
+                break;
+        }
+    }
 
     class LikeListRvHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.user_head_iv)

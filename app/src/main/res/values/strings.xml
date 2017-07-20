@@ -1,6 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     >
     <string name="app_name">smartCookApp</string>
 
@@ -97,6 +95,10 @@
     <string name="phone_number">手机号:</string>
     <string name="phone_hint">以便客服人员及时联系你</string>
     <string name="feedback">意见反馈</string>
+    <string name="function_enable">功能不能用</string>
+    <string name="other">其他</string>
+    <string name="input_message_null_not">请输入您的宝贵意见。</string>
+
 
     <!-- FavoriteListActivity -->
     <string name="my_favorite_list">收藏的菜谱</string>
@@ -104,6 +106,8 @@
 
     <!-- registerFragment -->
     <string name="nickname">昵称：</string>
+    <string name="please_input_nickname">请输入昵称</string>
+
     <string name="limit_nickname">2~12个字</string>
     <string name="account">账号：</string>>
     <string name="please_input_phone_num">请输入手机号</string>
@@ -149,6 +153,12 @@
     <string name="searching_device">正在搜索设备</string>
     <string name="searched_device">已搜索到设备</string>
     <string name="trying_join_device">正在尝试与设备连接...</string>
+
+
+    <!-- searchActivity -->
+    <string name="search_history">历史搜索</string>
+    <string name="recipes">食谱</string>
+    <string name="search_not_result">没有搜索结哦</string>
 
     <!-- Error Toast -->
     <string name="GIZ_SDK_PARAM_FORM_INVALID">SDK内部通讯数据格式无效</string>
@@ -320,6 +330,9 @@
     <string name="favorites_success">收藏成功</string>
     <string name="favorites_failure">取消收藏成功</string>
     <string name="like_num">人点赞</string>
+    <string name="my_say">我来说两句~</string>
+    <string name="send">发送</string>
+    <string name="i_want_to_comment">我要评论</string>
 
     <!-- LikeListActivity -->
     <string name="addFollower">点赞</string>

@@ -83,7 +83,7 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
                 // 注册成功
                 LogUtils.d("GizWifiSDK", "机智云注册 成功======》" + "uid:" + uid + "     result:" + result.toString() + "      token" + token);
                 ToastUtils.showCustomToast(getActivity(), ToastUtils.TOAST_CENTER, getActivity().getString(R.string.registered_s));
-                mPresenter.registered(nicknameEt.getText().toString(), pwdEt.getText().toString(), phoneNumEt.getText().toString(), uid);
+                mPresenter.registered(nicknameEt.getText().toString(), pwdEt.getText().toString(), againPwdEt.getText().toString(), phoneNumEt.getText().toString(), uid);
             } else {
                 // 注册失败
                 LogUtils.d("GizWifiSDK", "机智云注册 失败======》" + "result:" + result.toString());
@@ -145,6 +145,9 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
 
     @Override
     public void onRegisteredFailure(@Nullable String info) {
+        if(info.equals("user existed")) {
+            info = "用户已存在！";
+        }
         ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_CENTER, info);
 
     }
@@ -161,14 +164,14 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
 
             case R.id.btn_registered:
 
-         /*        mPresenter.gizRegistered(nicknameEt.getText().toString().trim(),
-                         phoneNumEt.getText().toString().trim(),
-                         verificationEt.getText().toString().trim(),
-                         pwdEt.getText().toString().trim(),
-                         againPwdEt.getText().toString().trim()
+                mPresenter.gizRegistered(nicknameEt.getText().toString().trim(),
+                        phoneNumEt.getText().toString().trim(),
+                        verificationEt.getText().toString().trim(),
+                        pwdEt.getText().toString().trim(),
+                        againPwdEt.getText().toString().trim()
 
-                 );*/
-                mPresenter.registered(nicknameEt.getText().toString(), pwdEt.getText().toString(), phoneNumEt.getText().toString(), "123456s");
+                );
+              //  mPresenter.registered(nicknameEt.getText().toString(), pwdEt.getText().toString(), againPwdEt.getText().toString(), phoneNumEt.getText().toString(), "123456s");
 
                 break;
 
@@ -190,14 +193,18 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
 
         @Override
         public void onTick(long millisUntilFinished) {
-            getVerTv.setClickable(false);
-            getVerTv.setText(millisUntilFinished / 1000 + "s");
+            if(getVerTv != null) {
+                getVerTv.setClickable(false);
+                getVerTv.setText(millisUntilFinished / 1000 + "s");
+            }
         }
 
         @Override
         public void onFinish() {
-            getVerTv.setClickable(true);
-            getVerTv.setText("重新获取验证码");
+            if(getVerTv != null) {
+                getVerTv.setClickable(true);
+                getVerTv.setText("重新获取验证码");
+            }
         }
     }
 

@@ -26,7 +26,7 @@ import butterknife.OnClick;
 public class ShopFragment extends Fragment {
 
 
-    public static final String SHOP_URL = "https://momscook.tmall.com/";
+    public static final String SHOP_URL = "https://mall.jd.com/index-603017.html";
 
 
 

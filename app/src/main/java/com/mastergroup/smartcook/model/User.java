@@ -21,7 +21,7 @@ public class User {
     public class UserBean {
         String name;
         String password;
-        String phone;
+        String phoneNum;
         String headUrl;
         int age;
         String address;
@@ -110,11 +110,11 @@ public class User {
         }
 
         public String getPhoneNum() {
-            return phone;
+            return phoneNum;
         }
 
         public void setPhoneNum(String phone) {
-            this.phone = phone;
+            this.phoneNum = phone;
         }
 
         public String getHeadUrl() {
@@ -175,7 +175,7 @@ public class User {
             return "UserBean{" +
                     "name='" + name + '\'' +
                     ", password='" + password + '\'' +
-                    ", phoneNum='" + phone + '\'' +
+                    ", phoneNum='" + phoneNum + '\'' +
                     ", headUrl='" + headUrl + '\'' +
                     ", meta=" + meta +
                     ", role=" + role +

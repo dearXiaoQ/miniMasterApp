@@ -97,10 +97,14 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
     @Override
     public void onRetrievePwdViewSuccess() {
 
-     //   mPresenter.Retrieve(phoneNumEt.getText().toString().trim(), newPwdEt.getText().toString().trim());
-        timeCount.start();
+        //   mPresenter.Retrieve(phoneNumEt.getText().toString().trim(), newPwdEt.getText().toString().trim());
         ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, App.mContext.getString(R.string.retrieve_pwd_success));
+        //返回到欢迎页面
+        ((WelcomeActivity) getActivity()).mPresenter.showMainView();
+    }
 
+    private void onGizChangePwdSuuccess() {
+        ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, App.mContext.getString(R.string.retrieve_pwd_success));
     }
 
     @Override
@@ -111,9 +115,8 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
 
     @Override
     public void onGetVerSuccess() {
-
+        timeCount.start();
         ToastUtils.showCustomToast(App.mContext, ToastUtils.TOAST_BOTTOM, App.mContext.getString(R.string.get_verification_success));
-
     }
 
     @Override
@@ -155,14 +158,18 @@ public class RetrievePwdFragment extends Fragment implements Contract.RetrievePw
 
         @Override
         public void onTick(long millisUntilFinished) {
-            getVerTv.setClickable(false);
-            getVerTv.setText(millisUntilFinished / 1000 + "s");
+            if( getVerTv != null ) {
+                getVerTv.setClickable(false);
+                getVerTv.setText(millisUntilFinished / 1000 + "s");
+            }
         }
 
         @Override
         public void onFinish() {
-            getVerTv.setClickable(true);
-            getVerTv.setText("重新获取验证码");
+            if(getVerTv != null ) {
+                getVerTv.setClickable(true);
+                getVerTv.setText("重新获取验证码");
+            }
         }
     }
 

@@ -165,11 +165,11 @@ public class WelcomePresenter implements Contract.Presenter {
 
 
 
-        if(StringFormatCheckUtils.isPhoneLegal(nameOrPhone)) {
+        if(StringFormatCheckUtils.isPhoneLegal(nameOrPhone)) {   //电话号码登录
 
             userBean.setPhoneNum(nameOrPhone);
 
-        } else {
+        } else { //用户名登录
 
             int nicknameResult = StringFormatCheckUtils.isNickNameLegal(nameOrPhone);
             if(nicknameResult == R.string.nickname_right) {
@@ -206,12 +206,55 @@ public class WelcomePresenter implements Contract.Presenter {
 
 
     @Override
-    public void registered(String nickName, String password, @Nullable String phoneNum, String uid) {
+    public void registered(String nickName, String password, String againPwd, String phoneNum, String uid) {
         DebugUtils.d("WelcomePresenter", "registered()");
 
-        if (nickName.isEmpty() || password.isEmpty()) {
-            registeredView.onRegisteredFailure(App.mContext.getString(R.string.registered_f));
-        } else {
+        /*if(nickName.length() == 0 ) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.please_input_nickname));
+            return ;
+        }
+
+        if(nickName.length() < 2) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.nickname_not_enough));
+            return ;
+        }
+
+        if(nickName.length() > 12) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.nickname_over_enough));
+            return ;
+        }
+
+
+        if(password.length() == 0 ) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.pwd_not_null));
+            return ;
+        }
+
+        if(againPwd.length() == 0) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.again_pwd_not_null));
+            return ;
+        }
+
+        if(againPwd.length() > 12) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.pwd_over_enough));
+            return ;
+        }
+
+        if(againPwd.length() < 6) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.pwd_not_enough));
+            return ;
+        }
+
+
+        if( !(againPwd.equals(password)) ) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.pwd_again_error));
+            return ;
+        }
+
+        if(!(StringFormatCheckUtils.isPhoneLegal(phoneNum))) {
+            registeredView.onRegisteredFailure(App.mContext.getString(R.string.phone_wrong_format));
+            return ;
+        }*/
 
             User user = new User();
             User.UserBean userBean = user.new UserBean();
@@ -237,7 +280,7 @@ public class WelcomePresenter implements Contract.Presenter {
             JxUtils.toSubscribe(observable, s);
         }
 
-    }
+
 
     @Override
     public void gizRegistered(String nickName, String phoneNum, String ver, String pwd, String againPwd) {
@@ -400,7 +443,7 @@ public class WelcomePresenter implements Contract.Presenter {
                     }
                 }
 
-            }, loginView.onGetContext());
+            }, retrievePwdView.onGetContext());
 
             JxUtils.toSubscribe(observable, s);
 

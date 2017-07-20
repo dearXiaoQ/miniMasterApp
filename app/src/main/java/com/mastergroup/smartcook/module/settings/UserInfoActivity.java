@@ -177,10 +177,11 @@ public class UserInfoActivity extends Activity implements Contract.View {
 
         mRbFemale.setChecked(true);
         mEtAddress.setText(userBean.getAddress());
-
         signatureEt.setText(userBean.getSingnature());
 
-        ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), mIvUserHead, this, true);
+        if( !(userBean.getHeadUrl().equals("")) ) {
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + userBean.getHeadUrl(), mIvUserHead, this, true);
+        }
         putUserHeadServerUrl(userBean.getHeadUrl());
 
     }

@@ -16,6 +16,7 @@ import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.CollectionRecipes;
 import com.mastergroup.smartcook.util.ImageLoader;
+import com.mastergroup.smartcook.util.ToastUtils;
 import com.mastergroup.smartcook.util.Utils;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
@@ -24,10 +25,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class FavoriteListActivity extends Activity implements Contract.FavoriteListView {
 
-    MenuPresenter mMenuPresenter;
 
     @Bind(R.id.iv_return)
     ImageView ivReturn;
@@ -42,6 +43,7 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
     Context mContext;
     List<CollectionRecipes.RecipesBean> recipesBeans = new ArrayList<>();
 
+    FavoriteListRvAdapter favoriteListRvAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +52,38 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
         mContext = this;
         ButterKnife.bind(this);
         new MenuPresenter(this);
-        mMenuPresenter.start();
+        mPresenter.start();
         initView();
+        initData();
+    }
+
+    private void initData() {
+        mPresenter.getFavoriteRecipes();
     }
 
     private void initView() {
         tvTitle.setText(R.string.my_favorite_list);
+        tvMoreButton.setVisibility(View.GONE);
 
+        rv.setLinearLayout();
+        favoriteListRvAdapter = new FavoriteListRvAdapter();
+        rv.setAdapter(favoriteListRvAdapter);
+
+
+        rv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getFavoriteRecipes();
+            }
+
+            @Override
+            public void onLoadMore() {
+                mPresenter.getFavoriteRecipes();
+            }
+        });
     }
+
+
 
     @Override
     public void setPresenter(Contract.Presenter presenter) {
@@ -72,9 +98,16 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
     @Override
     public void onGetMyFavoriteListSuccess(List<CollectionRecipes.RecipesBean> recipesBeenList) {
         this.recipesBeans = recipesBeenList;
+        favoriteListRvAdapter.notifyDataSetChanged();
+        rv.setPullLoadMoreCompleted();
     }
 
-    class FavoriteListRvAdatper extends RecyclerView.Adapter<FavoriteListRvHolder> {
+    @Override
+    public void onGetMyFavoriteListFailure(String info) {
+        ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, info);
+    }
+
+    class FavoriteListRvAdapter extends RecyclerView.Adapter<FavoriteListRvHolder> {
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
@@ -86,11 +119,11 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
         @Override
         public void onBindViewHolder(FavoriteListRvHolder holder, int position) {
 
-            final CollectionRecipes.RecipesBean recipesBena = recipesBeans.get(position);
-            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBena.getDetail().getImgSrc(), holder.menuIv, mContext, false);
-            holder.titleTv.setText(recipesBena.getName());
-            //holder.favoriteNumTv.setText(recipesBena.);
-            holder.timeTv.setText(recipesBena.getDate());
+            final CollectionRecipes.RecipesBean recipesBean = recipesBeans.get(position);
+            ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), holder.menuIv, mContext, false);
+            holder.titleTv.setText(recipesBean.getName());
+            holder.favoriteNumTv.setText(recipesBean.getFavorites().size() + "");
+            holder.timeTv.setText(recipesBean.getDate());
 
         }
 
@@ -121,4 +154,16 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
             ButterKnife.bind(this, itemView);
         }
     }
+
+    @OnClick({R.id.iv_return})
+    public void onClick(View v){
+        switch (v.getId()) {
+
+            case R.id.iv_return:
+                this.finish();
+                break;
+
+        }
+    }
+
 }

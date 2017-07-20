@@ -3,10 +3,16 @@ package com.mastergroup.smartcook.module.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,11 +27,12 @@ import com.mastergroup.smartcook.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MenuViewActivity extends Activity implements Contract.MenuAloneView {
 
@@ -89,15 +96,32 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     ImageView likeIv;
     @Bind(R.id.like_num_tv)
     TextView likeNumTv;
+    @Bind(R.id.comment_btn)
+    Button commentBtn;
 
+    @Bind(R.id.more_iv)
+    ImageView moreIv;
 
-    /** 点赞列表 */
+    EditText commentEt;
+    TextView sendTv;
+    /**
+     * 点赞列表
+     */
     List<Like> likes;
+    /**
+     * 底部评论输入窗口（dialog）
+     */
+    BottomSheetDialog bottomSheetDialog;
+
+
+    Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_view);
+        mContext = this;
         ButterKnife.bind(this);
         new MenuPresenter(this);
         mPresenter.start();
@@ -130,7 +154,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
     private void initData() {
 
-        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep , rvMenuComment, gridView, likeIv, favoriteIv, likeNumTv);
+        mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rvMenuComment, gridView, likeIv, favoriteIv, likeNumTv);
 
         recipesBeanID = getIntent().getStringExtra("_id");
 
@@ -144,7 +168,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
 
-    @OnClick({R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count, R.id.like_iv, R.id.favorite, R.id.share})
+    @OnClick({R.id.more_iv, R.id.iv_return, R.id.fab, R.id.tv_more_button, R.id.tv_comment_count, R.id.like_iv, R.id.favorite, R.id.share, R.id.comment_btn})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -152,7 +176,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 finish();
                 break;
 
-            case  R.id.fab:
+            case R.id.fab:
                 Intent fabIntent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
                 fabIntent.putExtra("_id", recipesBeanID);
                 startActivity(fabIntent);
@@ -180,8 +204,58 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 mPresenter.share();
                 break;
 
+            case R.id.comment_btn:
+                showBottomCommentView();
+                break;
+
+            case R.id.more_iv:
+                mPresenter.jumpLikeView();
+                break;
 
         }
+
+    }
+
+    /**
+     * 底部弹窗方法
+     */
+    private void showBottomCommentView() {
+
+        if (bottomSheetDialog == null) {
+            View mView = LayoutInflater.from(mContext).inflate(R.layout.remark_toast_item, null);
+            bottomSheetDialog = new BottomSheetDialog(mContext);
+            bottomSheetDialog.setContentView(mView);
+            bottomSheetDialog.setCancelable(true);
+
+            commentEt = (EditText) mView.findViewById(R.id.comment_et);
+            sendTv = (TextView) mView.findViewById(R.id.send_tv);
+            /** 发表评论 */
+            sendTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String commentStr = commentEt.getText().toString().trim();
+                    if( !(commentStr.equals("")) ) {
+                        mPresenter.sendComment(commentStr, recipesBeanID);
+                        commentEt.setText("");
+                        bottomSheetDialog.cancel();
+                        mPresenter.getComment(recipesBeanID, tvCommentCount);
+                    }
+                }
+            });
+        }
+
+        bottomSheetDialog.show();
+        //弹出键盘
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            public void run() {
+                InputMethodManager inputManager = (InputMethodManager) commentEt.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(commentEt, 0);
+            }
+
+        }, 50);
+
 
     }
 
@@ -202,6 +276,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             tvCommentCount.setText(String.format("%s条评论", recipesBean.getComment().size()));
 
     }
+
 
     @Override
     public Context getContext() {
@@ -227,8 +302,21 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.reLike(recipesBeanID);
     }
 
+    @Override
+        public Bitmap getCoverBitmap() {
+        Bitmap bmp = convertViewToBitmap(ivCover);
+        return bmp;
+    }
 
 
+
+    public Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
 
 
 

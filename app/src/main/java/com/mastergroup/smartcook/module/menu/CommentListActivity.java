@@ -17,12 +17,14 @@ import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.api.Network;
 import com.mastergroup.smartcook.model.Base;
 import com.mastergroup.smartcook.model.Comment;
+import com.mastergroup.smartcook.model.DetailRecipes;
 import com.mastergroup.smartcook.model.Recipes;
 import com.mastergroup.smartcook.module.progress.ProgressSubscriber;
 import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.JxUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,7 +47,7 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
     @Bind(R.id.tv_comment_write)
     EditText tvCommentWrite;
     @Bind(R.id.tv_coles)
-    TextView tvColes;
+    TextView tvClose;
     @Bind(R.id.tv_release)
     TextView tvRelease;
 
@@ -56,14 +58,12 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
         ButterKnife.bind(this);
         menuId = getIntent().getStringExtra("_id");
         getComment();
-
-
     }
 
-    private void ivitView() {
+    private void initView() {
 
 
-        tvColes.setVisibility(View.GONE);
+        tvClose.setVisibility(View.GONE);
         ivReturn.setVisibility(View.VISIBLE);
         tvWrite.setVisibility(View.VISIBLE);
         tvRelease.setVisibility(View.GONE);
@@ -71,36 +71,35 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
         tvCommentWrite.setVisibility(View.GONE);
         rvMenuComment.setVisibility(View.VISIBLE);
 
-
-        tvColes.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
         ivReturn.setOnClickListener(this);
         tvWrite.setOnClickListener(this);
         tvRelease.setOnClickListener(this);
     }
 
     private void showWriteComment() {
-        tvColes.setVisibility(View.VISIBLE);
+        tvClose.setVisibility(View.VISIBLE);
         ivReturn.setVisibility(View.GONE);
         tvWrite.setVisibility(View.GONE);
         tvRelease.setVisibility(View.VISIBLE);
         tvCommentWrite.setVisibility(View.VISIBLE);
         rvMenuComment.setVisibility(View.GONE);
         tvTitle.setText("写评论");
-
     }
 
     private void getComment() {
 
         Observable o = Network.getMainApi().getRecipesDetail(menuId);
-        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<Recipes.RecipesBean>>() {
+        Subscriber s = new ProgressSubscriber(new ProgressSubscriber.SubscriberOnNextListener<Base<DetailRecipes.RecipesBean>>() {
             @Override
-            public void onNext(Base<Recipes.RecipesBean> base) {
+            public void onNext(Base<DetailRecipes.RecipesBean> base) {
                 if (base.getErrorCode() == 0) {
 
                     comments = base.getRes().getComment();
+                    Collections.reverse(comments);
                     rvMenuComment.setLayoutManager(new LinearLayoutManager(CommentListActivity.this));
                     rvMenuComment.setAdapter(new CommentAdapter());
-                    ivitView();
+                    initView();
                 }
             }
         }, this);
@@ -136,7 +135,7 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.iv_return)
             finish();
         if (id == R.id.tv_coles)
-            ivitView();
+            initView();
         if (id == R.id.tv_write)
             showWriteComment();
         if (id == R.id.tv_release)

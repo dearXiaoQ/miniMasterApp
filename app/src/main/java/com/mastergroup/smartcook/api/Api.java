@@ -4,6 +4,7 @@ package com.mastergroup.smartcook.api;
 import com.mastergroup.smartcook.model.Base;
 import com.mastergroup.smartcook.model.Comment;
 import com.mastergroup.smartcook.model.DetailRecipes;
+import com.mastergroup.smartcook.model.FeedBack;
 import com.mastergroup.smartcook.model.MenuID;
 import com.mastergroup.smartcook.model.MyCollectionRecipes;
 import com.mastergroup.smartcook.model.Null;
@@ -51,6 +52,12 @@ public interface Api {
     @POST("miniMasterApp/user/signin")
     Observable<Base<PhoneAndToken>> signin(@Body User body);
 
+    /**
+     * 意见反馈
+     * */
+    @POST("miniMasterApp/feedback/addFeedback/")
+    Observable<Base<Null>> feedBackMsg(@Body FeedBack feedBack);
+
     @GET("miniMasterApp/user/getSmsCode/{phone}")
     Observable<Base<Null>> getVerification(@Path("phone") String phone);
 
@@ -89,6 +96,8 @@ public interface Api {
     @GET("miniMasterApp/recipes/getRecipesList/{index}/{count}")
     Observable<Base<RecipesList>> getRecipesList(@Path("index") int index, @Path("count") int count);
 
+    @GET("miniMasterApp/recipes/search/{name}/{index}/{count}")
+    Observable<Base<RecipesList>> searchRecipesList(@Path("name") String searchStr, @Path("index") int index, @Path("count") int count);
 
     /**
      * 获取轮播菜谱
@@ -160,13 +169,12 @@ public interface Api {
     /**
      * 获取收藏列表
      */
-    @GET("miniMasterApp/recipes/getFavoritesList")
+    @GET("miniMasterApp/user/getFavoritesList")
     Observable<Base<MyCollectionRecipes>> getFavoritesList();
 
 
     /**
      * 增加评论
-     *
      * @param id 菜谱id
      */
     @POST("miniMasterApp/recipes/addComment/{id}")

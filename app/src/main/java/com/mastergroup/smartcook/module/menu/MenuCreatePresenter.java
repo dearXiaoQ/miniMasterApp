@@ -429,6 +429,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
             TextView mTvFoodType;
             @Bind(R.id.tv_amount)
             TextView mTvAmount;
+            @Bind(R.id.Weight_et)
+            TextView mTvWeight;
 
             FoodsHolder(View view) {
                 super(view);

@@ -2,7 +2,7 @@
 <resources
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
-    >
+
     <color name="colorPrimary">#ff7043</color>
     <color name="colorPrimaryDark">#FF5722</color>
     <color name="colorAccent">#FF4081</color>
@@ -19,6 +19,8 @@
     <color name="line_gray">#c7c7c7</color>
     <color name="white">#fff</color>
     <color name="gray">#808080</color>
+    <color name="gray_777">#707070</color>
+
     <color name="black">#000</color>
     <color name="title_gray">#919191</color>
     <color name="text_gray_light">#d0d0d0</color>

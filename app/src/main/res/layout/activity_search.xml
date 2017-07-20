@@ -7,7 +7,10 @@
     android:orientation="vertical"
     tools:context="com.mastergroup.smartcook.module.menu.SearchActivity"
     android:background="@drawable/menu_search"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     >
+
 
 
     <RelativeLayout
@@ -21,8 +24,8 @@
             android:layout_height="28dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/menu_search"
-            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/iv_return">
 
             <ImageView
@@ -34,15 +37,31 @@
                 android:id="@+id/imageView" />
 
             <EditText
+                android:id="@+id/search_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/search_text"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/gray_999"
+                android:textColor="@color/gray_777"
                 android:background="@null"
                 android:textSize="14sp"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView" />
+                android:layout_toEndOf="@+id/imageView"
+                android:focusableInTouchMode="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                />
+
+            <ImageView
+                android:id="@+id/clear_iv"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:visibility="gone"
+                android:src="@drawable/close_full_icon"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
 
         </RelativeLayout>
 
@@ -52,18 +71,67 @@
             android:src="@drawable/return_origin_icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
+
             android:id="@+id/iv_return" />
 
 
     </RelativeLayout>
 
-    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/line_gray"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/search_not_result_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/not_result_iv"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/search_not_result_icon"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/not_result_iv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/search_not_result"
+            android:textColor="@color/gray"
+
+            />
+
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/search_history_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@color/line_gray"
+        android:dividerHeight="1px"
         >
 
+    </ListView>
+
+
+    <ListView
+        android:id="@+id/search_result_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/line_gray"
+        android:dividerHeight="1px"
+        android:visibility="gone"
+        >
     </ListView>
 
 

@@ -8,8 +8,10 @@ import android.widget.Toast;
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.LogUtils;
 import com.mastergroup.smartcook.App;
+import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.api.Network;
 import com.mastergroup.smartcook.model.Base;
+import com.mastergroup.smartcook.model.FeedBack;
 import com.mastergroup.smartcook.model.Null;
 import com.mastergroup.smartcook.model.Url;
 import com.mastergroup.smartcook.model.User;
@@ -33,14 +35,22 @@ import rx.Subscriber;
 public class SettingsPresenter implements Contract.Presenter {
 
     Contract.View mView;
+    Contract.FeedBackView feedBackView;
 
     Observable o_uploadFile, o_upDate, o_delete, o_userInfo;
     Subscriber s_uploadFile, s_upDate, s_delete, s_userInfo;
 
 
+
     public SettingsPresenter(Contract.View mView) {
         this.mView = mView;
         mView = Utils.checkNotNull(mView, " cannot be null!");
+        mView.setPresenter(this);
+    }
+
+    public SettingsPresenter(Contract.FeedBackView mView) {
+        this.feedBackView = Utils.checkNotNull(mView, " cannot be null! ");
+        this.feedBackView = mView;
         mView.setPresenter(this);
     }
 
@@ -152,6 +162,36 @@ public class SettingsPresenter implements Contract.Presenter {
         Activity activity = (Activity) mView.onGetContext();
         activity.startActivity(new Intent(activity, WelcomeActivity.class));
         activity.finish();
+    }
+
+    @Override
+    public void feedBack(String msg, String type) {
+
+
+        if(!(msg.length() > 0)) {
+
+            feedBackView.onFeedBackInfo(App.mContext.getString(R.string.input_message_null_not));
+            return;
+        }
+
+        FeedBack mFeedBack = new FeedBack();
+        mFeedBack.setFeedback(msg);
+        mFeedBack.setType(type);
+
+        o_userInfo = Network.getMainApi().feedBackMsg(mFeedBack);
+
+        s_userInfo = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<User>>() {
+            @Override
+            public void onNext(Base<User> o) {
+                if (o.getErrorCode() == 0)
+                    feedBackView.onFeedBackInfo(o.getMessage());
+                else
+                    feedBackView.onFeedBackInfo(o.getMessage());
+            }
+
+        }, feedBackView.onGetContext());
+
+        JxUtils.toSubscribe(o_userInfo, s_userInfo);
     }
 
 }

@@ -31,8 +31,8 @@
 
 
     <!-- shareSDK -->
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -59,7 +59,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
-        android:name="com.mastergroup.smartcook.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
@@ -71,7 +71,7 @@
             android:value="58dcbbca1061d204db000636" />
 
         <activity
-            android:name="com.mastergroup.smartcook.module.welcomeModule.WelcomeActivity"
+            android:name=".module.welcomeModule.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,28 +80,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mastergroup.smartcook.module.menu.MenuListActivity"
+            android:name=".module.menu.MenuListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mastergroup.smartcook.module.home.HomeActivity"
+            android:name=".module.home.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mastergroup.smartcook.module.menu.MenuViewActivity"
+            android:name=".module.menu.MenuViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mastergroup.smartcook.module.menu.MenuCreateActivity"
+            android:name=".module.menu.MenuCreateActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.mastergroup.smartcook.module.cooking.CookingActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.SettingsActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.DeviceListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.MyMenuListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.DeviceControlActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.DeviceSelectActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.StoreActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.CommentListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.CommentWriteActivity" />
+        <activity android:name=".module.cooking.CookingActivity" />
+        <activity android:name=".module.settings.SettingsActivity" />
+        <activity android:name=".module.device.DeviceListActivity" />
+        <activity android:name=".module.menu.MyMenuListActivity" />
+        <activity android:name=".module.device.DeviceControlActivity" />
+        <activity android:name=".module.menu.DeviceSelectActivity" />
+        <activity android:name=".module.settings.StoreActivity" />
+        <activity android:name=".module.menu.CommentListActivity" />
+        <activity android:name=".module.menu.CommentWriteActivity" />
         <activity
-            android:name="com.mastergroup.smartcook.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -124,28 +124,29 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.UserInfoActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.AddDevSettingWifiActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.AddDevSetDevStateActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.AddDevConfigCountdownActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.device.GizModeListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.AppRegisterAndAgreement" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.AboutActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.LikeListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.settings.FeedBackActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.FavoriteListActivity" />
-        <activity android:name="com.mastergroup.smartcook.module.menu.SearchActivity"></activity>
+        <activity android:name=".module.settings.UserInfoActivity" />
+        <activity android:name=".module.device.AddDevSettingWifiActivity" />
+        <activity android:name=".module.device.AddDevSetDevStateActivity" />
+        <activity android:name=".module.device.AddDevConfigCountdownActivity" />
+        <activity android:name=".module.device.GizModeListActivity" />
+        <activity android:name=".module.settings.AppRegisterAndAgreement" />
+        <activity android:name=".module.settings.AboutActivity" />
+        <activity android:name=".module.menu.LikeListActivity" />
+        <activity android:name=".module.settings.FeedBackActivity" />
+        <activity android:name=".module.menu.FavoriteListActivity" />
+        <activity android:name=".module.menu.SearchActivity" />
 
         <!-- shareSDK -->
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -153,22 +154,29 @@
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!--集成line客户端登录授权，需要添如下格式的过滤器-->
+            <!-- 集成line客户端登录授权，需要添如下格式的过滤器 -->
             <intent-filter>
                 <data android:scheme="line.1477692153" />
-                <action android:name="android.intent.action.VIEW"/>
+
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
-        <meta-data android:name="Mob-AppKey" android:value="1f200a1e022e2"/>
-        <meta-data android:name="Mob-AppSecret" android:value="e38238653c0c30e4767483616480b596"/>
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="1f200a1e022e2" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="e38238653c0c30e4767483616480b596" />
 
+        <activity android:name=".module.message.MessageActivity"></activity>
     </application>
 
 </manifest>
