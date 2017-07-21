@@ -99,6 +99,13 @@
     <string name="other">其他</string>
     <string name="input_message_null_not">请输入您的宝贵意见。</string>
 
+    <!--  MessageActivity -->
+    <string name="user_message">我的消息</string>
+    <string name="comment">评论</string>
+    <string name="response">回复</string>
+    <string name="new_fans">新的粉丝</string>
+    <string name="system_message">系统消息</string>
+
 
     <!-- FavoriteListActivity -->
     <string name="my_favorite_list">收藏的菜谱</string>

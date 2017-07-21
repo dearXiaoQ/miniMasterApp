@@ -176,7 +176,8 @@
             android:name="Mob-AppSecret"
             android:value="e38238653c0c30e4767483616480b596" />
 
-        <activity android:name=".module.message.MessageActivity"></activity>
+        <activity android:name=".module.message.MessageActivity" />
+        <activity android:name=".module.message.MessageSettingActivity"></activity>
     </application>
 
 </manifest>

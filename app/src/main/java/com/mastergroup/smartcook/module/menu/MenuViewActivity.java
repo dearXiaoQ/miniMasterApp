@@ -34,6 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**  菜谱详情页 */
 public class MenuViewActivity extends Activity implements Contract.MenuAloneView {
 
 

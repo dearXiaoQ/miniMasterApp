@@ -34,6 +34,7 @@ import com.mastergroup.smartcook.model.Recipes;
 import com.mastergroup.smartcook.module.menu.MenuListActivity;
 import com.mastergroup.smartcook.module.menu.MenuViewActivity;
 import com.mastergroup.smartcook.module.menu.SearchActivity;
+import com.mastergroup.smartcook.module.message.MessageActivity;
 import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.ToastUtils;
 import com.mastergroup.smartcook.util.Utils;
@@ -404,12 +405,16 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
         mEdit.setTextColor(getActivity().getResources().getColor(R.color.white));
     }*/
 
-    @OnClick(R.id.search_rl)
+    @OnClick({R.id.search_rl, R.id.message_iv})
     public void OnClick(View view) {
         switch (view.getId()) {
 
             case R.id.search_rl:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
+                break;
+
+            case R.id.message_iv:
+                startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
 
         }
