@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee"
-    tools:context="com.mastergroup.smartcook.module.message.MessageSettingActivity">
-
+    tools:context="com.mastergroup.smartcook.module.device.InductionTestActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -54,10 +53,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             >
 
 
-
+            <ImageView
+                android:layout_weight="0.48"
+                android:id="@+id/share"
+                android:src="@drawable/setting_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
         </LinearLayout>
 
 
@@ -69,184 +76,142 @@
             ></View>
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:id="@+id/comment_rl"
+        android:id="@+id/rl_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:padding="10dp"
         android:layout_below="@+id/relativeLayout"
+        android:layout_marginTop="1dp"
         android:layout_alignParentStart="true">
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17sp"
-            android:layout_toRightOf="@id/response_iv"
-            android:text="@string/comment"
-            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:text="IH_SW"
+            android:textSize="17sp"
             android:textColor="@color/gray_777"
             />
 
         <Switch
-            android:id="@+id/comment_sw"
+            android:id="@+id/switch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
-
             />
-
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:id="@+id/response_rl"
+        android:id="@+id/rl_cook_step"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:padding="10dp"
         android:layout_marginTop="1dp"
-        android:layout_below="@+id/comment_rl"
+        android:layout_below="@+id/rl_switch"
         android:layout_alignParentStart="true">
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17sp"
-            android:layout_toRightOf="@id/response_iv"
-            android:text="@string/response"
-            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:text="COOK_STEP"
+            android:textSize="17sp"
             android:textColor="@color/gray_777"
             />
 
-        <Switch
-            android:id="@+id/response_sw"
+        <TextView
+            android:id="@+id/cook_step_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
+            android:text="0"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             />
-
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/like_rl"
+        android:id="@+id/rl_ih_power"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="12dp"
-
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/response_rl"
+        android:padding="10dp"
+        android:layout_below="@+id/rl_cook_step"
         android:layout_alignParentStart="true">
 
+
+
         <TextView
+            android:id="@+id/power_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="17sp"
-            android:layout_toRightOf="@id/response_iv"
-            android:text="@string/like"
-            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:text="IH_POWER"
+            android:textSize="17sp"
+            android:layout_marginTop="3dp"
             android:textColor="@color/gray_777"
             />
 
-        <Switch
-            android:id="@+id/like_sw"
+        <TextView
+            android:id="@+id/power_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
+            android:layout_marginRight="5dp"
+            android:text="0.0"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
             />
 
+    
+        <ImageView
+            android:id="@+id/reduce_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/reduce_icon"
+            android:layout_below="@+id/power_title_tv"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/power_title_tv"
+             />
+        <ImageView
+            android:id="@+id/add_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/add_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/reduce_iv"
+            android:layout_marginRight="15dp"
+            />
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/fans_rl"
+    <SeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:padding="12dp"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/like_rl"
-        android:layout_alignParentStart="true">
+        android:layout_alignBottom="@+id/rl_ih_power"
+        android:layout_marginBottom="11dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="17sp"
-            android:layout_toRightOf="@id/response_iv"
-            android:text="@string/new_fans"
-            android:textSize="16sp"
-            android:textColor="@color/gray_777"
-            />
-
-        <Switch
-            android:id="@+id/fans_sw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
-            />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/system_message_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:padding="12dp"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/fans_rl"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="17sp"
-            android:layout_toRightOf="@id/response_iv"
-            android:text="@string/system_message"
-            android:textSize="16sp"
-            android:textColor="@color/gray_777"
-            />
-
-        <Switch
-            android:id="@+id/system_message_sw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
-            />
-
-    </RelativeLayout>
+        />
 
 
 </RelativeLayout>

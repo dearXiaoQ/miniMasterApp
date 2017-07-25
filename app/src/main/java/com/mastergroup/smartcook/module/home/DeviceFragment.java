@@ -35,7 +35,9 @@ import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.device.AddDevSettingWifiActivity;
+import com.mastergroup.smartcook.module.device.DeviceControlActivity;
 import com.mastergroup.smartcook.module.device.DeviceListActivity;
+import com.mastergroup.smartcook.module.device.InductionTestActivity;
 import com.mastergroup.smartcook.util.NetUtils;
 import com.mastergroup.smartcook.util.Utils;
 import com.mastergroup.smartcook.view.GosDeviceListAdapter;
@@ -345,7 +347,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                 //订阅设备
                 device.setSubscribe(productKey, true);
 
-
             }
         });
 
@@ -397,8 +398,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
         /** 用于设备绑定 */
         public void didBindDevice(GizWifiErrorCode result, String did) {
-            progressDialogCancel();
-
+            //progressDialogCancel();
+            if(result == GizWifiErrorCode.GIZ_SDK_SUCCESS) { //绑定成功
+                Log.i("GizDev", " 绑定设备成功！");
+            } else {
+                Log.i("GizDev", " 绑定设备失败！ ");
+            }
         }
 
         /** 用于设备绑定（旧） */
@@ -511,7 +516,6 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
             llNoOfflineDevices.setVisibility(View.GONE);
             slvOfflineDevices.setVisibility(View.VISIBLE);
         }
-
     }
 
 
@@ -549,12 +553,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                     GizWifiSDK.sharedInstance().unbindDevice(uid, token, msg.obj.toString());
                     break;
 
-                case TOCONTROL:
-//                    Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
-//                    intent.putExtras(bundle);
-//                    startActivityForResult(intent, 1);
+                case TOCONTROL:     //本来是注释的
+                    Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 1);
                     break;
 
                 case TOAST:

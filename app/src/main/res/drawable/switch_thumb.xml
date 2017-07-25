@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- switch滑块的样式 -->
     <size
-        android:width="20dp"
-        android:height="20dp"
+        android:width="22dp"
+        android:height="22dp"
         ></size>
     <solid
         android:color="@android:color/white"
@@ -13,8 +13,8 @@
         android:radius="9.5dp"
         ></corners>
 
-    <stroke android:width="0.3dp"
-            android:color="@color/background_light_gray"
+    <stroke android:width="0.5dp"
+            android:color="@color/gray_bbb"
         ></stroke>
 
 </shape>

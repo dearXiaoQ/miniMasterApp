@@ -177,7 +177,13 @@
             android:value="e38238653c0c30e4767483616480b596" />
 
         <activity android:name=".module.message.MessageActivity" />
-        <activity android:name=".module.message.MessageSettingActivity"></activity>
+        <activity android:name=".module.message.MessageSettingActivity" />
+        <activity android:name=".module.device.InductionTestActivity" />
+        <activity android:name=".module.message.CommentActivity" />
+        <activity android:name=".module.message.ResponseActivity" />
+        <activity android:name=".module.message.LikeActivity" />
+        <activity android:name=".module.message.FansActivity" />
+        <activity android:name=".module.message.SystemMessageActivity"></activity>
     </application>
 
 </manifest>

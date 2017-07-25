@@ -2,8 +2,10 @@ package com.mastergroup.smartcook.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,9 @@ import android.widget.TextView;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.module.device.InductionTestActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("InflateParams")
@@ -79,6 +83,20 @@ public class GosDeviceListAdapter extends BaseAdapter {
 				|| device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
 			if (device.isBind()) {// 已绑定设备
 				holder.getTvDeviceMac().setText(device.getMacAddress());
+
+				holder.getDevLinearLayout().setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(context, InductionTestActivity.class);
+						//intent.putExtra("gizDev", device);
+						ArrayList<Parcelable> devList = new ArrayList<>();
+						devList.add(device);
+						intent.putParcelableArrayListExtra("gizDev", devList);
+						context.startActivity(intent);
+					}
+				});
+
+
 				if (device.isLAN()) {
 					holder.getTvDeviceStatus().setText(LAN);
 				} else {
@@ -146,11 +164,20 @@ class Holder {
 
 	private LinearLayout llLeft;
 
+	private LinearLayout devLinearLayout;
+
 	public LinearLayout getLlLeft() {
 		if (null == llLeft) {
 			llLeft = (LinearLayout) view.findViewById(R.id.llLeft);
 		}
 		return llLeft;
+	}
+
+	public LinearLayout getDevLinearLayout() {
+		if (devLinearLayout == null) {
+			devLinearLayout = (LinearLayout) view.findViewById(R.id.linearLayout1);
+		}
+		return devLinearLayout;
 	}
 
 	public ImageView getImgRight() {

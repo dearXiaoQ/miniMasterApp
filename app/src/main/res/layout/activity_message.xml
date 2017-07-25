@@ -33,7 +33,7 @@
             android:layout_centerInParent="true"
             android:text="@string/user_message"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
 
         <TextView
@@ -58,7 +58,7 @@
 
             <ImageView
                 android:layout_weight="0.48"
-                android:id="@+id/share"
+                android:id="@+id/message_setting_iv"
                 android:src="@drawable/setting_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"

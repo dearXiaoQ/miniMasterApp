@@ -137,8 +137,16 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
     }
 
     void initData() {
-
-
+        /** 瀑布流设置 */
+        mRvMenu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));   //RecyclerView 瀑布流布局
+        //   mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2)); //等宽布局
+        //设置item之间的间隔
+        SpacesItemDecoration decoration = new SpacesItemDecoration(6);
+        mRvMenu.addItemDecoration(decoration);
+        mRvMenu.setNestedScrollingEnabled(false);
+        //设置Item增加、移除动画
+        mStaggerGridLayoutManager = (StaggeredGridLayoutManager) mRvMenu.getLayoutManager();
+        mRvMenu.setItemAnimator(new DefaultItemAnimator());
 
         mScrollView.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -222,17 +230,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
 
         //   ptrCFL.setEnabled(false);
         mAdapter = new StaggeredMenuRVAdapter();
-        mRvMenu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));   //RecyclerView 瀑布流布局
-        //   mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2)); //等宽布局
-        //设置item之间的间隔
-        mRvMenu.setAdapter(mAdapter);
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
-        mRvMenu.addItemDecoration(decoration);
-        mRvMenu.setNestedScrollingEnabled(false);
-        //设置Item增加、移除动画
-        mStaggerGridLayoutManager = (StaggeredGridLayoutManager) mRvMenu.getLayoutManager();
-        mRvMenu.setItemAnimator(new DefaultItemAnimator());
 
+        mRvMenu.setAdapter(mAdapter);
         refreshLayout.setRefreshing(false);
 
     }
@@ -279,8 +278,10 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
     @Override
     public void onGetBannerSuccess(List<Recipes.RecipesBean> banner_list) {
         this.recipes_banner = banner_list;
-        for (Recipes.RecipesBean s : recipes_banner) {
-            images.add(Constant.BASEURL + s.getDetail().getImgSrc());
+        if(!(images.size() == 5)) {
+            for (Recipes.RecipesBean s : recipes_banner) {
+                images.add(Constant.BASEURL + s.getDetail().getImgSrc());
+            }
         }
         setBanner();
     }
@@ -325,7 +326,7 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
             if(position == 0) {
                 LogUtils.d("menuFragment", "设置第一张图片高度");
                 ViewGroup.LayoutParams params = holder.mIvMenuCover.getLayoutParams();
-                params.height = 800;
+                params.height = 700;
                 holder.mIvMenuCover.setLayoutParams(params);
             }
 
