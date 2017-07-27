@@ -1,5 +1,6 @@
 package com.mastergroup.smartcook.module.message;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.model.Like;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,8 +30,8 @@ public class MessageActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
     @Bind(R.id.comment_iv)
     ImageView commentIv;
-    @Bind(R.id.rl_mycollect)
-    RelativeLayout rlMycollect;
+    @Bind(R.id.comment_rl)
+    RelativeLayout commentRl;
     @Bind(R.id.response_iv)
     ImageView responseIv;
     @Bind(R.id.response_rl)
@@ -47,14 +49,17 @@ public class MessageActivity extends AppCompatActivity {
     @Bind(R.id.system_message_rl)
     RelativeLayout systemMessageRl;
 
+    Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         ButterKnife.bind(this);
+        mContext = this;
     }
 
-    @OnClick({R.id.iv_return, R.id.message_setting_iv, R.id.comment_iv, R.id.response_rl, R.id.like_rl, R.id.fans_rl, R.id.system_message_rl})
+    @OnClick({R.id.iv_return, R.id.message_setting_iv, R.id.comment_rl, R.id.response_rl, R.id.like_rl, R.id.fans_rl, R.id.system_message_rl})
     public void Onclick(View view) {
         switch (view.getId()) {
 
@@ -63,7 +68,26 @@ public class MessageActivity extends AppCompatActivity {
                 break;
 
             case R.id.message_setting_iv:
-                startActivity(new Intent(MessageActivity.this, MessageSettingActivity.class));
+                startActivity(new Intent(mContext, MessageSettingActivity.class));
+                break;
+
+            case R.id.comment_rl:
+                startActivity(new Intent(mContext, CommentActivity.class));
+                break;
+            case R.id.response_rl:
+                startActivity(new Intent(mContext, ResponseActivity.class));
+                break;
+
+            case R.id.like_rl:
+                startActivity(new Intent(mContext, LikeActivity.class));
+                break;
+
+            case R.id.fans_rl:
+                startActivity(new Intent(mContext, FansActivity.class));
+                break;
+
+            case R.id.system_message_rl:
+                startActivity(new Intent(mContext, SystemMessageActivity.class));
                 break;
 
         }

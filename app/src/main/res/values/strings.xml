@@ -106,6 +106,8 @@
     <string name="new_fans">新的粉丝</string>
     <string name="system_message">系统消息</string>
 
+    <!-- commentActivity -->
+    <string name="no_comment">没有评论</string>
 
     <!-- FavoriteListActivity -->
     <string name="my_favorite_list">收藏的菜谱</string>

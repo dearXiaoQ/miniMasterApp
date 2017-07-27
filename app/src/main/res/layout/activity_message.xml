@@ -77,7 +77,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_mycollect"
+        android:id="@+id/comment_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -122,7 +122,7 @@
         android:padding="10dp"
         android:layout_alignParentStart="true"
         android:layout_marginTop="1dp"
-        android:layout_below="@+id/rl_mycollect">
+        android:layout_below="@+id/comment_rl">
 
         <ImageView
             android:id="@+id/response_iv"
