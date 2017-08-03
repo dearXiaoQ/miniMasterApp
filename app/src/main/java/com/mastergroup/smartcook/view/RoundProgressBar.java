@@ -41,6 +41,9 @@ public class RoundProgressBar extends View {
 	 */
 	private int textColor;
 
+	/** 进度圆环颜色 */
+	private int progressColor;
+
 	/**
 	 * 中间进度百分比的字符串的字体
 	 */
@@ -89,12 +92,13 @@ public class RoundProgressBar extends View {
 		TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
 		// 获取自定义属性和默认值
-		int color = context.getResources().getColor(R.color.black);
+		int color = context.getResources().getColor(R.color.supper_gray); //原来是black
 		roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, color);
 		roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, color);
-		textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLACK);
-		textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 35);
-		roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 3);
+		progressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, context.getResources().getColor(R.color.colorPrimaryDark));
+		textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, context.getResources().getColor(R.color.app_text_color_dark444)); //原来是black
+		textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 55);  //原来35
+		roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 12);
 		max = mTypedArray.getInteger(R.styleable.RoundProgressBar_max, 100);
 		textIsDisplayable = mTypedArray.getBoolean(R.styleable.RoundProgressBar_textIsDisplayable, true);
 		style = mTypedArray.getInt(R.styleable.RoundProgressBar_style, 0);
@@ -138,8 +142,8 @@ public class RoundProgressBar extends View {
 		 */
 
 		// 设置进度是实心还是空心
-		paint.setStrokeWidth(roundWidth * 2); // 设置圆环的宽度
-		paint.setColor(roundProgressColor); // 设置进度的颜色
+		paint.setStrokeWidth(roundWidth); // 设置圆环的宽度
+		paint.setColor(progressColor); // 设置进度的颜色
 		paint.setAntiAlias(true); // 消除锯齿
 		RectF oval = new RectF(centre - radius + 1.5f, centre - radius + 1.5f, centre + radius - 1.5f,
 				centre + radius - 1.5f); // 用于定义的圆弧的形状和大小的界限

@@ -25,7 +25,7 @@ public class WiFiConfigModuleBaseActivity extends GIZBaseActivity {
 		/** 用于设备配置 */
 		public void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
 			WiFiConfigModuleBaseActivity.this.didSetDeviceOnboarding(result, mac, did, productKey);
-		};
+		}
 
 	};
 

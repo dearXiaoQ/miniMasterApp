@@ -162,7 +162,15 @@
     <string name="searching_device">正在搜索设备</string>
     <string name="searched_device">已搜索到设备</string>
     <string name="trying_join_device">正在尝试与设备连接...</string>
+    <string name="connection">正在连接</string>
+    <string name="connection_tip">路由器、手机和设备尽量靠近</string>
+    <string name="find_device">找到设备</string>
+    <string name="device_register_giz">设备注册到机智云</string>
+    <string name="init_device">初始化设备</string>
 
+    <!-- AddDevSelectActivity -->
+    <string name="select_type">选择设备类型</string>
+    <string name="ih_rood">智能电磁炉</string>
 
     <!-- searchActivity -->
     <string name="search_history">历史搜索</string>
@@ -329,7 +337,9 @@
     <string name="workwifi_isnull">确定密码为空吗？</string>
     <string name="choose_wifi_list_title">请选择可用的Wi-Fi网络</string>
     <string name="softssid_error">设备热点故障，请返回</string>
-
+    <string name="input_home_wifi_pwd">输入家中的wi-Fi密码</string>
+    <string name="select_wifi">当前 Wi-Fi:</string>
+    <string name="change_wifi">更换网络</string>
 
     <!-- MenuViewActivity -->
     <string name="addFollower_please_login">点赞前请登录</string>

@@ -1,95 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/bgColor"
+    >
 
-    <RelativeLayout
-        android:id="@+id/head_rl"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        >
-
-        <ImageView
-            android:id="@+id/back_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_return"
-
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/airlink_ready_title"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:id="@+id/textView4" />
-
-
-
-    </RelativeLayout>
-
-
-
-    <Button
-        android:id="@+id/next_btn"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="20dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="0dp"
-        android:text="@string/next" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:layout_above="@+id/next_btn"
-        android:layout_alignParentLeft="true">
-
-        <CheckBox
-            android:id="@+id/cbSelect"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/checkbox_hook_selector"
-            android:button="@null" />
-
-        <TextView
-            android:id="@+id/tvSelect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/finished"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-
+    
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/cancel_tv"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/cancel"
+        android:textColor="@color/line_gray"
+        />
+    
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/softreset"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:text="@string/airlink_ready_message" />
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:background="@drawable/setting_wifi_item_shape"
+        android:padding="20dp"
+        >
 
-    <com.mastergroup.smartcook.view.GifView
-        android:id="@+id/softreset"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/head_rl"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:enabled="false" />
+        <Button
+            android:id="@+id/next_btn"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="0dp"
+            android:text="@string/next"
+            android:visibility="gone"
+            />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_below="@+id/textView1"
+            android:layout_above="@+id/next_btn"
+            android:layout_alignParentLeft="true">
+
+            <CheckBox
+                android:id="@+id/cbSelect"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/checkbox_hook_selector"
+                android:button="@null" />
+
+            <TextView
+                android:id="@+id/tvSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/finished"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/softreset"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/airlink_ready_message" />
+
+        <com.mastergroup.smartcook.view.GifView
+            android:id="@+id/softreset"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/head_rl"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:enabled="false" />
+
+    </RelativeLayout>
 </RelativeLayout>

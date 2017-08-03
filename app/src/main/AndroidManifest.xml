@@ -183,7 +183,8 @@
         <activity android:name=".module.message.ResponseActivity" />
         <activity android:name=".module.message.LikeActivity" />
         <activity android:name=".module.message.FansActivity" />
-        <activity android:name=".module.message.SystemMessageActivity"></activity>
+        <activity android:name=".module.message.SystemMessageActivity" />
+        <activity android:name=".module.device.AddDevSelectTypeActivity"></activity>
     </application>
 
 </manifest>

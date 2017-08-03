@@ -34,6 +34,7 @@ import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.module.device.AddDevSelectTypeActivity;
 import com.mastergroup.smartcook.module.device.AddDevSettingWifiActivity;
 import com.mastergroup.smartcook.module.device.DeviceControlActivity;
 import com.mastergroup.smartcook.module.device.DeviceListActivity;
@@ -679,7 +680,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                 break;
 
             case R.id.iv_more:
-                startActivity(new Intent(moreBtn.getContext(), AddDevSettingWifiActivity.class));
+                startActivity(new Intent(moreBtn.getContext(), AddDevSelectTypeActivity.class));
 
                 break;
 

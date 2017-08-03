@@ -8,9 +8,13 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="toastColor">#dd666666</color>
+    <color name="bgColor">#ee555555</color>
+
 
     <color name="app_orange">#ddff7043</color>
     <color name="app_gray_blue">#dd78909c</color>
+    <color name="app_text_color_dark444">#444</color>
+    <color name="app_text_color_dark555">#555</color>
     <color name="app_text_color_dark333">#333</color>
     <color name="app_text_color_dark">#222</color>
     <color name="app_text_color_dark111">#111</color>

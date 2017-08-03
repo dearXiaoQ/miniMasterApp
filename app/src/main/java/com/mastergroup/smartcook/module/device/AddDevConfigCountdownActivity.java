@@ -1,16 +1,21 @@
 package com.mastergroup.smartcook.module.device;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.module.CommonModule.GIZBaseActivity;
+import com.mastergroup.smartcook.util.ToastUtils;
 import com.mastergroup.smartcook.view.RoundProgressBar;
 
 import java.util.ArrayList;
@@ -18,43 +23,92 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AddDevConfigCountdownActivity extends WiFiConfigModuleBaseActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-    /** The tv Time */
+
+public class AddDevConfigCountdownActivity extends GIZBaseActivity {
+
+
+    @Bind(R.id.cancel_tv)
+    TextView cancelTv;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
+    @Bind(R.id.rpbConfig)
+    RoundProgressBar rpbConfig;
+
+    @Bind(R.id.textView6)
+    TextView textView6;
+    @Bind(R.id.find_device_tv)
+    TextView findDeviceTv;
+    @Bind(R.id.textView9)
+    TextView textView9;
+    @Bind(R.id.device_register_giz)
+    TextView deviceRegisterGiz;
+    @Bind(R.id.textView7)
+    TextView textView7;
+    @Bind(R.id.init_device)
+    TextView initDevice;
+    /**
+     * The tv Time
+     */
     private TextView tvTimer;
 
-    /** The rpb Config */
-    private RoundProgressBar rpbConfig;
 
-    /** The timer */
+    /**
+     * The timer
+     */
     Timer timer;
 
-    /** 倒计时  */
+    /**
+     * 倒计时
+     */
     int secondleft = 60;
 
-    /** 配置用参数 */
+    /**
+     * 配置用参数
+     */
     String workSSID, workSSIDPsw;
 
-    /** The String */
+    /**
+     * The String
+     */
     String timerText;
 
-    List<GizWifiGAgentType>  modeList, modeDataList;
+    List<GizWifiGAgentType> modeList, modeDataList;
+
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_dev_config_countdown);
+        setContentView(R.layout.config_count_down_item);
+        ButterKnife.bind(this);
+        // ButterKnife.bind(this);
+        mContext = this;
+       /* initData();
+        initView();
+        startAirlink();*/
+
+        tvTimer = (TextView) findViewById(R.id.title_tv);
 
         initData();
-        initView();
         startAirlink();
 
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GizWifiSDK.sharedInstance().setListener(mListener);
     }
 
     private void initData() {
         workSSID = spf.getString("workSSID", "");
         workSSIDPsw = spf.getString("workSSIDPsw", "");
-        modeDataList = new ArrayList<GizWifiGAgentType>();
+        modeDataList = new ArrayList<>();
         modeDataList.add(GizWifiGAgentType.GizGAgentMXCHIP);
         modeDataList.add(GizWifiGAgentType.GizGAgentHF);
         modeDataList.add(GizWifiGAgentType.GizGAgentRTK);
@@ -65,9 +119,11 @@ public class AddDevConfigCountdownActivity extends WiFiConfigModuleBaseActivity 
         modeDataList.add(GizWifiGAgentType.GizGAgentFSK);
         modeDataList.add(GizWifiGAgentType.GizGAgentMXCHIP3);
         modeDataList.add(GizWifiGAgentType.GizGAgentBL);
-        modeList = new ArrayList<GizWifiGAgentType>();
+        modeList = new ArrayList<>();
 
-        modeList.add(modeDataList.get(AddDevSettingWifiActivity.modeNum));
+        modeList.add(GizWifiGAgentType.GizGAgentESP);
+
+        GizWifiSDK.sharedInstance().setDeviceOnboarding(workSSID, workSSIDPsw, GizWifiConfigureMode.GizWifiAirLink, null, 60, modeList);
 
     }
 
@@ -156,6 +212,7 @@ public class AddDevConfigCountdownActivity extends WiFiConfigModuleBaseActivity 
             @Override
             public void run() {
                 secondleft--;
+
                 rpbConfig.setProgress((60 - secondleft) * (100 / 60.0));
                 if (secondleft == 58) {
                     timerText = (String) getText(R.string.searching_device);
@@ -170,5 +227,23 @@ public class AddDevConfigCountdownActivity extends WiFiConfigModuleBaseActivity 
             }
         }, 1000, 1000);
     }
+
+
+    GizWifiSDKListener mListener = new GizWifiSDKListener() {
+        //等待配置完成或超时，回调配置完成接口
+        @Override
+        public void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                // 配置成功
+                ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "配置成功！");
+            } else if (result == GizWifiErrorCode.GIZ_SDK_DEVICE_CONFIG_IS_RUNNING) {
+                // 正在配置
+                ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "正在配置！");
+            } else {
+                // 配置失败
+                ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "配置失败！");
+            }
+        }
+    };
 
 }

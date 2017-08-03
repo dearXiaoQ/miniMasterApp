@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="@drawable/setting_wifi_item_shape"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerVertical="true"
+      >
+
+
+
+        <TextView
+            android:id="@+id/title_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="19sp"
+            android:text="@string/input_home_wifi_pwd"
+            android:textColor="@color/black"
+            />
+
+        <RelativeLayout
+            android:id="@+id/pwd_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_Tv"
+            android:background="@drawable/setting_wifi_pwd_item_shape"
+            android:padding="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            >
+
+            <ImageView
+                android:id="@+id/lock_iv"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/lock_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_toEndOf="@+id/lock_iv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:textColor="@color/black"
+                android:text="Mk2925288"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_wifi"
+            android:layout_below="@+id/pwd_rl"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:layout_alignStart="@+id/pwd_rl"
+            />
+
+        <TextView
+            android:id="@+id/change_wifi_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_wifi"
+            android:layout_below="@+id/pwd_rl"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:textSize="14.5sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_alignEnd="@+id/pwd_rl" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/gray"
+            android:layout_below="@id/change_wifi_tv"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/config_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/confirm"
+            android:layout_below="@+id/view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            />
+
+        <!--    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="-20dp"
+                android:text="仅支持2.4G Wi-F"
+                android:layout_centerHorizontal="true"
+                />-->
+
+    </RelativeLayout>
+
+</RelativeLayout>

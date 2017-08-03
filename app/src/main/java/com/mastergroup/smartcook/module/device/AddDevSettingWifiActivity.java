@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -19,12 +20,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.net.wifi.WifiInfo;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.util.NetUtils;
@@ -32,15 +32,31 @@ import com.mastergroup.smartcook.util.NetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by xiaoQ on 2017/5/22.
  */
 
-public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity implements View.OnClickListener {
+public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity {
 
+    @Bind(R.id.title_Tv)
+    TextView titleTv;
+    @Bind(R.id.lock_iv)
+    ImageView lockIv;
+    @Bind(R.id.pwd_rl)
+    RelativeLayout pwdRl;
+    @Bind(R.id.change_wifi_tv)
+    TextView changeWifiTv;
+    @Bind(R.id.view)
+    View view;
+    @Bind(R.id.config_btn)
+    TextView configBtn;
     private ImageView backIv, moreWifiIv;
 
-    private Button  visibleBtn;
+    private Button visibleBtn;
 
     private EditText wifiNameEt, pwdEt;
 
@@ -48,60 +64,117 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
 
     private ArrayList<ScanResult> wifiList;
 
-    /** wifi信息  */
+    /**
+     * wifi信息
+     */
     public WifiInfo wifiInfo;
 
-    /** The et SSID */
+    /**
+     * The et SSID
+     */
     private EditText etSSID;
 
-    /** The ll ChooseMode */
+    /**
+     * The ll ChooseMode
+     */
     private LinearLayout llChooseMode;
 
-    /** The et Psw */
+    /**
+     * The et Psw
+     */
     private EditText etPsw;
 
     private Button nextBtn;
 
-    /** The cb Laws */
+    /**
+     * The cb Laws
+     */
     private CheckBox cbLaws;
 
-    /** The img WiFiList */
-    private  ImageView imgWiFiList;
+    /**
+     * The img WiFiList
+     */
+    private ImageView imgWiFiList;
 
-    /** The tv Mode */
+    /**
+     * The tv Mode
+     */
     private TextView tvMode;
 
-    /** 配置用参数 */
-    private  String softSSID, workSSID, workSSIDPsw;
+    /**
+     * 配置用参数
+     */
+    private String softSSID, workSSID, workSSIDPsw;
 
-    /** The data */
+    /**
+     * The data
+     */
     List<String> modeList;
 
-    /** The Adapter */
+    /**
+     * The Adapter
+     */
     ModeListAdapter modeListAdpter;
 
-    /** The modeNum */
+    /**
+     * The modeNum
+     */
     static int modeNum = 4;
 
-    /** this Context */
+    /**
+     * this Context
+     */
     private Context context;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_wifi_fragment);
+        setContentView(R.layout.wifi_setting_item);
         this.context = this;
 
-        initView();
+       /* initView();大佬
         initData();
-        initEvent();
+        initEvent();*/
+
+        showDialogView();
 
     }
 
+    private void showDialogView() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.wifi_setting_item, null);
+        Dialog mDialog = new Dialog(context);
+        mDialog.setContentView(dialogView);
+        mDialog.show();
+        mDialog.setCancelable(false);
+        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        ButterKnife.bind(mDialog);
+        configBtn = (TextView) dialogView.findViewById(R.id.config_btn);
+        configBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, AddDevSetDevStateActivity.class));
+            }
+        });
+
+        /** 按比例设置宽高 */
+        /*DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        int displayWidth = dm.widthPixels;
+        int displayHeight = dm.heightPixels;
+        android.view.WindowManager.LayoutParams p = mDialog.getWindow().getAttributes();  //获取对话框当前的参数值
+        p.width = (int) (displayWidth * 0.8);    //宽度设置为屏幕的0.5
+        p.height = (int) (displayHeight * 0.4);    //宽度设置为屏幕的0.5
+        mDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        mDialog.getWindow().setAttributes(p);     //设置生效*/
+
+
+    }
+
+
+
     private void initEvent() {
-        imgWiFiList.setOnClickListener(this);
-        llChooseMode.setOnClickListener(this);
+      /*  imgWiFiList.setOnClickListener(this);
+        llChooseMode.setOnClickListener(this);*/
 
         cbLaws.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -132,7 +205,7 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
     protected void onResume() {
         super.onResume();
 
-        tvMode.setText(modeList.get(modeNum));
+  /*      tvMode.setText(modeList.get(modeNum));
         //预设workSSID && workSSIDPsw
         if (!TextUtils.isEmpty(workSSID)) {
             etSSID.setText(workSSID);
@@ -143,15 +216,14 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
             }
         } else {
             etSSID.setText(NetUtils.getCurentWifiSSID(this));
-        }
+        }*/
 
     }
 
 
-
     private void initView() {
         nextBtn = (Button) findViewById(R.id.next_btn);
-        nextBtn.setOnClickListener(this);
+     //   nextBtn.setOnClickListener(this);
 
         llChooseMode = (LinearLayout) findViewById(R.id.llChooseMode);
         tvMode = (TextView) findViewById(R.id.tvMode);
@@ -164,7 +236,7 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
     }
 
 
-
+/*
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -175,7 +247,7 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
 
 
             case R.id.next_btn:
-             //   startActivity(new Intent(AddDevSettingWifiActivity.this, AddDevSetDevStateActivity.class));
+                //   startActivity(new Intent(AddDevSettingWifiActivity.this, AddDevSetDevStateActivity.class));
 
                 workSSID = etSSID.getText().toString();
                 workSSIDPsw = etPsw.getText().toString();
@@ -220,40 +292,40 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
 
             case R.id.imgWiFiList:
 
-                    AlertDialog.Builder dia = new AlertDialog.Builder(context);
-                    View mView = View.inflate(context, R.layout.alert_gos_wifi_list, null);
-                    ListView listview = (ListView) mView.findViewById(R.id.wifi_list);
-                    List<ScanResult> rsList = NetUtils.getCurrentWifiScanResult(this);
-                    List<String> localList = new ArrayList<String>();
-                    localList.clear();
-                    wifiList = new ArrayList<ScanResult>();
-                    wifiList.clear();
-                    for (ScanResult sss : rsList) {
+                AlertDialog.Builder dia = new AlertDialog.Builder(context);
+                View mView = View.inflate(context, R.layout.alert_gos_wifi_list, null);
+                ListView listview = (ListView) mView.findViewById(R.id.wifi_list);
+                List<ScanResult> rsList = NetUtils.getCurrentWifiScanResult(this);
+                List<String> localList = new ArrayList<String>();
+                localList.clear();
+                wifiList = new ArrayList<ScanResult>();
+                wifiList.clear();
+                for (ScanResult sss : rsList) {
 
-                        if (sss.SSID.contains(SoftAP_Start)) {
+                    if (sss.SSID.contains(SoftAP_Start)) {
+                    } else {
+                        if (localList.toString().contains(sss.SSID)) {
                         } else {
-                            if (localList.toString().contains(sss.SSID)) {
-                            } else {
-                                localList.add(sss.SSID);
-                                wifiList.add(sss);
-                            }
+                            localList.add(sss.SSID);
+                            wifiList.add(sss);
                         }
                     }
-                    WifiListAdapter adapter = new WifiListAdapter(wifiList);
-                    listview.setAdapter(adapter);
-                    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                            ScanResult sResult = wifiList.get(arg2);
-                            String sSID = sResult.SSID;
-                            etSSID.setText(sSID);
-                            etPsw.setText("");
-                            create.dismiss();
-                        }
-                    });
-                    dia.setView(mView);
-                    create = dia.create();
-                    create.show();
+                }
+                WifiListAdapter adapter = new WifiListAdapter(wifiList);
+                listview.setAdapter(adapter);
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        ScanResult sResult = wifiList.get(arg2);
+                        String sSID = sResult.SSID;
+                        etSSID.setText(sSID);
+                        etPsw.setText("");
+                        create.dismiss();
+                    }
+                });
+                dia.setView(mView);
+                create = dia.create();
+                create.show();
 
 
                 break;
@@ -269,6 +341,7 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
         }
     }
 
+*/
 
     private void toAirlinkReady() {
         // TODO
@@ -338,7 +411,6 @@ public class AddDevSettingWifiActivity extends WiFiConfigModuleBaseActivity impl
         }
         return false;
     }
-
 
 
     class WifiListAdapter extends BaseAdapter {

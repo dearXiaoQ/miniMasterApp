@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgColor"
+    >
+
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textSize="22sp"
+        android:layout_margin="10dp"
+        android:textColor="@color/line_gray"
+        />
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_wifi_item_shape"
+        android:layout_centerInParent="true"
+        android:padding="30dp"
+        android:layout_margin="40dp"
+        >
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:textColor="@color/black"
+            android:text="@string/connection"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            />
+
+        <com.mastergroup.smartcook.view.RoundProgressBar
+            android:id="@+id/rpbConfig"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/title_tv"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/connection_tip"
+            android:layout_marginTop="17dp"
+            android:textColor="@color/app_text_color_dark555"
+            android:layout_below="@+id/rpbConfig"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="o "
+            android:textSize="15sp"
+            android:layout_alignBottom="@+id/find_device_tv"
+            android:layout_toStartOf="@+id/find_device_tv"
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:id="@+id/find_device_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="@string/find_device"
+            android:layout_below="@id/tvTimer"
+            android:layout_centerHorizontal="true"
+            android:textSize="13sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="o "
+            android:textSize="15sp"
+            android:layout_alignBottom="@+id/device_register_giz"
+            android:layout_toStartOf="@+id/device_register_giz"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/device_register_giz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="@string/device_register_giz"
+            android:layout_below="@+id/find_device_tv"
+            android:textSize="13sp"
+            android:layout_toEndOf="@+id/textView6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="o "
+            android:textSize="15sp"
+            android:layout_alignBottom="@+id/init_device"
+            android:layout_toStartOf="@+id/init_device"
+            android:id="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/init_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_aaa"
+            android:text="@string/init_device"
+            android:textSize="13sp"
+            android:layout_below="@+id/device_register_giz"
+            android:layout_toEndOf="@+id/textView9" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
