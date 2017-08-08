@@ -3,17 +3,26 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bgColor"
     >
 
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:textColor="@color/line_gray"
+        />
+
     <RelativeLayout
-        android:padding="10dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:background="@drawable/setting_wifi_item_shape"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_centerVertical="true"
-      >
-
+        >
 
 
         <TextView
@@ -21,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:textSize="19sp"
+            android:layout_marginTop="40dp"
+            android:textSize="21sp"
             android:text="@string/input_home_wifi_pwd"
             android:textColor="@color/black"
             />
@@ -33,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title_Tv"
             android:background="@drawable/setting_wifi_pwd_item_shape"
-            android:padding="8dp"
-            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             >
@@ -49,7 +58,8 @@
                 />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/wifi_pwd_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_toEndOf="@+id/lock_iv"
@@ -57,12 +67,13 @@
                 android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:textColor="@color/black"
-                android:text="Mk2925288"
+                android:inputType="text"
                 />
 
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/wifi_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/select_wifi"
@@ -95,7 +106,7 @@
             />
 
         <TextView
-            android:id="@+id/config_btn"
+            android:id="@+id/config_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -103,7 +114,7 @@
             android:text="@string/confirm"
             android:layout_below="@+id/view"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
             />
 

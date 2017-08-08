@@ -418,6 +418,8 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
 
+
+
         }
     }
 

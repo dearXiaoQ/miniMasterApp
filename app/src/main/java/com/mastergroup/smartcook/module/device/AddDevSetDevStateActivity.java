@@ -8,60 +8,50 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.view.GifView;
 
-public class AddDevSetDevStateActivity extends WiFiConfigModuleBaseActivity implements View.OnClickListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    /** The cb Select */
-    private CheckBox cbSelect;
+public class AddDevSetDevStateActivity extends WiFiConfigModuleBaseActivity  {
 
-    /** The Tv select */
-    private TextView tvSelect;
-
-    /** The Next Btn */
-    private Button nextBtn;
-
-    /** The Back Iv */
-    private ImageView backIv;
 
     Context mContext;
+    @Bind(R.id.cancel_tv)
+    TextView cancelTv;
+    @Bind(R.id.next_btn)
+    Button nextBtn;
+    @Bind(R.id.cbSelect)
+    CheckBox cbSelect;
+    @Bind(R.id.tvSelect)
+    TextView tvSelect;
+    @Bind(R.id.textView1)
+    TextView textView1;
+    @Bind(R.id.softreset)
+    GifView softreset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_dev_set_dev_satae_actiivty);
+        ButterKnife.bind(this);
         mContext = this;
-        initView();
+        initData();
         initEvent();
     }
 
     private void initEvent() {
-        nextBtn.setOnClickListener(this);
-        tvSelect.setOnClickListener(this);
         nextBtn.setEnabled(false);
 
-   /*     cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                   // nextBtn.setEnabled(true);
-                    Intent intent = new Intent(mContext, AddDevConfigCountdownActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                   // nextBtn.setEnabled(false);
-                }
-            }
-        });*/
 
         cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     Intent intent = new Intent(mContext, AddDevConfigCountdownActivity.class);
                     startActivity(intent);
                     finish();
@@ -71,14 +61,7 @@ public class AddDevSetDevStateActivity extends WiFiConfigModuleBaseActivity impl
 
     }
 
-    private void initView() {
-        cbSelect = (CheckBox) findViewById(R.id.cbSelect);
-        tvSelect = (TextView) findViewById(R.id.tvSelect);
-        nextBtn  = (Button) findViewById(R.id.next_btn);
-//        backIv   = (ImageView) findViewById(R.id.back_iv);
-
-        nextBtn.setOnClickListener(this);
- //       backIv.setOnClickListener(this);
+    private void initData() {
 
         /** 加载Gif */
         GifView gif = (GifView) findViewById(R.id.softreset);
@@ -86,35 +69,18 @@ public class AddDevSetDevStateActivity extends WiFiConfigModuleBaseActivity impl
     }
 
 
-    @Override
-    public void onClick(View view) {
 
+    @OnClick({R.id.cancel_tv})
+    public void OnClick(View view) {
         switch (view.getId()) {
+            case R.id.cancel_tv:
 
-            case R.id.back_iv:
-                AddDevSetDevStateActivity.this.finish();
+                this.finish();
                 break;
-
-            case R.id.next_btn:
-                Intent intent = new Intent(mContext, AddDevConfigCountdownActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.tvSelect:
-                if (cbSelect.isChecked()) {
-                    cbSelect.setChecked(false);
-                } else {
-                    cbSelect.setChecked(true);
-                }
-                break;
-
-            default:
-                break;
-
         }
 
     }
+
 
 
     @Override

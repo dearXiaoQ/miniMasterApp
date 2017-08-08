@@ -72,20 +72,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/line_gray"
-            android:orientation="vertical" >
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/llSure"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/alert_bottom_right_shape"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView2"
@@ -94,6 +87,14 @@
                 android:text="@string/besure"
                 android:textColor="@color/alert_blue" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/line_gray"
+            android:orientation="vertical" >
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

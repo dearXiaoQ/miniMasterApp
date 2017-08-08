@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 
 import com.mastergroup.smartcook.R;
 
@@ -19,8 +18,8 @@ public class AddDevSelectTypeActivity extends AppCompatActivity {
 
     @Bind(R.id.iv_return)
     ImageView ivReturn;
-    @Bind(R.id.message_iv)
-    ImageView messageIv;
+    @Bind(R.id.scan_iv)
+    ImageView scanIv;
     @Bind(R.id.head_rl)
     RelativeLayout headRl;
     @Bind(R.id.comment_iv)
@@ -40,7 +39,7 @@ public class AddDevSelectTypeActivity extends AppCompatActivity {
 
 
 
-    @OnClick({R.id.iv_return, R.id.ih_rood_rl})
+    @OnClick({R.id.iv_return, R.id.ih_rood_rl, R.id.scan_iv})
     public void OnClick(View view) {
         switch(view.getId()) {
             case R.id.iv_return:
@@ -49,6 +48,10 @@ public class AddDevSelectTypeActivity extends AppCompatActivity {
 
             case R.id.ih_rood_rl:
                 startActivity(new Intent(mContext, AddDevSettingWifiActivity.class));
+                break;
+
+            case R.id.scan_iv:
+                startActivity(new Intent(mContext, CookingActivity.class));
                 break;
         }
     }

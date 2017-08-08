@@ -1,10 +1,17 @@
 package com.mastergroup.smartcook.module.device;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +32,7 @@ import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class AddDevConfigCountdownActivity extends GIZBaseActivity {
@@ -139,6 +147,19 @@ public class AddDevConfigCountdownActivity extends GIZBaseActivity {
 
     }
 
+
+
+    @OnClick({R.id.cancel_tv})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_tv:
+
+                this.finish();
+                break;
+        }
+    }
+
+
     private enum handler_key {
 
         /**
@@ -236,14 +257,100 @@ public class AddDevConfigCountdownActivity extends GIZBaseActivity {
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 // 配置成功
                 ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "配置成功！");
+                showTipConnSuccess();
             } else if (result == GizWifiErrorCode.GIZ_SDK_DEVICE_CONFIG_IS_RUNNING) {
                 // 正在配置
                 ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "正在配置！");
+
             } else {
                 // 配置失败
                 ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, "配置失败！");
+                showTipDialog();
+
+
             }
         }
     };
 
+
+    /** 提示连接成功 */
+    private void showTipConnSuccess() {
+        final Dialog dialog = new AlertDialog.Builder(this).setView(new EditText(this)).create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        window.setContentView(R.layout.alert_gos_empty);
+
+        LinearLayout llNo, llSure;
+        llNo = (LinearLayout) window.findViewById(R.id.llNo);
+        llSure = (LinearLayout) window.findViewById(R.id.llSure);
+
+        TextView tipTv = (TextView) window.findViewById(R.id.tv_prompt);
+        tipTv.setText(mContext.getString(R.string.connection_dev_success));
+
+        llNo.setVisibility(View.GONE);
+
+        llNo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                finish();
+            }
+        });
+
+        llSure.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, AddDevSettingWifiActivity.class));
+            }
+        });
+    }
+
+    /** 提示取消 */
+    private void showTipDialog() {
+        final Dialog dialog = new AlertDialog.Builder(this).setView(new EditText(this)).create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        window.setContentView(R.layout.alert_gos_empty);
+
+        LinearLayout llNo, llSure;
+        llNo = (LinearLayout) window.findViewById(R.id.llNo);
+        llSure = (LinearLayout) window.findViewById(R.id.llSure);
+
+        TextView tipTv = (TextView) window.findViewById(R.id.tv_prompt);
+        tipTv.setText(mContext.getString(R.string.connection_dev_failure));
+
+
+        llNo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                finish();
+            }
+        });
+
+        llSure.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, AddDevSettingWifiActivity.class));
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

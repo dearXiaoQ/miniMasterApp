@@ -167,6 +167,8 @@
     <string name="find_device">找到设备</string>
     <string name="device_register_giz">设备注册到机智云</string>
     <string name="init_device">初始化设备</string>
+    <string name="connection_dev_failure">设备连接失败，是否要重试？</string>
+    <string name="connection_dev_success">设备连接成功！</string>
 
     <!-- AddDevSelectActivity -->
     <string name="select_type">选择设备类型</string>

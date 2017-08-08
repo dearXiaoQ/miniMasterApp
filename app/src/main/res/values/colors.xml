@@ -7,6 +7,8 @@
     <color name="colorPrimaryDark">#FF5722</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="myBlue">#00a6f5</color>
+
     <color name="toastColor">#dd666666</color>
     <color name="bgColor">#ee555555</color>
 

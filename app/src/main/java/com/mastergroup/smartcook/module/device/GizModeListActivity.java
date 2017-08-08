@@ -43,7 +43,7 @@ public class GizModeListActivity extends GizConfigModuleBaseActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                AddDevSettingWifiActivity.modeNum = arg2;
+             //   AddDevSettingWifiActivity.modeNum = arg2;
                 finish();
             }
         });
@@ -103,8 +103,8 @@ public class GizModeListActivity extends GizConfigModuleBaseActivity {
             tvModeText.setText(modeText);
 
             ImageView ivChoosed = (ImageView) convertView.findViewById(R.id.ivChoosed);
-            int i = AddDevSettingWifiActivity.modeNum;
-            if (position == i) {
+        //    int i = AddDevSettingWifiActivity.modeNum;
+            if (position == position) {
                 ivChoosed.setVisibility(View.VISIBLE);
             }
 

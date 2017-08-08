@@ -184,7 +184,8 @@
         <activity android:name=".module.message.LikeActivity" />
         <activity android:name=".module.message.FansActivity" />
         <activity android:name=".module.message.SystemMessageActivity" />
-        <activity android:name=".module.device.AddDevSelectTypeActivity"></activity>
+        <activity android:name=".module.device.AddDevSelectTypeActivity" />
+        <activity android:name=".module.device.CookingActivity"></activity>
     </application>
 
 </manifest>
