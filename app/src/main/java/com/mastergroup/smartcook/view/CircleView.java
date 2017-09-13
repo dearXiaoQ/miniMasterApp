@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -30,26 +29,27 @@ public class CircleView extends View {
 
     private Paint mRingPaint;
     private Paint mCirclePaint;
+    private Paint mBigCirclePaint;
     private Paint mWavePaint;
     private Paint linePaint;
     private Paint flowPaint;
     private Paint leftPaint;
 
     private int mRingSTROKEWidth = 15;
-    private int mCircleSTROKEWidth = 2;
+    private int mCircleSTROKEWidth = 3;
     private int mLineSTROKEWidth = 1;
 
     private int mCircleColor = Color.WHITE;
     private int mRingColor = Color.WHITE;
-    private int mWaveColor = Color.WHITE;
+    private int mWaveColor = Color.WHITE ;  //#00F5FF
 
     private Handler mHandler;
     private long c = 0L;
     private boolean mStarted = false;
     private final float f = 0.033F;
     private int mAlpha = 70;// 透明度
-    private float mAmplitude = 10.0F; // 振幅
-    private float mWaterLevel = 0.5F;// 水高(0~1)
+    private float mAmplitude = 15.0F; // 振幅
+    private float mWaterLevel = 0.8F;// 水高(0~1)
     private Path mPath;
 
     // 绘制文字显示在圆形中间，只是我没有设置，我觉得写在布局上也挺好的
@@ -107,6 +107,14 @@ public class CircleView extends View {
         mCirclePaint.setAntiAlias(true);
         mCirclePaint.setStrokeWidth(mCircleSTROKEWidth);
 
+        mBigCirclePaint = new Paint();
+        mBigCirclePaint.setColor(mCircleColor);
+        mBigCirclePaint.setStyle(Paint.Style.STROKE);
+        mBigCirclePaint.setAntiAlias(true);
+        mBigCirclePaint.setStrokeWidth(mCircleSTROKEWidth);
+        mBigCirclePaint.setStrokeWidth(8);
+
+
         linePaint = new Paint();
         linePaint.setColor(mCircleColor);
         linePaint.setStyle(Paint.Style.STROKE);
@@ -125,10 +133,12 @@ public class CircleView extends View {
         leftPaint.setAntiAlias(true);
         leftPaint.setTextSize(36);
 
+        mWaveColor = mContext.getResources().getColor(R.color.hai_blue);
+
         mWavePaint = new Paint();
         mWavePaint.setStrokeWidth(1.0F);
         mWavePaint.setColor(mWaveColor);
-        mWavePaint.setAlpha(mAlpha);
+        mWavePaint.setAlpha(150);
         mPath = new Path();
 
         mHandler = new Handler() {
@@ -201,7 +211,7 @@ public class CircleView extends View {
         // 得到控件的宽高
         int width = getWidth();
         int height = getHeight();
-        setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
+     //   setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
         // 计算当前油量线和水平中线的距离
         float centerOffset = Math.abs(mScreenWidth / 2 * mWaterLevel
                 - mScreenWidth / 4);
@@ -217,15 +227,15 @@ public class CircleView extends View {
             sweepAngle = 180F - 2 * horiAngle;
         }
 
-        canvas.drawLine(mScreenWidth * 3 / 8, mScreenHeight * 5 / 8,
-                mScreenWidth * 5 / 8, mScreenHeight * 5 / 8, linePaint);
+      /*  canvas.drawLine(mScreenWidth * 3 / 8, mScreenHeight * 5 / 8,
+                mScreenWidth * 5 / 8, mScreenHeight * 5 / 8, linePaint);*/
 
         float num = flowPaint.measureText(flowNum);
         canvas.drawText(flowNum, mScreenWidth * 4 / 8 - num / 2,
                 mScreenHeight * 4 / 8, flowPaint);
-        float left = leftPaint.measureText(flowLeft);
+      /*  float left = leftPaint.measureText(flowLeft);
         canvas.drawText(flowLeft, mScreenWidth * 4 / 8 - left / 2,
-                mScreenHeight * 3 / 8, leftPaint);
+                mScreenHeight * 3 / 8, leftPaint);*/
 
         // 如果未开始（未调用startWave方法）,绘制一个扇形
         if ((!mStarted) || (mScreenWidth == 0) || (mScreenHeight == 0)) {
@@ -279,6 +289,9 @@ public class CircleView extends View {
 
         canvas.drawCircle(mScreenWidth / 2, mScreenHeight / 2,
                 mScreenWidth / 4, mCirclePaint);
+
+        canvas.drawCircle(mScreenWidth / 2, mScreenHeight / 2,
+                mScreenWidth / 4 + 20, mBigCirclePaint);
         canvas.restore();
     }
 

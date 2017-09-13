@@ -1,6 +1,7 @@
 package com.mastergroup.smartcook.module.menu;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,19 +52,27 @@ public class DeviceSelectActivity extends AppCompatActivity {
 
     QuickAdapter adapter;
 
+    Context mContext;
+
+
+
     /**
      * 菜谱id
      */
     String recipesBeanID;
 
-    int cooking_model = 0;//烹饪模式 默认自动
 
+    int cooking_model = 0;//烹饪模式 默认自动
+    /** 到万用板的数据 */
+    byte[] recipesData = null;
+    /** 菜谱的数据  */
+    ArrayList<String>  soundSourceData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_device_select);
+        mContext = this;
 
         ButterKnife.bind(this);
         initView();
@@ -76,6 +85,8 @@ public class DeviceSelectActivity extends AppCompatActivity {
         mTvTitle.setText("选择设备");
         mTvMoreButton.setVisibility(View.GONE);
         recipesBeanID = getIntent().getStringExtra("_id");
+        recipesData = getIntent().getByteArrayExtra("recipesData");
+        soundSourceData = getIntent().getStringArrayListExtra("soundSourceData");
 
         initSwitch();
 
@@ -109,16 +120,22 @@ public class DeviceSelectActivity extends AppCompatActivity {
         mRvDevice.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                GizWifiDevice device = devices.get(position);
+          /*      GizWifiDevice device = devices.get(position);
                 device.setListener(gizWifiDeviceListener);
                 String productKey = device.getProductKey();
                 //订阅设备
-                device.setSubscribe(productKey, true);
+                device.setSubscribe(productKey, true);*/
+                Intent intent = new Intent(mContext, com.mastergroup.smartcook.module.device.CookingActivity.class);
+                intent.putExtra("gizDevice", devices.get(position));
+                intent.putExtra("recipesData", recipesData);
+                intent.putStringArrayListExtra("soundSourceData", soundSourceData);
+                startActivity(intent);
+                finish();
 
             }
         });
         String uid = App.spUtils.getString(App.mContext.getString(R.string.giz_uid));
-        String token = App.spUtils.getString(App.mContext.getString(R.string.giz_token));
+        String token = App.spUtils.getString(App.mContext.getString(R.string.giz_token)); //
         GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
         GizWifiSDK.sharedInstance().getBoundDevices(uid, token, null);
     }
@@ -127,7 +144,12 @@ public class DeviceSelectActivity extends AppCompatActivity {
     private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
 
         public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> list) {
-            // 提示错误原因
+
+            /** 超过7天使用自动登录，会出现token过期现象 */
+            if(result == GizWifiErrorCode.GIZ_OPENAPI_TOKEN_EXPIRED) {
+                //提示重新登录
+            }
+
             if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 LogUtils.e("GizWifiSDK", "result: " + result.name());
             } else {
@@ -137,11 +159,13 @@ public class DeviceSelectActivity extends AppCompatActivity {
                 for (GizWifiDevice gizWifiDevice : list) {
                     if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
                             || GizWifiDeviceNetStatus.GizDeviceControlled == gizWifiDevice.getNetStatus()) {
-                        if (gizWifiDevice.isBind()) {
+                        if (gizWifiDevice.isBind() || gizWifiDevice.isLAN()) {
+                            gizWifiDevice.setSubscribe(true);
                             des.add(gizWifiDevice);
                         }
                     }
                 }
+
                 devices = des;
                 mRvDevice.setAdapter(new QuickAdapter());
             }
@@ -151,6 +175,7 @@ public class DeviceSelectActivity extends AppCompatActivity {
     /**
      * 设备监听
      */
+
     protected GizWifiDeviceListener gizWifiDeviceListener = new GizWifiDeviceListener() {
 
         @Override
@@ -193,8 +218,16 @@ public class DeviceSelectActivity extends AppCompatActivity {
 
         @Override
         protected void convert(BaseViewHolder viewHolder, GizWifiDevice item) {
+
+            String devName = mContext.getString(R.string.device_name);
+            if(item.getProductName().equals("smartCook")) {
+                devName = mContext.getString(R.string.rhood);
+            }
+
             viewHolder.setText(R.id.tvDeviceName, item.getProductName())
-                    .setText(R.id.tvDeviceMac, item.getMacAddress());
+                    .setText(R.id.tvDeviceMac, item.getMacAddress())
+                    .setText(R.id.tvDeviceStatus, devName);
+
         }
     }
 

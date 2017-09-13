@@ -395,16 +395,6 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
     }
 
 
- /*   @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu, menu);
-        *//** 设置搜索输入框的颜色 *//*
-        final MenuItem item = menu.findItem(R.id.action_search);
-        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(item);
-        SearchView.SearchAutoComplete mEdit = (SearchView.SearchAutoComplete) mSearchView.findViewById(R.id.search_src_text);
-        mEdit.setTextColor(getActivity().getResources().getColor(R.color.white));
-    }*/
 
     @OnClick({R.id.search_rl, R.id.message_iv})
     public void OnClick(View view) {
@@ -455,9 +445,6 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
         banner.stopAutoPlay();
     }
 
-   /* @OnClick(R.id.toolbar)
-    public void onClick() {
-    }*/
 
     class ButtonMenu {
         String title;

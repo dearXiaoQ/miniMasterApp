@@ -94,7 +94,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
     /**
      *  顶部菜单按钮
      */
-    private Button moreBtn;
+    private ImageView moreBtn;
 
     /**
      * The tv BoundDevicesListTitle
@@ -274,12 +274,12 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     void initView() {
-        mView.findViewById(R.id.iv_z).setVisibility(View.GONE);
+        //  mView.findViewById(R.id.iv_z).setVisibility(View.GONE);
         svListGroup = (ScrollView) mView.findViewById(R.id.svListGroup);
         llNoDevice = (ScrollView) mView.findViewById(R.id.llNoDevice);
         imgNoDevice = (ImageView) mView.findViewById(R.id.imgNoDevice);
         btnNoDevice = (Button) mView.findViewById(R.id.btnNoDevice);
-        moreBtn = (Button) mView.findViewById(R.id.iv_more);
+        moreBtn = (ImageView) mView.findViewById(R.id.iv_more);
         moreBtn.setOnClickListener(this);
 
 
@@ -347,27 +347,30 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
                 //订阅设备
                 device.setSubscribe(productKey, true);
+              //  device.setSubscribe(true);
 
             }
         });
 
+
+        /** 绑定设备 */
         slvBoundDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-//                progressDialog.show();
-//                slvBoundDevices.setEnabled(false);
-//                slvBoundDevices.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        slvBoundDevices.setEnabled(true);
-//                    }
-//                }, 3000);
-//                GizWifiDevice device = boundDevicesList.get(position);
-//                device.setListener(gizWifiDeviceListener);
-//                String productKey = device.getProductKey();
-//
-//                //订阅设备
-//                device.setSubscribe(productKey, true);
+                progressDialog.show();
+                slvBoundDevices.setEnabled(false);
+                slvBoundDevices.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        slvBoundDevices.setEnabled(true);
+                    }
+                }, 3000);
+                GizWifiDevice device = boundDevicesList.get(position);
+                device.setListener(gizWifiDeviceListener);
+                String productKey = device.getProductKey();
+
+                //订阅设备
+                device.setSubscribe(productKey, true);
 
             }
         });

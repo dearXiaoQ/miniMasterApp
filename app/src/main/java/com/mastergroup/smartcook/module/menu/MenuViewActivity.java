@@ -20,12 +20,15 @@ import android.widget.TextView;
 
 import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.model.CookingStep;
 import com.mastergroup.smartcook.model.DetailRecipes;
 import com.mastergroup.smartcook.model.Like;
+import com.mastergroup.smartcook.model.Recipes;
 import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -114,6 +117,10 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
      */
     BottomSheetDialog bottomSheetDialog;
 
+    //菜谱数据 /**  食谱数据，最大60个烹饪步骤，每一个步骤由4个16BIT数据组成 */
+    byte[] recipesData = null;
+    /** 语音提醒进度数据 */
+    ArrayList<String> soundSourceData = null;
 
     Context mContext;
 
@@ -151,6 +158,8 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
             }
         });
 
+
+
     }
 
     private void initData() {
@@ -178,9 +187,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 break;
 
             case R.id.fab:
+
                 Intent fabIntent = new Intent(MenuViewActivity.this, DeviceSelectActivity.class);
                 fabIntent.putExtra("_id", recipesBeanID);
+                fabIntent.putExtra("recipesData", recipesData);
+                fabIntent.putStringArrayListExtra("soundSourceData", soundSourceData);
                 startActivity(fabIntent);
+
                 break;
 
             case R.id.tv_more_button:
@@ -192,26 +205,32 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 break;
 
             case R.id.tv_comment_count:
+
                 Intent intent = new Intent(MenuViewActivity.this, CommentListActivity.class);
                 intent.putExtra("_id", recipesBeanID);
                 startActivity(intent);
                 break;
 
             case R.id.favorite:
+
                 mPresenter.favorite();
                 break;
 
             case R.id.share:
+
                 mPresenter.share();
                 break;
 
             case R.id.comment_btn:
+
                 showBottomCommentView();
                 break;
 
             case R.id.more_iv:
+
                 mPresenter.jumpLikeView();
                 break;
+
 
         }
 
@@ -257,6 +276,14 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
         }, 50);
 
+        timer.schedule(new TimerTask() {
+
+            public void run() {
+                InputMethodManager inputManager = (InputMethodManager) commentEt.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(commentEt, 0);
+            }
+
+        }, 100);
 
     }
 
@@ -270,6 +297,20 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
 
+        ArrayList<CookingStep> cookingSteps = (ArrayList<CookingStep>) recipesBean.getCookingStep();
+        int cookingStepSize = cookingSteps.size();
+        recipesData = new byte[cookingStepSize*4];
+        soundSourceData = new ArrayList<>();
+        for(int i = 0; i < cookingStepSize; i ++) {
+            CookingStep step = cookingSteps.get(i);
+            /** 组装烹饪语音提醒数据 */
+            soundSourceData.add(step.getDescribe());
+            /** 组装发送到万用板的数据 */
+            recipesData[i * 4] = (byte) step.getTemperature();
+            recipesData[(i * 4) + 1] = (byte) step.getPower();
+            recipesData[(i * 4) + 2] = (byte) step.getDuration();
+            recipesData[(i * 4) + 3] = (byte) step.getTriggerTemp();
+        }
 
         if (recipesBean.getComment().size() == 0) {
             tvCommentCount.setText(String.format("评论"));
@@ -304,7 +345,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
     @Override
-        public Bitmap getCoverBitmap() {
+    public Bitmap getCoverBitmap() {
         Bitmap bmp = convertViewToBitmap(ivCover);
         return bmp;
     }

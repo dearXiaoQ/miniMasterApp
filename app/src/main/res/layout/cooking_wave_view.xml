@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cooking_bg_iv"
-    tools:context="com.mastergroup.smartcook.module.device.CookingActivity">
+    >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#f55a66"
-        android:orientation="horizontal"
         android:id="@+id/relativeLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
@@ -44,65 +45,50 @@
             ></View>
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="200dp"
+        android:id="@+id/wave_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         >
 
-
-        <com.mastergroup.smartcook.view.CircleView
-            android:id="@+id/wave_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-
+        <com.gelitenight.waveview.library.WaveView
+            android:id="@+id/wave"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/progress_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/view"
-            android:layout_marginBottom="-15dp"
-            android:id="@+id/relativeLayout2">
+            android:text="77"
+            android:textSize="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="-10dp"
+            android:textColor="@android:color/white"
+            />
 
-            <TextView
-                android:id="@+id/progress_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="77"
-                android:textSize="50dp"
-                android:layout_marginBottom="-10dp"
-                android:textColor="@android:color/white"
-                />
-
-
-        </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textColor="@color/white"
             android:text="%    "
-            android:layout_alignBottom="@+id/relativeLayout2"
-            android:layout_toEndOf="@+id/relativeLayout2" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"
+            android:layout_alignBottom="@+id/progress_tv"
+            android:layout_toEndOf="@+id/progress_tv"
+            android:layout_marginBottom="5dp"
             />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayout2"
+            android:layout_below="@+id/progress_tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             >
             <TextView
                 android:id="@+id/temperature_text_tv"
@@ -125,18 +111,32 @@
 
         </RelativeLayout>
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            />
-
-
-
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wave_rl"
+        android:layout_alignParentStart="true">
 
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/border"
+            android:layout_toRightOf="@+id/border"
+            android:max="100"
+            android:progress="1"/>
+
+        <TextView
+            android:id="@+id/border"
+            android:layout_width="60dp"
+            android:layout_height="32dp"
+            android:text="@string/border"/>
+    </RelativeLayout>
 
 
     <RelativeLayout
@@ -213,6 +213,5 @@
 
 
     </RelativeLayout>
-
 
 </RelativeLayout>

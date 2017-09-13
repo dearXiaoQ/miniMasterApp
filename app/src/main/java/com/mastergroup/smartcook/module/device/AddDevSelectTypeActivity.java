@@ -48,6 +48,7 @@ public class AddDevSelectTypeActivity extends AppCompatActivity {
 
             case R.id.ih_rood_rl:
                 startActivity(new Intent(mContext, AddDevSettingWifiActivity.class));
+                finish();
                 break;
 
             case R.id.scan_iv:

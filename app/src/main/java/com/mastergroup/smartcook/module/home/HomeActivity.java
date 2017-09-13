@@ -1,15 +1,20 @@
 package com.mastergroup.smartcook.module.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.welcomeModule.WelcomeActivity;
@@ -19,6 +24,14 @@ import com.mastergroup.smartcook.view.TipsDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.yuyh.library.imgsel.utils.LogUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,14 +53,25 @@ public class HomeActivity extends AppCompatActivity {
     Toast exitToast;
     View toastView;
 
+    Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        mContext = this;
         init();
         showMenuFragment();
+        initXFyun();
+
+
     }
+
+
+
+
+
 
 /*    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -61,6 +85,11 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }*/
+
+    private void initXFyun() {
+        // 将“12345678”替换成您申请的APPID，申请地址：http://open.voicecloud.cn
+        SpeechUtility.createUtility(mContext, SpeechConstant.APPID +"=5992afa0");
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -185,14 +214,25 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    //记录用户首次点击返回键的时间
+    private long firstTime = 0;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if( keyCode == KeyEvent.KEYCODE_BACK ) {
-            LogUtils.d("onKeyDown", "按下了退出按钮");
-            exitToast.setDuration(Toast.LENGTH_LONG);
-            exitToast.show();
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long secondTime = System.currentTimeMillis();
+            //   LogUtils.d("onKeyDown", "按下了退出按钮");
+            if (secondTime - firstTime > 3000) {
+                firstTime = secondTime;
+                exitToast.setDuration(Toast.LENGTH_LONG);
+                exitToast.show();
+                return true;
+            } else {
+                System.exit(0);
+            }
         }
+
         return true;
     }
 }

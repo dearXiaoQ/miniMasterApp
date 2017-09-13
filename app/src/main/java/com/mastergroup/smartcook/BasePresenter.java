@@ -7,5 +7,4 @@ package com.mastergroup.smartcook;
 public interface BasePresenter {
     void start();
 
-
 }

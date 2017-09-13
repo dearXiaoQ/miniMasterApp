@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.User;
+import com.mastergroup.smartcook.module.home.HomeActivity;
 import com.mastergroup.smartcook.util.Utils;
 
 import butterknife.Bind;
@@ -127,7 +128,10 @@ public class SettingsActivity extends AppCompatActivity implements Contract.View
                 break;
 
             case R.id.iv_return:
+
+                startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
                 SettingsActivity.this.finish();
+
                 break;
 
             case R.id.use_rl:

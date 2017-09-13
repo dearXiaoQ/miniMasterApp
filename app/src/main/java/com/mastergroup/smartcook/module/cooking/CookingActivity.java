@@ -1,7 +1,9 @@
 package com.mastergroup.smartcook.module.cooking;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +40,8 @@ import rx.Subscription;
 
 public class CookingActivity extends AppCompatActivity implements OnCheckedChangeListener {
 
-    @Bind(R.id.tv_menu_name)
+
+ @Bind(R.id.tv_menu_name)
     TextView mTvMenuName;
     @Bind(R.id.tv_step_no)
     TextView mTvStepNo;
@@ -84,69 +87,69 @@ public class CookingActivity extends AppCompatActivity implements OnCheckedChang
     RadioGroup bgFire;
     @Bind(R.id.b_next)
     Button bNext;
-    /**
-     * 设备实体对像
-     */
+
+// 设备实体对像
+
     private GizWifiDevice device;
 
-    /**
-     * 设备运行状态
-     */
+
+    //设备运行状态
+
     private int device_run_status;
 
-    /**
-     * 设备当前功率
-     */
+
+    // 设备当前功率
+
     private int device_info_power;
 
-    /**
-     * 设备当前温度
-     */
+
+// 设备当前温度
+
     private String device_info_temperature;
 
-    /**
-     * 烹饪总时间
-     */
+
+//烹饪总时间
+
     private int cooking_all_time;
 
 
-    /**
-     * 菜谱对像
-     */
+
+//菜谱对像
+
     private Recipes.RecipesBean mRecipesBean;
 
-    /**
-     * 烹饪步骤列表
-     */
+
+// 烹饪步骤列表
+
     private List<CookingStep> cookingSteps;
 
-    /**
-     * 当前烹饪步骤
-     */
+
+// 当前烹饪步骤
+
     private CookingStep current_cs;
 
-    /**
-     * 下一步烹饪步骤
-     */
+
+// 下一步烹饪步骤
+
     private CookingStep next_cs;
 
 
-    /**
-     * 当前步骤
-     */
+
+// 当前步骤
+
     private int step = 0;
 
-    /**
-     * 菜谱id
-     */
+
+// 菜谱id
+
     String recipesBeanID;
 
     int cooking_model;//烹饪模式 默认自动
 
 
-    /**
-     * 在云端创建的数据点标识名
-     */
+
+//在云端创建的数据点标识名
+
     public static final String SWITCH = "power";
     public static final String STATUS = "status";
     public static final String TEMPERATURE = "temperature";
@@ -297,11 +300,9 @@ public class CookingActivity extends AppCompatActivity implements OnCheckedChang
     }
 
 
-    /**
-     * 直接设置功率
-     *
-     * @param power 功率
-     */
+
+// @// 功率
+
     void upDataDeviceInfoPower(int power) {
 
         //开关
@@ -413,9 +414,9 @@ public class CookingActivity extends AppCompatActivity implements OnCheckedChang
     Subscription subscription_cookingTiming, subscription_countDown;
 
 
-    /**
-     * 开始计时，烹饪总时间
-     */
+
+//开始计时，烹饪总时间
+
     private void startCookingTiming() {
 
         Observable o_timing = Observable.interval(1, TimeUnit.SECONDS);
@@ -442,9 +443,9 @@ public class CookingActivity extends AppCompatActivity implements OnCheckedChang
 
     }
 
-    /**
-     * 开始倒计时，步骤时间
-     */
+
+// 开始倒计时，步骤时间
+
     private void startStepCountDown(int time) {
 
         final int countTime = time;
@@ -554,4 +555,5 @@ public class CookingActivity extends AppCompatActivity implements OnCheckedChang
 
 
     }
+
 }

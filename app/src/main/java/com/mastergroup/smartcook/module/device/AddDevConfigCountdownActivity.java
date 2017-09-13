@@ -304,7 +304,8 @@ public class AddDevConfigCountdownActivity extends GIZBaseActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, AddDevSettingWifiActivity.class));
+                startActivity(new Intent(mContext, AddDevSelectTypeActivity.class));
+                finish();
             }
         });
     }

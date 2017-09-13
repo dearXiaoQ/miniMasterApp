@@ -126,7 +126,8 @@ public class UserFragment extends Fragment implements Contract.UserView {
         switch (view.getId()) {
             case R.id.iv_settings:
 
-                    startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+                startActivity(new Intent(this.getActivity(), SettingsActivity.class));
+                getActivity().finish();
 
                 break;
 

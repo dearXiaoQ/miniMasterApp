@@ -179,6 +179,15 @@
     <string name="recipes">食谱</string>
     <string name="search_not_result">没有搜索结哦</string>
 
+
+
+    <!-- cookingActivity -->
+    <string name="induction">电磁炉</string>
+    <string name="start_time">开始时间：</string>
+    <string name="end_time">结束时间：</string>
+    <string name="min">17分钟</string>
+
+
     <!-- Error Toast -->
     <string name="GIZ_SDK_PARAM_FORM_INVALID">SDK内部通讯数据格式无效</string>
     <string name="GIZ_SDK_CLIENT_NOT_AUTHEN">SDK未启动</string>
@@ -358,6 +367,10 @@
     <!-- LikeListActivity -->
     <string name="addFollower">点赞</string>
 
+    <!-- DeviceSelectActivity -->
+    <string name="device_name">未知设备</string>
+    <string name="rhood">智能电磁炉</string>
+
 
     <!-- DeviceListActivity -->
     <string name="devicelist_title">我的设备</string>
@@ -382,6 +395,19 @@
 
     <!-- CollectionActivity -->
     <string name="collection_menu">收藏的食谱</string>
+
+    <!-- WaveView -->
+    <string name="action_settings">Settings</string>
+    <string name="border">Border</string>
+    <string name="shape">Shape</string>
+    <string name="circle">Circle</string>
+    <string name="square">Square</string>
+    <string name="color">Color</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="defaultColor">Default</string>
+
 
     <!-- MenuFragment -->
     <string name="load_more">上拉加载更多</string>

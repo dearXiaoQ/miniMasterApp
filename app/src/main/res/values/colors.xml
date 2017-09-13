@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <color name="colorPrimary">#ff7043</color>
-    <color name="colorPrimaryDark">#FF5722</color>
+    <!-- <color name="colorPrimary">#ff7043</color> -->
+    <!-- <color name="colorPrimaryDark">#FF5722</color> -->
+
+    <color name="colorPrimary">#f55a66</color>
+    <color name="colorPrimaryDark">#f55a66</color>
+
     <color name="colorAccent">#FF4081</color>
 
-    <color name="myBlue">#00a6f5</color>
+    <color name="myBlue">#C6E2FF</color>
 
     <color name="toastColor">#dd666666</color>
     <color name="bgColor">#ee555555</color>
@@ -27,6 +31,12 @@
     <color name="white">#fff</color>
     <color name="gray">#808080</color>
     <color name="gray_777">#707070</color>
+
+    <color name="hai_blue">#C6E2FF</color>
+
+    <color name="cooking_ll_bg">#77ffffff</color>
+    <color name="cooking_text_color">#aaffffff</color>
+
 
     <color name="black">#000</color>
     <color name="title_gray">#919191</color>
@@ -48,8 +58,16 @@
     <color name="text_gray">#333333</color>
 
     <color name="alert_blue">#2db4e3</color>
-    
+
+    <color name="dev_text_bg">#fcd4d7</color>
 
     <color name="DimGray">#696969</color>
     <color name="Silver">#808080</color>
+
+
+
+    <!-- waveView -->
+    <color name="red">#f16d7a</color>
+    <color name="green">#b7d28d</color>
+    <color name="blue">#b8f1ed</color>
 </resources>

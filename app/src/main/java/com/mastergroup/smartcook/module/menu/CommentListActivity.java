@@ -1,5 +1,6 @@
 package com.mastergroup.smartcook.module.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,12 +52,14 @@ public class CommentListActivity extends AppCompatActivity implements View.OnCli
     @Bind(R.id.tv_release)
     TextView tvRelease;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
         ButterKnife.bind(this);
-        menuId = getIntent().getStringExtra("_id");
+        Intent intent = getIntent();
+        menuId = intent.getStringExtra("_id");
         getComment();
     }
 

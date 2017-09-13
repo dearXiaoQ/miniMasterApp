@@ -5,28 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#eee"
     tools:context="com.mastergroup.smartcook.module.device.DeviceListActivity">
 
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/white">
+        android:layout_height="55dp"
+        android:background="#f55a66"
+        android:orientation="horizontal"
+        android:id="@+id/relativeLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
 
         <ImageView
-            android:id="@+id/iv_z"
+            android:id="@+id/iv_return"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/return_white_icon" />
+
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_settings" />
-        
-        <Button
+            android:layout_centerInParent="true"
+            android:text="@string/devicelist_titles"
+            android:textColor="@color/white"
+            android:textSize="17sp"/>
+
+
+        <ImageView
             android:id="@+id/iv_more"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/add_dev_icon"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
+            android:src="@drawable/dev_more_icon"
+            android:layout_marginRight="10dp"
+            />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"
+            android:layout_alignParentBottom="true"
             />
 
     </RelativeLayout>
@@ -92,7 +118,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:orientation="vertical"
+                        />
 
                     <include
                         android:id="@+id/icBoundDevices"
@@ -100,11 +134,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="vertical"
+                        />
+
+
                     <include
                         android:id="@+id/icFoundDevices"
                         layout="@layout/view_gos_title_listview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="vertical"
+                        />
 
                     <include
                         android:id="@+id/icOfflineDevices"

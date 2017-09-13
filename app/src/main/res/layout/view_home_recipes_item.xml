@@ -10,6 +10,7 @@
         android:id="@+id/iv_menu_cover"
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:background="@drawable/corners_bg"
         android:layout_weight="0"/>
 
     <LinearLayout
