@@ -18,6 +18,19 @@ public class Constant {
 
     public final static String BITMAP_FILE_NAME = "/cover/";
 
+    /** 禅云 */
+    public final static String CHANYUN_BASEURL = "http://  /";
+
+    public final static String CHANYUN_REQUEST_METHOD_URL = "user-api/passthrough/";
+
+    public final static String CONTENT_TYPE = "Content-Type";
+
+    public final static String CONTENT_TYPE_VALUE = "application/json";
+
+    public final static String AUTH_ORG_CODE = "AUTH-ORG-CODE";
+
+    public final static String CLIENT_SIGN_SHA256 = "CLIENT-SIGN-SHA256";
+
 
     public final static String APP_ID = "f0d68c68539243bc853b1298faf133ff";//机智云APPID
     public final static String APP_Secret = "42ebbf3d1f3b4ca6815a52066485d872";//机智云APP_Secret

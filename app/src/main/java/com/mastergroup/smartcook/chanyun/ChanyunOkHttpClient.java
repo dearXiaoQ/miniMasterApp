@@ -1,9 +1,10 @@
-package com.mastergroup.smartcook.api;
+package com.mastergroup.smartcook.chanyun;
 
 import android.content.Context;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.mastergroup.smartcook.App;
+import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.util.DebugUtils;
 import com.mastergroup.smartcook.util.FileUtils;
@@ -21,11 +22,11 @@ import okhttp3.Response;
 
 /**
  * Description: OkHttpClient的包装类
- * Created by andmobi003 on 2016/7/13 16:21
+ * Created by xiaoQ on 2017/7/13 15:46
  */
-public class MyOkHttpClient {
+public class ChanyunOkHttpClient {
 
-    private static MyOkHttpClient instance;
+    private static ChanyunOkHttpClient instance;
     private OkHttpClient okHttpClient;
     private Context mContext;
 
@@ -45,14 +46,17 @@ public class MyOkHttpClient {
      */
     private final Interceptor mTokenInterceptor;
 
+    /**
+     *  禅云拦截器
+     */
+    private final Interceptor mChanyunInterceptor;
 
     /**
      * MD5拦截器
      * */
     private final Interceptor mMd5Interceptor;
 
-
-    private MyOkHttpClient(final Context mContext) {
+    private ChanyunOkHttpClient(final Context mContext) {
         this.mContext = mContext;
         REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
             @Override
@@ -96,6 +100,8 @@ public class MyOkHttpClient {
             }
         };
 
+
+
         mTokenInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -114,6 +120,23 @@ public class MyOkHttpClient {
             }
         };
 
+
+
+        mChanyunInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
+
+                Request authorised = originalRequest.newBuilder()
+                        .header(Constant.CONTENT_TYPE,  Constant.CONTENT_TYPE_VALUE)
+                        .header(Constant.AUTH_ORG_CODE, "organization code")
+                        .header(Constant.CLIENT_SIGN_SHA256, "client sign sha256")
+                        .build();
+
+                return chain.proceed(authorised);
+
+            }
+        };
 
         mMd5Interceptor = new Interceptor() {
             @Override
@@ -134,11 +157,11 @@ public class MyOkHttpClient {
         };
     }
 
-    public static MyOkHttpClient getInstance(Context mContext) {
+    public static ChanyunOkHttpClient getInstance(Context mContext) {
         if (instance == null) {
-            synchronized (MyOkHttpClient.class) {
+            synchronized (ChanyunOkHttpClient.class) {
                 if (instance == null) {
-                    instance = new MyOkHttpClient(mContext);
+                    instance = new ChanyunOkHttpClient(mContext);
                 }
             }
         }
@@ -152,10 +175,11 @@ public class MyOkHttpClient {
 
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(LoggingInterceptor)//设置拦截器  云端响应头拦截器需要同时设置networkInterceptors和interceptors
-                .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                .addInterceptor(mChanyunInterceptor)
+          /*      .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .addNetworkInterceptor(mTokenInterceptor)
-                .addNetworkInterceptor(mMd5Interceptor)
+                .addNetworkInterceptor(mMd5Interceptor)*/
                 .cache(cache).build();
 
 

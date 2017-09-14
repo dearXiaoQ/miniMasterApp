@@ -1,6 +1,7 @@
-package com.mastergroup.smartcook.api;
+package com.mastergroup.smartcook.chanyun;
 
 
+import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.model.Base;
 import com.mastergroup.smartcook.model.Comment;
 import com.mastergroup.smartcook.model.DetailRecipes;
@@ -14,6 +15,10 @@ import com.mastergroup.smartcook.model.RecipesList;
 import com.mastergroup.smartcook.model.Token;
 import com.mastergroup.smartcook.model.Url;
 import com.mastergroup.smartcook.model.User;
+import com.mastergroup.smartcook.model.chanyun.ChanyunDevList;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -21,7 +26,6 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -32,7 +36,28 @@ import rx.Observable;
  * Created by 11473 on 2016/11/29.
  */
 
-public interface Api {
+public interface ChanYunApi {
+
+    /** 获取设备在线信息 */
+    @POST(Constant.CHANYUN_REQUEST_METHOD_URL + "{method}")
+    Observable<Base<Null>> getOnline(@Path("method") String method, @Body ChanyunDevList data);
+
+    /** 获取设备IP 地址 */
+    @POST(Constant.CHANYUN_REQUEST_METHOD_URL + "{method}")
+    Observable<Base<Null>> getIps(@Path("method") String method, @Body ChanyunDevList data);
+
+    /** 获取设备通道信息 */
+    @POST(Constant.CHANYUN_REQUEST_METHOD_URL + "{method}")
+    Observable<Base<Null>> getStatus(@Path("method") String method, @Body ChanyunDevList data);
+
+    /** 获取设备时间信息 */
+    @POST(Constant.CHANYUN_REQUEST_METHOD_URL + "{method}")
+    Observable<Base<Null>> getTimestamps(@Path("method") String method, @Body ChanyunDevList data);
+
+/*    * 下发控制设备指令
+    @POST(Constant.CHANYUN_REQUEST_METHOD_URL + "{method}")
+    Observable<Base<Null>> deviceSwitchers(@Path("method") String method, @Body);*/
+
 
 
     /**
