@@ -116,10 +116,10 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
         ButterKnife.bind(this, view);
 
 
-        if (isLogin())
+       /* if (isLogin())
             LogUtils.d("已登陆");
         else
-            LogUtils.d("未登陆");
+            LogUtils.d("未登陆");*/
         //设置ActionBar
         //   ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);//需要额外调用
@@ -127,6 +127,7 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
 
         refreshLayout.setOnRefreshListener(this);
         initData();
+
         return view;
     }
 
@@ -137,6 +138,10 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
     }
 
     void initData() {
+        /** 广告栏参数 */
+        ViewGroup.LayoutParams params = banner.getLayoutParams();
+        params.height = App.DISPLAY_HEIGHT / 4;
+        banner.setLayoutParams(params);
         /** 瀑布流设置 */
         mRvMenu.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));   //RecyclerView 瀑布流布局
         //   mRvMenu.setLayoutManager(new GridLayoutManager(view.getContext(), 2)); //等宽布局
@@ -323,14 +328,15 @@ public class MenuFragment extends Fragment implements Contract.MenuView,  SwipeR
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
-            if(position == 0) {
-                LogUtils.d("menuFragment", "设置第一张图片高度");
-                ViewGroup.LayoutParams params = holder.mIvMenuCover.getLayoutParams();
-                params.height = 700;
-                holder.mIvMenuCover.setLayoutParams(params);
-            }
+            ViewGroup.LayoutParams params = holder.mIvMenuCover.getLayoutParams();
+
+            if(position == 0)
+                params.height = App.DISPLAY_HEIGHT / 5;
+            else
+                params.height = App.DISPLAY_HEIGHT / 3;
 
             final Recipes.RecipesBean r = recipes_list.get(position);
+            holder.mIvMenuCover.setLayoutParams(params);
 
             holder.mIvMenuCover.setOnClickListener(new View.OnClickListener() {
                 @Override

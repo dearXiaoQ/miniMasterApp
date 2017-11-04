@@ -3,7 +3,6 @@ package com.mastergroup.smartcook.module.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.mastergroup.smartcook.App;
+import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.welcomeModule.WelcomeActivity;
 import com.mastergroup.smartcook.util.DebugUtils;
@@ -23,15 +23,6 @@ import com.mastergroup.smartcook.util.Utils;
 import com.mastergroup.smartcook.view.TipsDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.yuyh.library.imgsel.utils.LogUtils;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,48 +44,31 @@ public class HomeActivity extends AppCompatActivity {
     Toast exitToast;
     View toastView;
 
-    Context mContext;
+    public static Context mContext;
+
+
+    public static long ON_CRATE_TIME = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         mContext = this;
         init();
-        showMenuFragment();
         initXFyun();
 
-
+        Log.i("myTime", " 时间差 = " + (HomeActivity.ON_CRATE_TIME - System.currentTimeMillis()));
     }
 
-
-
-
-
-
-/*    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        try {
-            Object service = getSystemService("statusbar");
-            Class<?> statusbarManager = Class.forName("android.app.StatusBarManager");
-            Method test = statusbarManager.getMethod("collapse");
-            test.invoke(service);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void initXFyun() {
         // 将“12345678”替换成您申请的APPID，申请地址：http://open.voicecloud.cn
         SpeechUtility.createUtility(mContext, SpeechConstant.APPID +"=5992afa0");
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //super.onSaveInstanceState(outState);
-    }
 
     @Override
     protected void onResume() {
@@ -122,6 +96,30 @@ public class HomeActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction().add(R.id.fl_content, userFragment, userFragment_tag).commit();
         }
 
+
+        switch (Constant.HOME_INDEX) {
+            case 0 :
+
+                showMenuFragment();
+                break;
+
+            case 1:
+
+                showDeviceFragment();
+                break;
+
+            case 2:
+
+                showShopFragment();
+                break;
+
+            case  3:
+
+                showUserFragment();
+                break;
+        }
+
+        bottomBar.selectTabAtPosition(Constant.HOME_INDEX);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -152,34 +150,39 @@ public class HomeActivity extends AppCompatActivity {
                     } else
                         showShopFragment();
                 }
+
+
             }
         });
+
+
 
 
     }
 
     void showShopFragment() {
+        Constant.HOME_INDEX = 2;
         if (shopFragment == null)
             shopFragment = (ShopFragment) getFragmentManager().findFragmentByTag(shopFragment_tag);
         getFragmentManager().beginTransaction().show(shopFragment).commit();
     }
 
     void showMenuFragment() {
-
+        Constant.HOME_INDEX = 0;
         if (menuFragment == null)
             menuFragment = (MenuFragment) getFragmentManager().findFragmentByTag(menuFragment_tag);
         getFragmentManager().beginTransaction().show(menuFragment).commit();
     }
 
     void showDeviceFragment() {
-
+        Constant.HOME_INDEX = 1;
         if (deviceFragment == null)
             deviceFragment = (DeviceFragment) getFragmentManager().findFragmentByTag(deviceFragment_tag);
         getFragmentManager().beginTransaction().show(deviceFragment).commit();
     }
 
     void showUserFragment() {
-
+        Constant.HOME_INDEX = 3;
         if (App.spUtils.contains(App.mContext.getString(R.string.key_token))) {
 
             if (userFragment == null)

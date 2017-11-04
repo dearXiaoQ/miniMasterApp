@@ -54,7 +54,7 @@ public class SettingsPresenter implements Contract.Presenter {
         mView.setPresenter(this);
     }
 
-
+    /** 更新用户信息 */
     @Override
     public void upDate(final User user, String headLocalUrl) {
 
@@ -78,8 +78,6 @@ public class SettingsPresenter implements Contract.Presenter {
                         mView.putUserHeadServerUrl(urlBase.getRes().getUrl().get(0));
                     } else {
                         Toast.makeText(mView.onGetContext(), "上传图片失败！", Toast.LENGTH_SHORT).show();
-                    }{
-                        Toast.makeText(mView.onGetContext(), "上传图片失败！", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -96,12 +94,14 @@ public class SettingsPresenter implements Contract.Presenter {
         s_upDate = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<Null>>() {
             @Override
             public void onNext(Base<Null> o) {
-                if (o.getErrorCode() == 0)
+                if (o.getErrorCode() == 0) {
                     Toast.makeText(mView.onGetContext(), "个人资料更新成功！", Toast.LENGTH_SHORT).show();
+                    mView.onUpdateSuccess();
+                }
                 else {
                     Toast.makeText(mView.onGetContext(), "个人资料更新失败！", Toast.LENGTH_SHORT).show();
                     //// TODO: 2017/2/21 删除已上传的图片
-                    deleteServerHeadPictrue(mView.getUserHeadServerUrl());
+                    deleteServerHeadPicture(mView.getUserHeadServerUrl());
 
                 }
 
@@ -112,7 +112,7 @@ public class SettingsPresenter implements Contract.Presenter {
 
     }
 
-    private void deleteServerHeadPictrue(String head_server_url) {
+    private void deleteServerHeadPicture(String head_server_url) {
 
         o_delete = Network.getMainApi().deleteFile(head_server_url);
 
@@ -170,7 +170,7 @@ public class SettingsPresenter implements Contract.Presenter {
 
         if(!(msg.length() > 0)) {
 
-            feedBackView.onFeedBackInfo(App.mContext.getString(R.string.input_message_null_not));
+            feedBackView.onFeedBackFailed(feedBackView.onGetContext().getString(R.string.input_message_null_not));
             return;
         }
 
@@ -184,9 +184,9 @@ public class SettingsPresenter implements Contract.Presenter {
             @Override
             public void onNext(Base<User> o) {
                 if (o.getErrorCode() == 0)
-                    feedBackView.onFeedBackInfo(o.getMessage());
+                    feedBackView.onFeedBackSuccess(o.getMessage());
                 else
-                    feedBackView.onFeedBackInfo(o.getMessage());
+                    feedBackView.onFeedBackFailed(o.getMessage());
             }
 
         }, feedBackView.onGetContext());

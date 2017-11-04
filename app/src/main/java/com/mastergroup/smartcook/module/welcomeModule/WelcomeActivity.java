@@ -3,6 +3,7 @@ package com.mastergroup.smartcook.module.welcomeModule;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.CommonModule.GIZBaseActivity;
 import com.mastergroup.smartcook.module.home.HomeActivity;
@@ -34,22 +36,33 @@ public class WelcomeActivity extends GIZBaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        new WelcomePresenter(this);
-
-        if (mPresenter.isLogin()) {
+        HomeActivity.ON_CRATE_TIME = System.currentTimeMillis();
+        Log.i("myTime", "ON_CRATE_TIME = " + HomeActivity.ON_CRATE_TIME);
+        if(App.spUtils.contains(App.mContext.getString(R.string.key_token))) {
             //直接跳转到home页面
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
             finish();
-        } else
-            init();
+        }
+
+        setContentView(R.layout.activity_welcome);
+        new WelcomePresenter(this);
+
+        init();
+
+        showMainViewAnimation();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // showMainViewAnimation();
+        // Log.i("WelcomeActivity", " onStart");
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        showMainViewAnimation();
+        //   showMainViewAnimation();
     }
 
     private void init() {
@@ -143,7 +156,7 @@ public class WelcomeActivity extends GIZBaseActivity implements View.OnClickList
 
 
     private void showMainViewAnimation() {
-
+        Log.i("WelcomeActivity", " showMainViewAnimation");
         Animation scaleAnimation = new AlphaAnimation(0.0f, 1.0f);
         scaleAnimation.setDuration(duration);
         view1.startAnimation(scaleAnimation);

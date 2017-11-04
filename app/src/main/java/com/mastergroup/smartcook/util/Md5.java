@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by xiaoQ on 2017/6/14.
  */
-/** App_id + scrpit */
+/** App_id + script */
 public class Md5 {
     public static String getMd5 (String str){
 

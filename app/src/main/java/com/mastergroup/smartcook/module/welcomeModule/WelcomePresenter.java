@@ -1,7 +1,6 @@
 package com.mastergroup.smartcook.module.welcomeModule;
 
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 

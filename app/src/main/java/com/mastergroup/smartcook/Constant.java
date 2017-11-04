@@ -1,7 +1,9 @@
 package com.mastergroup.smartcook;
 
 import android.net.wifi.ScanResult;
+
 import com.mastergroup.smartcook.util.Md5;
+import com.umeng.socialize.sina.helper.MD5;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
  */
 
 public class Constant {
+
+    public final static double VERSION = 1.00;
 
     public final static String BASEURL = "http://gmri.mastergroup.com.cn:3001/";
 
@@ -36,6 +40,7 @@ public class Constant {
     public final static String APP_Secret = "42ebbf3d1f3b4ca6815a52066485d872";//机智云APP_Secret
 
     public final static String Md5Str = Md5.getMd5(APP_ID + APP_Secret);
+            //Md5.getMd5(APP_ID + APP_Secret);
 
     public static List<ScanResult> ssidList = new ArrayList<ScanResult>();
 
@@ -87,4 +92,6 @@ public class Constant {
 
     public static final int PULL_TO_REFRESH = 888;
 
+    // 记录当前页面
+    public static int HOME_INDEX = 0;
 }

@@ -45,6 +45,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+
     compile files('libs/GizWifiSDK.jar')
     compile files('src/main/libs/SocialSDK_QQ_Simplify.jar')
     compile files('src/main/libs/SocialSDK_Sina_Simplify.jar')
@@ -93,7 +95,7 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.chanven.lib:cptr:1.1.0'
     compile 'com.github.rey5137:material:1.2.2'
-
+  //  compile 'com.afollestad.material-dialogs:commons:0.9.5.0'
     compile 'com.gelitenight.waveview:waveview:1.0.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/Msc.jar')

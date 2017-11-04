@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.CookingStep;
@@ -163,6 +165,10 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     }
 
     private void initData() {
+        /** 适配 */
+        ViewGroup.LayoutParams coverParams = ivCover.getLayoutParams();
+        coverParams.height = App.DISPLAY_HEIGHT / 3;
+        ivCover.setLayoutParams(coverParams);
 
         mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rvMenuComment, gridView, likeIv, favoriteIv, likeNumTv);
 

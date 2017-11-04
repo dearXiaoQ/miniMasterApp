@@ -175,7 +175,7 @@ public class RegisteredFragment extends Fragment implements Contract.RegisteredV
 
                 break;
 
-
+            //
             case R.id.get_verification_tv:
                 mPresenter.sendPhoneSMSCode(phoneNumEt.getText().toString());
                 break;

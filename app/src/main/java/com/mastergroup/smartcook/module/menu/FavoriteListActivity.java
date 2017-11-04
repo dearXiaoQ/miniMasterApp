@@ -66,8 +66,8 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
         tvMoreButton.setVisibility(View.GONE);
 
         rv.setLinearLayout();
-        favoriteListRvAdapter = new FavoriteListRvAdapter();
-        rv.setAdapter(favoriteListRvAdapter);
+        //  favoriteListRvAdapter = new FavoriteListRvAdapter();
+        // rv.setAdapter(favoriteListRvAdapter);
 
 
         rv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
@@ -98,7 +98,12 @@ public class FavoriteListActivity extends Activity implements Contract.FavoriteL
     @Override
     public void onGetMyFavoriteListSuccess(List<CollectionRecipes.RecipesBean> recipesBeenList) {
         this.recipesBeans = recipesBeenList;
-        favoriteListRvAdapter.notifyDataSetChanged();
+        if(favoriteListRvAdapter == null) {
+            favoriteListRvAdapter = new FavoriteListRvAdapter();
+            rv.setAdapter(favoriteListRvAdapter);
+        } else
+            favoriteListRvAdapter.notifyDataSetChanged();
+
         rv.setPullLoadMoreCompleted();
     }
 

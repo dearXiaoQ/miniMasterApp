@@ -1,15 +1,22 @@
 package com.mastergroup.smartcook.module.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 
 import com.mastergroup.smartcook.App;
+import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.api.Network;
 import com.mastergroup.smartcook.model.Base;
 import com.mastergroup.smartcook.model.RecipesList;
+import com.mastergroup.smartcook.model.UpdateEntity;
 import com.mastergroup.smartcook.model.User;
 import com.mastergroup.smartcook.module.progress.ProgressSubscriber;
 import com.mastergroup.smartcook.module.welcomeModule.WelcomeActivity;
+import com.mastergroup.smartcook.util.AppInnerDownLoder;
 import com.mastergroup.smartcook.util.JxUtils;
 import com.mastergroup.smartcook.util.Utils;
 
@@ -57,17 +64,41 @@ public class HomePresenter implements Contract.Presenter {
                 else ;
             }
 
-        }, mUserView.ongetContext());
+        }, mUserView.onGetContext());
 
         JxUtils.toSubscribe(o, s);
 
     }
 
     @Override
+    public void getUpdateInfo() {
+        Observable o = Network.getMainApi().getUpdateInfo();
+        Subscriber<Base<UpdateEntity>> s = new ProgressSubscriber<>(new ProgressSubscriber.SubscriberOnNextListener<Base<UpdateEntity>>() {
+            @Override
+            public void onNext(Base<UpdateEntity> b) {
+                UpdateEntity update = b.getRes();
+                String version = update.getServerVersion();
+                double serverVersion = Double.valueOf(version);
+                if(serverVersion > Constant.VERSION)
+                    // final Context context, final String appName, final String downUrl, final String updateinfo
+                    forceUpdate(mUserView.onGetContext(), update.getAppName(), update.getUpdateUrl(), update.getDesc());
+                else
+                    com.blankj.utilcode.utils.ToastUtils.showShortToast("无版本更新");
+
+                Log.i("updateInfo", b.getRes().getAppName() + "\n" +  b.getRes().getServerVersion() + "\n" + b.getRes().getUpdateUrl() );
+
+            }
+
+        }, mUserView.onGetContext());
+
+        JxUtils.toSubscribe(o, s);
+    }
+
+    @Override
     public void outLogin() {
         //App.spUtils.remove(App.mContext.getString(R.string.key_token));
         App.spUtils.clear();
-        Activity activity = (Activity) mUserView.ongetContext();
+        Activity activity = (Activity) mUserView.onGetContext();
         activity.startActivity(new Intent(activity, WelcomeActivity.class));
         activity.finish();
 
@@ -127,6 +158,21 @@ public class HomePresenter implements Contract.Presenter {
 
 
         JxUtils.toSubscribe(o, s);
+    }
+
+
+    private void forceUpdate(final Context context, final String appName, final String downUrl, final String updateinfo) {
+        AlertDialog.Builder mDialog = new AlertDialog.Builder(context);
+        mDialog.setTitle("smartCook" + "又更新咯！");
+        mDialog.setMessage(updateinfo);
+        mDialog.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //      DownLoadApk.download(MainActivity.this,downUrl,updateinfo,appName);
+                AppInnerDownLoder.downLoadApk(HomeActivity.mContext, downUrl, appName);
+            }
+        }).setCancelable(true).create().show();
     }
 
 }

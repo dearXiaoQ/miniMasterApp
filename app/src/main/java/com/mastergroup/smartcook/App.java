@@ -1,6 +1,7 @@
 package com.mastergroup.smartcook;
 
 import android.content.Context;
+import android.view.WindowManager;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.blankj.utilcode.utils.Utils;
@@ -19,15 +20,20 @@ import com.yuyh.library.imgsel.utils.LogUtils;
 public class App extends MobApplication implements Thread.UncaughtExceptionHandler {
     public static Context mContext;
 
-
     public static SPUtils spUtils;
 
+    public static int DISPLAY_WIDTH  = 0;
+    public static int DISPLAY_HEIGHT = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
         Utils.init(mContext);
+
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        DISPLAY_WIDTH = wm.getDefaultDisplay().getWidth();
+        DISPLAY_HEIGHT = wm.getDefaultDisplay().getHeight();
 
         try {
             setSPUp();

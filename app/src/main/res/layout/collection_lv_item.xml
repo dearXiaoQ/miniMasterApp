@@ -12,7 +12,6 @@
         android:layout_width="135dp"
         android:layout_height="95dp"
         android:layout_margin="15dp"
-        android:src="@drawable/food_sample"
         android:id="@+id/menu_iv" />
 
     <ImageView

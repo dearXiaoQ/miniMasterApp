@@ -29,7 +29,6 @@ public class DeviceListActivity extends Activity {
         setContentView(R.layout.activity_device_list);
         ButterKnife.bind(this);
 
-
         String ssid = NetUtils.getCurentWifiSSID(this);
         String paw = "Mk2925288";
 

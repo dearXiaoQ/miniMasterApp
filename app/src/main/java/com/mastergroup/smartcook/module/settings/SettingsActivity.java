@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.User;
 import com.mastergroup.smartcook.module.home.HomeActivity;
@@ -17,6 +19,7 @@ import com.mastergroup.smartcook.util.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 
 
 public class SettingsActivity extends AppCompatActivity implements Contract.View, View.OnClickListener{
@@ -55,6 +58,8 @@ public class SettingsActivity extends AppCompatActivity implements Contract.View
         ButterKnife.bind(this);
         initView();
         initEvent();
+
+        Log.i("HOME_INDEX", "HOME_INDEX = " + Constant.HOME_INDEX);
     }
 
     private void initView() {
@@ -118,6 +123,11 @@ public class SettingsActivity extends AppCompatActivity implements Contract.View
 
     }
 
+    @Override
+    public void onUpdateSuccess() {
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -128,10 +138,8 @@ public class SettingsActivity extends AppCompatActivity implements Contract.View
                 break;
 
             case R.id.iv_return:
-
                 startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
                 SettingsActivity.this.finish();
-
                 break;
 
             case R.id.use_rl:

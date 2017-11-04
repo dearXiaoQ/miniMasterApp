@@ -63,9 +63,9 @@ public class MyMenuListActivity extends Activity implements Contract.MyMenuListV
     void initView() {
 //        adapter = new RecipesBeansAdapter(R.layout.view_menu_item, RecipesBeans);
         mTvTitle.setText("我的菜谱");
-        adapter = new MyMenuListRvAdapter();
+        // adapter = new MyMenuListRvAdapter();
         mTvMoreButton.setVisibility(View.GONE);
-        mRv.setAdapter(adapter);
+        //mRv.setAdapter(adapter);
         mRv.setLinearLayout();
         mRv.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
             @Override
@@ -111,7 +111,13 @@ public class MyMenuListActivity extends Activity implements Contract.MyMenuListV
             }
             recipesBeans.add(bean);
         }
-        adapter.notifyDataSetChanged();
+
+        if(adapter == null) {
+            adapter = new MyMenuListRvAdapter();
+            mRv.setAdapter(adapter);
+        } else
+            adapter.notifyDataSetChanged();
+
         mRv.setPullLoadMoreCompleted();
     }
 
@@ -128,7 +134,7 @@ public class MyMenuListActivity extends Activity implements Contract.MyMenuListV
         @Override
         public void onBindViewHolder(MyMenuListRvHolder holder, int position) {
 
-          //  holder.menuIv
+            //  holder.menuIv
             final CollectionRecipes.RecipesBean  recipesBean = recipesBeans.get(position);
             ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getDetail().getImgSrc(), holder.menuIv, mContext, false);
             holder.titleTv.setText(recipesBean.getName());

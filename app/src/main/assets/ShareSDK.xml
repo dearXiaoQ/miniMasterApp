@@ -94,17 +94,16 @@
         Id="4"
         SortId="4"
         AppId="wxd897d3a9a104a824"
-        AppSecret="8ab0677bdd2768cb524777feb983b66a"
-		userName="gh_afb25ac019c9"
-		path="/page/API/pages/share/share"
+        AppSecret="f826ed282eb9f24ca34a3ac34263eb93"
         BypassApproval="false"
         Enable="true" />
-    
+    	<!-- 	userName="gh_afb25ac019c9"
+		path="/page/API/pages/share/share" -->
     <WechatMoments
         Id="5"
         SortId="5"
         AppId="wxd897d3a9a104a824"
-        AppSecret="8ab0677bdd2768cb524777feb983b66a"
+        AppSecret="f826ed282eb9f24ca34a3ac34263eb93"
         BypassApproval="false"
         Enable="true" />
         

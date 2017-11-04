@@ -12,6 +12,7 @@ import com.mastergroup.smartcook.model.PhoneAndToken;
 import com.mastergroup.smartcook.model.Recipes;
 import com.mastergroup.smartcook.model.RecipesList;
 import com.mastergroup.smartcook.model.Token;
+import com.mastergroup.smartcook.model.UpdateEntity;
 import com.mastergroup.smartcook.model.Url;
 import com.mastergroup.smartcook.model.User;
 
@@ -204,5 +205,10 @@ public interface Api {
     @POST("deleteFile/{fileName}")
     Observable<Base<Null>> deleteFile(@Path("fileName") String fileName);
 
+    /**
+     * 获取更新信息接口
+     */
+    @GET("miniMasterApp/appStore/check")
+    Observable<Base<UpdateEntity>> getUpdateInfo();
 
 }

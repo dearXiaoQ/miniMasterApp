@@ -1,6 +1,5 @@
 package com.mastergroup.smartcook.module.settings;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -184,6 +183,11 @@ public class UserInfoActivity extends Activity implements Contract.View {
         }
         putUserHeadServerUrl(userBean.getHeadUrl());
 
+    }
+
+    @Override
+    public void onUpdateSuccess() {
+        finish();
     }
 
 

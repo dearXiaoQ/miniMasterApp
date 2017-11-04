@@ -32,13 +32,14 @@ public class Contract {
         void getMoreRecipes(int currentIndex, int count );
 
         void getUserInfo();
+        void getUpdateInfo();
         void outLogin();
         /** 获取轮播图片接口 */
         void getBanner();
     }
 
     interface UserView extends BaseView<Presenter> {
-        Context ongetContext();
+        Context onGetContext();
 
         void onShowUserInfo(User user);
 

@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ToastUtils;
 import com.mastergroup.smartcook.R;
-import com.mastergroup.smartcook.util.ToastUtils;
 import com.mastergroup.smartcook.util.Utils;
 
 import butterknife.Bind;
@@ -87,8 +87,14 @@ public class FeedBackActivity extends Activity implements Contract.FeedBackView{
     }
 
     @Override
-    public void onFeedBackInfo(String info) {
-        ToastUtils.showCustomToast(mContext, ToastUtils.TOAST_BOTTOM, info);
+    public void onFeedBackSuccess(String info) {
+        ToastUtils.showShortToast(info);
+        finish();
+    }
+
+    @Override
+    public void onFeedBackFailed(String info) {
+        ToastUtils.showShortToast(info);
     }
 
 

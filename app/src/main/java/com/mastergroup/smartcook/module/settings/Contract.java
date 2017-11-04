@@ -26,6 +26,7 @@ public class Contract {
 
         //意见反馈接口
         void feedBack(String msg, String type);
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -40,12 +41,17 @@ public class Contract {
         String getUserHeadServerUrl();
 
         void setUserDate(User userDate);
+
+        void onUpdateSuccess();
     }
 
     interface FeedBackView extends BaseView<Presenter> {
         Context onGetContext();
 
-        void onFeedBackInfo(String info);
+        void onFeedBackSuccess(String info);
+
+        void onFeedBackFailed(String info);
     }
+
 
 }

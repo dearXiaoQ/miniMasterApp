@@ -16,13 +16,18 @@ import android.widget.TextView;
 
 import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.api.Network;
+import com.mastergroup.smartcook.model.Base;
+import com.mastergroup.smartcook.model.RecipesList;
 import com.mastergroup.smartcook.model.User;
 import com.mastergroup.smartcook.module.menu.FavoriteListActivity;
 import com.mastergroup.smartcook.module.menu.MenuCreateActivity;
 import com.mastergroup.smartcook.module.menu.MyMenuListActivity;
+import com.mastergroup.smartcook.module.progress.ProgressSubscriber;
 import com.mastergroup.smartcook.module.settings.FeedBackActivity;
 import com.mastergroup.smartcook.module.settings.SettingsActivity;
 import com.mastergroup.smartcook.util.ImageLoader;
+import com.mastergroup.smartcook.util.JxUtils;
 import com.mastergroup.smartcook.util.Utils;
 
 import org.w3c.dom.Text;
@@ -30,6 +35,8 @@ import org.w3c.dom.Text;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by 11473 on 2016/12/20.
@@ -63,6 +70,9 @@ public class UserFragment extends Fragment implements Contract.UserView {
     @Bind(R.id.signature_tv)
     TextView signature_tv;
 
+    @Bind(R.id.rl_update)
+    RelativeLayout updateRl;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +83,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_menu_user, container, false);
         ButterKnife.bind(this, view);
 
@@ -91,7 +102,7 @@ public class UserFragment extends Fragment implements Contract.UserView {
     }
 
     @Override
-    public Context ongetContext() {
+    public Context onGetContext() {
         return this.getActivity();
     }
 
@@ -121,20 +132,18 @@ public class UserFragment extends Fragment implements Contract.UserView {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect, R.id.rl_mymenu, R.id.rl_opinion})
+    @OnClick({R.id.iv_settings, R.id.tv_out, R.id.rl_store, R.id.create_menu, R.id.rl_mycollect, R.id.rl_mymenu, R.id.rl_opinion, R.id.rl_update})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_settings:
 
                 startActivity(new Intent(this.getActivity(), SettingsActivity.class));
                 getActivity().finish();
-
                 break;
 
             case R.id.tv_out:
 
                 mHomePresenter.outLogin();
-
                 break;
 
             case R.id.rl_store:
@@ -142,31 +151,31 @@ public class UserFragment extends Fragment implements Contract.UserView {
                 Uri uri = Uri.parse("https://momscook.tmall.com/");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
-
                 break;
 
             case R.id.create_menu:
 
                 startActivity(new Intent(getActivity(), MenuCreateActivity.class));
-
                 break;
 
             case R.id.rl_mycollect:
 
                 startActivity(new Intent(getActivity(), FavoriteListActivity.class));
-
                 break;
 
             case R.id.rl_mymenu:
 
                 startActivity(new Intent(getActivity(), MyMenuListActivity.class));
-
                 break;
 
             case R.id.rl_opinion:
 
                 startActivity(new Intent(getActivity(), FeedBackActivity.class));
+                break;
 
+            case R.id.rl_update:
+
+                mHomePresenter.getUpdateInfo();
                 break;
 
         }
