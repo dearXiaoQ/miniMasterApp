@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mastergroup.smartcook.R;
-import com.mastergroup.smartcook.model.Like;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +63,7 @@ public class MessageActivity extends AppCompatActivity {
         switch (view.getId()) {
 
             case R.id.iv_return:
-                   MessageActivity.this.finish();
+                finish();
                 break;
 
             case R.id.message_setting_iv:

@@ -19,11 +19,13 @@ import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.mastergroup.smartcook.R;
+import com.mastergroup.smartcook.model.Null;
 import com.mastergroup.smartcook.view.WaveHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.Bind;
@@ -84,9 +86,7 @@ public class CookingActivity extends Activity {
         ButterKnife.bind(this);
         mContext = this;
 
-        gizWifiDevice = getIntent().getParcelableExtra("gizDevice");
-        recipesData = getIntent().getByteArrayExtra("recipesData");
-        soundSourceData = getIntent().getStringArrayListExtra("soundSourceData");
+        initData();
 
         if(gizWifiDevice != null) {
             gizWifiDevice.setSubscribe(true);
@@ -116,8 +116,8 @@ public class CookingActivity extends Activity {
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                         // mBorderWidth = i;
                         //  mWaveView.setBorder(mBorderWidth, mBorderColor);
-                    //    int temp = new Random().nextInt(150);
-                       int temp = 100 + (new Random().nextInt(30));
+                        //    int temp = new Random().nextInt(150);
+                        int temp = 100 + (new Random().nextInt(30));
                         progressTv.setText("" + i);
                         mWaveView.setWaterLevelRatio((float) i / 100);
                         temperatureTv.setText(temp + "℃");
@@ -143,6 +143,16 @@ public class CookingActivity extends Activity {
                     }
                 });
 
+    }
+
+    private void initData() {
+        gizWifiDevice = getIntent().getParcelableExtra("gizDevice");
+        soundSourceData = getIntent().getStringArrayListExtra("soundSourceData");
+        recipesData = getIntent().getByteArrayExtra("recipesData");
+        int dataSize = recipesData.length;
+        for(int i = 0; i < dataSize; i ++) {
+
+        }
     }
 
     private void sendDataToRhood() {
@@ -174,7 +184,7 @@ public class CookingActivity extends Activity {
             //设置合成音频保存位置（可自定义保存位置），保存在“./sdcard/iflytek.pcm”
             //保存在SD卡需要在AndroidManifest.xml添加写SD卡权限
             //如果不需要保存合成音频，注释该行代码
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -203,32 +213,35 @@ public class CookingActivity extends Activity {
         mWaveHelper.start();
     }
 
+    /** 电磁炉相关字段 */
+    public static final String PAN_TEMP = "PAN_TEMP";
+    public static final String IH_POWER = "IH_POWER";
+    public static final String COOK_STEP = "COOK_STEP";
+    public static final String IH_SW = "IH_SW";
+    public static final String RECIPES_DATA = "RECIPES_DATA";
+    public static final String IH_ID = "IH_ID";
+    public static final String IH_MID = "IH_MID";
+    public static final String PAN_ID = "PAN_ID";
+    public static final String PAN_MID = "PAN_MID";
+    public static final String INTERRUPT = "INTERRUPT";
+    public static final String RECIPES_ID = "RECIPES_ID";
+    public static final String RECIPES_COOKING_STATE = "RECIPES_COOKING_STATE";
 
-    // 实现回调
+    byte[] IhId, panMid, IhRecipesData, panId, recipesId, IhMid;
+    int cookStep, IhPower, cookingState;
+    float panTemp;
+    boolean interrupt, IhSw;
+
+    /** 机智云回调 */
     GizWifiDeviceListener mListener = new GizWifiDeviceListener() {
         @Override
         public  void didReceiveData(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> dataMap, int sn) {
-            Log.i("didReceiveData", "result = " + result);
+            // Log.i("didReceiveData", "result = " + result);
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 if(dataMap.get("data") != null) {
-                    ConcurrentHashMap<String, Object> data = (ConcurrentHashMap<String, Object>) dataMap.get("data");
+                    ConcurrentHashMap<String, Object> mMap = (ConcurrentHashMap<String, Object>) dataMap.get("data");
                     Log.i("didReceiveData", "dataMap = " + dataMap.get("data").toString());
-
-                    Integer panTemp = (Integer) data.get("PAN_TEMP");
-                    if(panTemp != null)
-                        Log.i("didReceiveData", "panTemp = " + panTemp);
-
-                    Integer ihPower = (Integer) data.get("IH_POWER");
-                    if(ihPower != null)
-                        Log.i("didReceiveData", "ihPower = " + ihPower);
-
-                    Integer cookStep = (Integer) data.get("COOK_STEP");
-                    if(cookStep != null) {
-                        Log.i("didReceiveData", "cookStep = " + cookStep);
-                        playCookStepInfo(cookStep);
-                    }
-
-
+                    freshViewData(mMap);
                 }
                 if (sn == 5) {
                     Log.i("sendSuccess", "发送数据成功!");
@@ -253,12 +266,23 @@ public class CookingActivity extends Activity {
 
     };
 
-    /** 播报烹饪步骤 */
-    private void playCookStepInfo(int cookStep) {
-        if(soundSourceData != null) {
-            if (cookStep <= soundSourceData.size() && cookStep != 0) {
-                mTts.startSpeaking(soundSourceData.get(cookStep - 1), null);
+
+    /** 处理机智云上报的数据 */
+    private void freshViewData(ConcurrentHashMap<String, Object> mMap) {
+        Set<String> mSet = mMap.keySet();
+       Log.i("didReceiveDataFresh", "mSet.toString() = " + mSet.toString());
+        for(String key : mMap.keySet()) {
+            if (key.equals(IH_ID)) IhId = (byte[]) mMap.get(IH_ID);
+            if (key.equals(IH_MID)) IhMid = (byte[]) mMap.get(IH_MID);
+            if (key.equals(PAN_ID)) panId = (byte[]) mMap.get(PAN_ID);
+            if (key.equals(PAN_MID)) panMid = (byte[]) mMap.get(PAN_MID);
+            if (key.equals(COOK_STEP)) cookStep = (int) mMap.get(COOK_STEP);
+            if (key.equals(RECIPES_COOKING_STATE)) {
+                IhRecipesData = (byte[]) mMap.get(RECIPES_COOKING_STATE);
+                Log.i("didReceiveDataFresh", "IhRecipesData = " + IhRecipesData);
             }
+            if (key.equals(PAN_TEMP)) panTemp = (float) mMap.get(panTemp);
+            if (key.equals(IH_SW)) IhSw = (boolean) mMap.get(IH_SW);
         }
     }
 

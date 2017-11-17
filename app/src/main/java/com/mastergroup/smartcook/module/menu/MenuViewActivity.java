@@ -25,7 +25,6 @@ import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.CookingStep;
 import com.mastergroup.smartcook.model.DetailRecipes;
 import com.mastergroup.smartcook.model.Like;
-import com.mastergroup.smartcook.model.Recipes;
 import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
@@ -119,7 +118,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
      */
     BottomSheetDialog bottomSheetDialog;
 
-    //菜谱数据 /**  食谱数据，最大60个烹饪步骤，每一个步骤由4个16BIT数据组成 */
+    //菜谱数据 /**  食谱数据，最大60个烹饪步骤，每一个步骤由4个16BIT数据组成 （改为8个16位）*/
     byte[] recipesData = null;
     /** 语音提醒进度数据 */
     ArrayList<String> soundSourceData = null;
@@ -137,13 +136,13 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         mPresenter.start();
         initView();
         initData();
+    //    mPresenter.gettingData(recipesBeanID);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.gettingData(recipesBeanID);
     }
 
     private void initView() {
@@ -167,7 +166,7 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     private void initData() {
         /** 适配 */
         ViewGroup.LayoutParams coverParams = ivCover.getLayoutParams();
-        coverParams.height = App.DISPLAY_HEIGHT / 3;
+        coverParams.height = App.DISPLAY_HEIGHT / 2;
         ivCover.setLayoutParams(coverParams);
 
         mPresenter.initMenuViewRV(rv_food, rv_step, rv_cookingStep, rvMenuComment, gridView, likeIv, favoriteIv, likeNumTv);
@@ -305,17 +304,20 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
 
         ArrayList<CookingStep> cookingSteps = (ArrayList<CookingStep>) recipesBean.getCookingStep();
         int cookingStepSize = cookingSteps.size();
-        recipesData = new byte[cookingStepSize*4];
+        recipesData = new byte[cookingStepSize * 8];
         soundSourceData = new ArrayList<>();
         for(int i = 0; i < cookingStepSize; i ++) {
             CookingStep step = cookingSteps.get(i);
             /** 组装烹饪语音提醒数据 */
             soundSourceData.add(step.getDescribe());
             /** 组装发送到万用板的数据 */
-            recipesData[i * 4] = (byte) step.getTemperature();
-            recipesData[(i * 4) + 1] = (byte) step.getPower();
-            recipesData[(i * 4) + 2] = (byte) step.getDuration();
-            recipesData[(i * 4) + 3] = (byte) step.getTriggerTemp();
+            int durationSeconds = step.getDuration() * 60;     //单位是分钟，转换成秒
+            byte[] duration = Utils.IntToByteArray(durationSeconds);
+            recipesData[(i * 8)] = duration[2];
+            recipesData[(i * 8) + 1] = duration[3];
+            recipesData[(i * 8) + 3] = Utils.powerToByte(step.getPower());
+            recipesData[(i * 8) + 5] = (byte) step.getTemperature();
+            recipesData[(i * 8) + 7] = (byte) step.getTriggerTemp();
         }
 
         if (recipesBean.getComment().size() == 0) {

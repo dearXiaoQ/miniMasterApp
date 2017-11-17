@@ -275,11 +275,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
     void initView() {
         //  mView.findViewById(R.id.iv_z).setVisibility(View.GONE);
-        svListGroup = (ScrollView) mView.findViewById(R.id.svListGroup);
-        llNoDevice = (ScrollView) mView.findViewById(R.id.llNoDevice);
-        imgNoDevice = (ImageView) mView.findViewById(R.id.imgNoDevice);
-        btnNoDevice = (Button) mView.findViewById(R.id.btnNoDevice);
-        moreBtn = (ImageView) mView.findViewById(R.id.iv_more);
+        svListGroup =   mView.findViewById(R.id.svListGroup);
+        llNoDevice =  mView.findViewById(R.id.llNoDevice);
+        imgNoDevice = mView.findViewById(R.id.imgNoDevice);
+        btnNoDevice = mView.findViewById(R.id.btnNoDevice);
+        moreBtn = mView.findViewById(R.id.iv_more);
         moreBtn.setOnClickListener(this);
 
 
@@ -287,17 +287,17 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
         icFoundDevices = mView.findViewById(R.id.icFoundDevices);
         icOfflineDevices = mView.findViewById(R.id.icOfflineDevices);
 
-        slvBoundDevices = (SlideListView2) icBoundDevices.findViewById(R.id.slideListView1);
-        slvFoundDevices = (SlideListView2) icFoundDevices.findViewById(R.id.slideListView1);
-        slvOfflineDevices = (SlideListView2) icOfflineDevices.findViewById(R.id.slideListView1);
+        slvBoundDevices =  icBoundDevices.findViewById(R.id.slideListView1);
+        slvFoundDevices =  icFoundDevices.findViewById(R.id.slideListView1);
+        slvOfflineDevices =  icOfflineDevices.findViewById(R.id.slideListView1);
 
-        llNoBoundDevices = (LinearLayout) icBoundDevices.findViewById(R.id.llHaveNotDevice);
-        llNoFoundDevices = (LinearLayout) icFoundDevices.findViewById(R.id.llHaveNotDevice);
-        llNoOfflineDevices = (LinearLayout) icOfflineDevices.findViewById(R.id.llHaveNotDevice);
+        llNoBoundDevices = icBoundDevices.findViewById(R.id.llHaveNotDevice);
+        llNoFoundDevices =  icFoundDevices.findViewById(R.id.llHaveNotDevice);
+        llNoOfflineDevices =  icOfflineDevices.findViewById(R.id.llHaveNotDevice);
 
-        tvBoundDevicesListTitle = (TextView) icBoundDevices.findViewById(R.id.tvListViewTitle);
-        tvFoundDevicesListTitle = (TextView) icFoundDevices.findViewById(R.id.tvListViewTitle);
-        tvOfflineDevicesListTitle = (TextView) icOfflineDevices.findViewById(R.id.tvListViewTitle);
+        tvBoundDevicesListTitle =  icBoundDevices.findViewById(R.id.tvListViewTitle);
+        tvFoundDevicesListTitle =  icFoundDevices.findViewById(R.id.tvListViewTitle);
+        tvOfflineDevicesListTitle = icOfflineDevices.findViewById(R.id.tvListViewTitle);
 
         String boundDevicesListTitle = (String) getText(R.string.bound_divices);
         tvBoundDevicesListTitle.setText(boundDevicesListTitle);
@@ -309,7 +309,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
         // 下拉刷新
 
-        mSwipeLayout = (VerticalSwipeRefreshLayout) mView.findViewById(R.id.id_swipe_ly);
+        mSwipeLayout = mView.findViewById(R.id.id_swipe_ly);
 
         mSwipeLayout.setOnRefreshListener(this);
 //        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
@@ -333,13 +333,13 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 progressDialog.show();
-                slvFoundDevices.setEnabled(false);
+              /*  slvFoundDevices.setEnabled(false);
                 slvFoundDevices.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         slvFoundDevices.setEnabled(true);
                     }
-                }, 3000);
+                }, 3000);*/
                 GizWifiDevice device = foundDevicesList.get(position);
                 device.setListener(gizWifiDeviceListener);
 
@@ -436,6 +436,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
             if (GizWifiErrorCode.GIZ_SDK_SUCCESS == result) {
                 msg.what = TOCONTROL;
                 msg.obj = device;
+                boundDevicesList.add(device);
+                UpdateUI();
             } else {
                 if (device.isBind()) {
                     msg.what = TOAST;
@@ -472,9 +474,9 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
 
     private void UpdateUI() {
 
-        boundDevicesList = new ArrayList<GizWifiDevice>();
-        foundDevicesList = new ArrayList<GizWifiDevice>();
-        offlineDevicesList = new ArrayList<GizWifiDevice>();
+        boundDevicesList = new ArrayList<>();
+        foundDevicesList = new ArrayList<>();
+        offlineDevicesList = new ArrayList<>();
 
         for (GizWifiDevice gizWifiDevice : deviceslist) {
             if (GizWifiDeviceNetStatus.GizDeviceOnline == gizWifiDevice.getNetStatus()
@@ -558,11 +560,11 @@ public class DeviceFragment extends Fragment implements View.OnClickListener, Sw
                     break;
 
                 case TOCONTROL:     //本来是注释的
-                    Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
+                  /*  Intent intent = new Intent(mView.getContext(), DeviceControlActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("GizWifiDevice", (GizWifiDevice) msg.obj);
                     intent.putExtras(bundle);
-                    startActivityForResult(intent, 1);
+                    startActivityForResult(intent, 1);*/
                     break;
 
                 case TOAST:

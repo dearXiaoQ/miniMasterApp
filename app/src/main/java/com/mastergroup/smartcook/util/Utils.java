@@ -108,4 +108,38 @@ public class Utils {
         else return true;
 
     }
+
+    /** 将int转为高字节在前，低字节在后的byte数组 */
+    public static byte[] IntToByteArray(int value) {
+        byte[] src = new byte[4];
+        src[0] = (byte) ((value>>24) & 0xFF);
+        src[1] = (byte) ((value>>16) & 0xFF);
+        src[2] = (byte) ((value>>8) & 0xFF);
+        src[3] = (byte) (value & 0xFF);
+        return src;
+    }
+
+
+    /** 大火 0x0a
+     *  中火 0x06
+     *  小火 0x02
+     * */
+    public static byte powerToByte(int value) {
+        byte power = 0;
+        switch (value) {
+            case 1:
+                power = 0x02;
+                break;
+
+            case 2:
+                power = 0x06;
+                break;
+
+            case 3:
+                power = 0x0a;
+                break;
+        }
+
+        return power;
+    }
 }

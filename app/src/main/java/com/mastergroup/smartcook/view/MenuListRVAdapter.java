@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mastergroup.smartcook.App;
 import com.mastergroup.smartcook.Constant;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.menu.MenuPresenter;
@@ -45,6 +46,9 @@ public class MenuListRVAdapter extends RecyclerView.Adapter<MenuListRVAdapter.Me
 
         try {
             if (null != MenuPresenter.list) {
+                ViewGroup.LayoutParams params = holder.iv_cover.getLayoutParams();
+                params.height = App.DISPLAY_HEIGHT / 3;
+                holder.iv_cover.setLayoutParams(params);
 
                 holder.menu_name.setText(MenuPresenter.list.get(position).getName());
                 holder.user_name.setText(MenuPresenter.list.get(position).getOwner().getOwnerUid().getName());

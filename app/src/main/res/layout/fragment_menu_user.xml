@@ -34,14 +34,14 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="1080dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/user_bg"
         android:scaleX="2"
         android:layout_below="@+id/rl1"
         android:layout_above="@+id/rl_mymenu"
         android:layout_marginBottom="-50dp"
-
+        android:scaleType="fitXY"
         android:id="@+id/imageView6" />
 
     <ImageView

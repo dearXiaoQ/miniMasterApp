@@ -695,6 +695,9 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         public void onBindViewHolder(StepHolder holder, int position) {
+            ViewGroup.LayoutParams params = holder.ivPicture.getLayoutParams();
+            params.height = (int) (App.DISPLAY_HEIGHT * 0.4);
+            holder.ivPicture.setLayoutParams(params);
 
             holder.tvStepNo.setText(String.format("准备步骤 %d", position + 1));
             holder.tvDec.setText(mSteps.get(position).getDescribe());
@@ -781,6 +784,10 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         public void onBindViewHolder(CookingHolder holder, int position) {
+            ViewGroup.LayoutParams params = holder.mIvPicture.getLayoutParams();
+            params.height = (int) (App.DISPLAY_HEIGHT * 0.4);
+            holder.mIvPicture.setLayoutParams(params);
+
             holder.mTvStepNo.setText(String.format("烹饪步骤 %d", position + 1));
             holder.mTvDec.setText(mCookingSteps.get(position).getDescribe());
             ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + mCookingSteps.get(position).getImgSrc(), holder.mIvPicture, context, false);
