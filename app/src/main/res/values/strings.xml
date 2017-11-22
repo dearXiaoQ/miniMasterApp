@@ -396,6 +396,9 @@
     <!-- CollectionActivity -->
     <string name="collection_menu">收藏的食谱</string>
 
+    <!-- MenuCreate -->
+    <string name="recommend_type">推荐至分类</string>
+
     <!-- WaveView -->
     <string name="action_settings">Settings</string>
     <string name="border">Border</string>

@@ -742,10 +742,10 @@ public class MenuPresenter implements Contract.Presenter {
 
         @Override
         public void onBindViewHolder(FoodsHolder holder, int position) {
-
-            holder.mTvFoodType.setText(mFoods.get(position).getFoodType());
-            holder.mTvAmount.setText(String.valueOf(mFoods.get(position).getAmount()));
-            holder.mTvAmount.setText(mFoods.get(position).getAmount() + "克");
+            Food mFood = mFoods.get(position);
+            holder.mTvFoodType.setText(mFood.getFoodType());
+            //holder.mTvAmount.setText(String.valueOf(mFood.getAmount()));
+            holder.mTvAmount.setText(mFood.getAmount() + " " + mFood.getUnit());
         }
 
         @Override

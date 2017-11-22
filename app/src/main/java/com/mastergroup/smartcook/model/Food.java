@@ -9,6 +9,7 @@ public class Food {
     String foodType;
     int amount;
     int id;
+    String unit;
 
     public int getId() {
         return id;
@@ -34,11 +35,16 @@ public class Food {
         this.amount = amount;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
-        return "Food{" +
-                "foodType='" + foodType + '\'' +
-                ", amount=" + amount +
-                '}';
+        return super.toString();
     }
 }

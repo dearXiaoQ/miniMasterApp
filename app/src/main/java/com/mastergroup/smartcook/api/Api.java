@@ -176,7 +176,7 @@ public interface Api {
 
 
     /**
-     * 增加评论
+     * 增加评论w
      * @param id 菜谱id
      */
     @POST("miniMasterApp/recipes/addComment/{id}")

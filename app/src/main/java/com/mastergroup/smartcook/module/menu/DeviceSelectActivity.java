@@ -27,6 +27,7 @@ import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.module.cooking.CookingActivity;
 import com.yuyh.library.imgsel.utils.LogUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class DeviceSelectActivity extends AppCompatActivity {
     byte[] recipesData = null;
     /** 菜谱的数据  */
     ArrayList<String>  soundSourceData = null;
+    ArrayList<Integer> cookTimeList = null;
+    //int cookStep, cookTimeSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +87,13 @@ public class DeviceSelectActivity extends AppCompatActivity {
         setProgressDialog();
         mTvTitle.setText("选择设备");
         mTvMoreButton.setVisibility(View.GONE);
-        recipesBeanID = getIntent().getStringExtra("_id");
-        recipesData = getIntent().getByteArrayExtra("recipesData");
-        soundSourceData = getIntent().getStringArrayListExtra("soundSourceData");
+        Intent intent = getIntent();
+        recipesBeanID = intent.getStringExtra("_id");
+        recipesData = intent.getByteArrayExtra("recipesData");
+        soundSourceData = intent.getStringArrayListExtra("soundSourceData");
+        //cookStep = intent.getIntExtra("cookStep", 0);
+        //cookTimeSecond = intent.getIntExtra("cookTimeSecond", 0);
+        cookTimeList = intent.getIntegerArrayListExtra("cookTimeList");
 
         initSwitch();
 
@@ -129,6 +136,9 @@ public class DeviceSelectActivity extends AppCompatActivity {
                 intent.putExtra("gizDevice", devices.get(position));
                 intent.putExtra("recipesData", recipesData);
                 intent.putStringArrayListExtra("soundSourceData", soundSourceData);
+              //  intent.putExtra("cookStep", cookStep);
+              //  intent.putExtra("cookTimeSecond", cookTimeSecond);
+                intent.putIntegerArrayListExtra("cookTimeList", cookTimeList);
                 startActivity(intent);
                 finish();
 

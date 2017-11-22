@@ -29,6 +29,7 @@ import com.mastergroup.smartcook.util.ImageLoader;
 import com.mastergroup.smartcook.util.Utils;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -122,9 +123,12 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
     byte[] recipesData = null;
     /** 语音提醒进度数据 */
     ArrayList<String> soundSourceData = null;
+    ArrayList<Integer> cookTimeList = null;
+
+    int cookStep, cookTimeSecond = 0 ;
+
 
     Context mContext;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +162,6 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 }
             }
         });
-
-
-
     }
 
     private void initData() {
@@ -197,6 +198,9 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
                 fabIntent.putExtra("_id", recipesBeanID);
                 fabIntent.putExtra("recipesData", recipesData);
                 fabIntent.putStringArrayListExtra("soundSourceData", soundSourceData);
+                //fabIntent.putExtra("cookStep", cookStep);
+             //   fabIntent.putExtra("cookTimeSecond", cookTimeSecond);
+                fabIntent.putIntegerArrayListExtra("cookTimeList", cookTimeList);
                 startActivity(fabIntent);
 
                 break;
@@ -302,16 +306,21 @@ public class MenuViewActivity extends Activity implements Contract.MenuAloneView
         ImageLoader.getInstance().displayGlideImage(Constant.BASEURL + recipesBean.getOwner().getOwnerUid().getHeadUrl(), ivUserHead, this, true);
         tvMenuNote.setText(recipesBean.getDetail().getDescribe());
 
+        cookTimeSecond = 0;
+
         ArrayList<CookingStep> cookingSteps = (ArrayList<CookingStep>) recipesBean.getCookingStep();
-        int cookingStepSize = cookingSteps.size();
-        recipesData = new byte[cookingStepSize * 8];
+        cookStep = cookingSteps.size();
+        recipesData = new byte[cookStep * 8];
         soundSourceData = new ArrayList<>();
-        for(int i = 0; i < cookingStepSize; i ++) {
+        cookTimeList = new ArrayList<>();
+        for(int i = 0; i < cookStep; i ++) {
             CookingStep step = cookingSteps.get(i);
             /** 组装烹饪语音提醒数据 */
             soundSourceData.add(step.getDescribe());
             /** 组装发送到万用板的数据 */
             int durationSeconds = step.getDuration() * 60;     //单位是分钟，转换成秒
+           // cookTimeSecond += durationSeconds;
+            cookTimeList.add(durationSeconds);
             byte[] duration = Utils.IntToByteArray(durationSeconds);
             recipesData[(i * 8)] = duration[2];
             recipesData[(i * 8) + 1] = duration[3];

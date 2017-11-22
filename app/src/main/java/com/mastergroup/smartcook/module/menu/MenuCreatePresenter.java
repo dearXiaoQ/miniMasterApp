@@ -8,9 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +37,7 @@ import com.mastergroup.smartcook.view.MenuStepRVAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -56,10 +61,16 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     Subscriber s_uploadFile, s_uploadFile_step, s_uploadFile_cooking_step, s_upDate, s_delete, s_userInfo;
 
 
+    /** spinner 数据源 */
+    private List<String> mFood = Arrays.asList("克", "条", "个", "汤匙", "少许", "适量", "粒");
+    private ArrayList<String> mFoodUnitList = new ArrayList<>(mFood);
+    /** 存储食谱的单位信息 */
+    private ArrayList<Integer> mFoodUnitPosition = new ArrayList<>();
+
+
     public MenuCreatePresenter(Contract.MenuCreateView menuCreateView) {
         this.menuCreateView = menuCreateView;
         menuCreateView.setPresenter(this);
-
     }
 
     @Override
@@ -178,6 +189,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
                 if (o.getErrorCode() == 0) {
                     ToastUtils.showShortToast("提交成功");
+                    o.getRes().get_id();
+                    Log.i("get_id", "get_id = " + o.getRes().get_id());
                     ((Activity) mContext).finish();
                 } else
                     ToastUtils.showShortToast("提交失败");
@@ -330,10 +343,13 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
     class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.FoodsHolder> {
         LayoutInflater layoutInflater;
         Context context;
+        ArrayAdapter mSpinnerAdapter;
 
         public FoodsAdapter(Context context) {
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
+            mSpinnerAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, mFoodUnitList);
+            mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
 
         @Override
@@ -344,6 +360,10 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
 
         @Override
         public void onBindViewHolder(FoodsAdapter.FoodsHolder holder, final int position) {
+
+            if(mFoodUnitPosition.size() < (position + 1)) {
+                mFoodUnitPosition.add(position, 0);
+            }
 
             //1、为了避免TextWatcher在第2步被调用，提前将他移除。
             if ((holder).mTvFoodType.getTag() instanceof TextWatcher) {
@@ -410,6 +430,7 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         ToastUtils.showShortToast("请输入正确的数值！");
+
                     }
                 }
             };
@@ -417,6 +438,22 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
             (holder).mTvAmount.addTextChangedListener(watcher2);
             (holder).mTvAmount.setTag(watcher2);
 
+            /** 点击选择食材类型类型 */
+            (holder).mFoodSpinner.setAdapter(mSpinnerAdapter);
+            (holder).mFoodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int selectPosition, long l) {
+                    mFoodUnitPosition.add(position, selectPosition);
+                    MenuCreatePresenter.mFoods.get(position).setUnit(mFoodUnitList.get(selectPosition));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+            (holder).mFoodSpinner.setSelection(mFoodUnitPosition.get(position));
         }
 
         @Override
@@ -431,6 +468,8 @@ public class MenuCreatePresenter implements Contract.MenuCreatePresenter {
             TextView mTvAmount;
             @Bind(R.id.Weight_et)
             TextView mTvWeight;
+            @Bind(R.id.food_spinner)
+            Spinner mFoodSpinner;
 
             FoodsHolder(View view) {
                 super(view);

@@ -2,6 +2,7 @@ package com.mastergroup.smartcook.module.device;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +18,9 @@ import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SynthesizerListener;
 import com.mastergroup.smartcook.R;
 import com.mastergroup.smartcook.model.Null;
 import com.mastergroup.smartcook.view.WaveHelper;
@@ -78,6 +81,8 @@ public class CookingActivity extends Activity {
     byte[] recipesData = null;
 
     ArrayList<String> soundSourceData = null;
+    ArrayList<Integer> cookTimeList = null;
+   //int originCookStep, cookTimeSecond;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +92,8 @@ public class CookingActivity extends Activity {
         mContext = this;
 
         initData();
+        initTTS();
+
 
         if(gizWifiDevice != null) {
             gizWifiDevice.setSubscribe(true);
@@ -107,7 +114,7 @@ public class CookingActivity extends Activity {
         mBorderColor = Color.parseColor("#C6E2FF");
         mWaveView.setBorder(mBorderWidth, mBorderColor);
 
-        initTTS();
+
 
 
         ((SeekBar) findViewById(R.id.seekBar))
@@ -146,9 +153,13 @@ public class CookingActivity extends Activity {
     }
 
     private void initData() {
-        gizWifiDevice = getIntent().getParcelableExtra("gizDevice");
-        soundSourceData = getIntent().getStringArrayListExtra("soundSourceData");
-        recipesData = getIntent().getByteArrayExtra("recipesData");
+        Intent intent = getIntent();
+        gizWifiDevice = intent.getParcelableExtra("gizDevice");
+        soundSourceData = intent.getStringArrayListExtra("soundSourceData");
+        recipesData = intent.getByteArrayExtra("recipesData");
+       // originCookStep = intent.getIntExtra("cookStep", 0);
+       // cookTimeSecond = intent.getIntExtra("cookTimeSecond", 0);
+        cookTimeList = intent.getIntegerArrayListExtra("cookTimeList");
         int dataSize = recipesData.length;
         for(int i = 0; i < dataSize; i ++) {
 
@@ -270,19 +281,71 @@ public class CookingActivity extends Activity {
     /** 处理机智云上报的数据 */
     private void freshViewData(ConcurrentHashMap<String, Object> mMap) {
         Set<String> mSet = mMap.keySet();
-       Log.i("didReceiveDataFresh", "mSet.toString() = " + mSet.toString());
+        Log.i("didReceiveDataFresh", "mSet.toString() = " + mSet.toString());
         for(String key : mMap.keySet()) {
             if (key.equals(IH_ID)) IhId = (byte[]) mMap.get(IH_ID);
             if (key.equals(IH_MID)) IhMid = (byte[]) mMap.get(IH_MID);
             if (key.equals(PAN_ID)) panId = (byte[]) mMap.get(PAN_ID);
             if (key.equals(PAN_MID)) panMid = (byte[]) mMap.get(PAN_MID);
-            if (key.equals(COOK_STEP)) cookStep = (int) mMap.get(COOK_STEP);
+            if (key.equals(COOK_STEP)) {
+                cookStep = (int) mMap.get(COOK_STEP);
+                Log.i("didReceiveDataFresh", "cookStep = " + cookStep);
+                freshCookProgress(cookStep);
+            }
             if (key.equals(RECIPES_COOKING_STATE)) {
-                IhRecipesData = (byte[]) mMap.get(RECIPES_COOKING_STATE);
+         //       IhRecipesData = (byte[]) mMap.get(RECIPES_COOKING_STATE);
                 Log.i("didReceiveDataFresh", "IhRecipesData = " + IhRecipesData);
             }
-            if (key.equals(PAN_TEMP)) panTemp = (float) mMap.get(panTemp);
+            // if (key.equals(PAN_TEMP)) panTemp = (float) mMap.get(panTemp);
             if (key.equals(IH_SW)) IhSw = (boolean) mMap.get(IH_SW);
+        }
+    }
+
+    private void freshCookProgress(final int cookStep) {
+        float timeSize =  (float) cookTimeList.size();
+        if(cookStep == 1) {
+            mTts.startSpeaking("开始烹饪!", new SynthesizerListener() {
+                @Override
+                public void onSpeakBegin() {
+
+                }
+
+                @Override
+                public void onBufferProgress(int i, int i1, int i2, String s) {
+
+                }
+
+                @Override
+                public void onSpeakPaused() {
+
+                }
+
+                @Override
+                public void onSpeakResumed() {
+
+                }
+
+                @Override
+                public void onSpeakProgress(int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onCompleted(SpeechError speechError) {
+                    if(cookStep == 1) mTts.startSpeaking(soundSourceData.get(0), null);
+                }
+
+                @Override
+                public void onEvent(int i, int i1, int i2, Bundle bundle) {
+
+                }
+            });
+            mWaveView.setWaterLevelRatio(0);
+            return;
+        } else if(cookStep > 1){
+            mTts.startSpeaking(soundSourceData.get(cookStep - 1), null);
+            float percentage = cookStep / timeSize;
+            mWaveView.setWaterLevelRatio(percentage * 100);
         }
     }
 
